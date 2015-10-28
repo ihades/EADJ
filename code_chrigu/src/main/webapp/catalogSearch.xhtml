@@ -5,18 +5,23 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="template.xhtml">
+        <ui:define name="header">
+            <h:outputText class="heading" value="Catalogsearch"/>
+        </ui:define>
         <ui:define name="content">
             <h:form id="searchForm">
                 <h:panelGrid columns="2">
-                    <h:outputLabel for="isbn" value="ISBN: "/>
-                    <h:inputText id="isbn" value="#{catalogBean.isbn}" required="false"/>
-                    <h:outputLabel for="fulltext" value="Textual-Search: "/>
-                    <h:inputText id="fulltext" value="#{catalogBean.keywords}" required="false"/>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="isbn" value="ISBN: "/>
+                        <h:inputText id="isbn" value="#{catalogBean.isbn}" required="false"/>
+                        <h:outputLabel for="fulltext" value="Textual-Search: "/>
+                        <h:inputText id="fulltext" value="#{catalogBean.keywords}" required="false"/>
+                    </h:panelGrid>
+                    <h:commandButton value="Search" action="#{catalogBean.findBook()}"/>
                 </h:panelGrid>
                 <p/>
                 <h:outputText value="#{catalogBean.message}"/>
                 <p/>
-                <h:commandButton value="Search" action="#{catalogBean.findBook()}"/>
                 <h:dataTable value="#{catalogBean.books}" var="book" rendered="#{not empty catalogBean.books}">
                     <h:column>
                         <f:facet name="header">Book Title</f:facet>
@@ -30,7 +35,6 @@
                         <h:commandButton value="add to Basket" action="#{shoppingBasketBean.addBookToBasket(book)}"/>
                     </h:column>
                 </h:dataTable>
-                <h:link value="Shopping Basket" outcome="shoppingBasket" rendered="#{not empty shoppingBasketBean.books}"/>
             </h:form>
         </ui:define>
     </ui:composition>

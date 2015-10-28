@@ -11,20 +11,21 @@
         <h:panelGrid columns="2">
             <h:graphicImage library="images" name="books.jpg"/>
             <h:panelGrid columns="1">
+                <h:outputText class="title" value="My Bookstore"/>
+                <h:form id="mainMenu">
+                    <h:link value="Search" outcome="catalogSearch"/>
+                    &nbsp; | &nbsp;
+                    <h:outputText value="Shopping Basket" rendered="#{empty shoppingBasketBean.books}"/>
+                    <h:link value="Shopping Basket" outcome="shoppingBasket" rendered="#{not empty shoppingBasketBean.books}"/>
+                    &nbsp; | &nbsp;
+                    <h:outputText value="Check out" rendered="#{empty shoppingBasketBean.books}"/>
+                    <h:link value="Check out" outcome="checkOut" rendered="#{not empty shoppingBasketBean.books}"/>
+                    &nbsp; | &nbsp;
+                    <h:outputText value="Account" rendered="true"/>
+                    <h:link value="Account" outcome="shoppingBasket" rendered="false"/>
+                </h:form>
                 <ui:insert name="header">
-                    <h:outputText class="title" value="My Bookstore"/>
-                    <h:form id="mainMenu">
-                        <h:link value="Search" outcome="catalogSearch"/>
-                        &nbsp; | &nbsp;
-                        <h:outputText value="Shopping Basket" rendered="#{empty shoppingBasketBean.books}"/>
-                        <h:link value="Shopping Basket" outcome="shoppingBasket" rendered="#{not empty shoppingBasketBean.books}"/>
-                        &nbsp; | &nbsp;
-                        <h:outputText value="Check out" rendered="#{empty shoppingBasketBean.books}"/>
-                        <h:link value="Check out" outcome="checkOut" rendered="#{not empty shoppingBasketBean.books}"/>
-                        &nbsp; | &nbsp;
-                        <h:outputText value="Account" rendered="true"/>
-                        <h:link value="Account" outcome="shoppingBasket" rendered="false"/>
-                    </h:form>
+                    <h:outputText class="heading" value="My Bookstore"/>
                 </ui:insert>
                 <ui:insert name ="content">
                 </ui:insert>

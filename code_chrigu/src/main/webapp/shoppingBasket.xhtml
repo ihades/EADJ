@@ -5,6 +5,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="template.xhtml">
+        <ui:define name="header">
+            <h:outputText class="heading" value="Your Shopping Basket" rendered="#{not empty shoppingBasketBean.books}"/>
+            <h:outputText class="heading" value="Your Shopping Basket is empty!" rendered="#{empty shoppingBasketBean.books}"/>
+        </ui:define>
         <ui:define name="content">
             <h:form id="shoppingBasketForm">
                 <h:dataTable value="#{shoppingBasketBean.books}" var="basketEntry" rendered="#{not empty shoppingBasketBean.books}">
@@ -24,7 +28,6 @@
                         <h:commandButton value="remove" action="#{shoppingBasketBean.removeBookFromBasket(basketEntry.book)}"/>
                     </h:column>
                 </h:dataTable>
-                <h:link value="Home" outcome="catalogSearch"/>
             </h:form>
         </ui:define>
     </ui:composition>
