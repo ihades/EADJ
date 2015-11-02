@@ -6,28 +6,28 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="template.xhtml">
         <ui:define name="header">
-            <h:outputText class="heading" value="Details for #{catalogBean.selectedBook.title}" rendered="#{not empty catalogBean.selectedBook}"/>
-            <h:outputText class="heading" value="No Book selected" rendered="#{empty catalogBean.selectedBook}"/>
+            <h:outputText class="heading" value="#{lang.headerBookDetails} #{catalogBean.selectedBook.title}" rendered="#{not empty catalogBean.selectedBook}"/>
+            <h:outputText class="heading" value="#{lang.headerNoBookSelected}" rendered="#{empty catalogBean.selectedBook}"/>
         </ui:define>
         <ui:define name="content">
             <h:form id="bookDetails">
                 <h:panelGrid columns="2" rendered="#{not empty catalogBean.selectedBook}">
-                    <h:outputText value="Title"/>
+                    <h:outputText value="#{lang.bookTitle}"/>
                     <h:outputText value="#{catalogBean.selectedBook.title}"/>
-                    <h:outputText value="Authors"/>
+                    <h:outputText value="#{lang.bookAuthors}"/>
                     <h:outputText value="#{catalogBean.selectedBook.authors}"/>
-                    <h:outputText value="Publisher"/>
+                    <h:outputText value="#{lang.bookPublisher}"/>
                     <h:outputText value="#{catalogBean.selectedBook.publisher}"/>
-                    <h:outputText value="Publication Year"/>
+                    <h:outputText value="#{lang.bookPublicationYear}"/>
                     <h:outputText value="#{catalogBean.selectedBook.publicationYear}"/>
-                    <h:outputText value="Binding"/>
+                    <h:outputText value="#{lang.bookBinding}"/>
                     <h:outputText value="#{catalogBean.selectedBook.binding}"/>
-                    <h:outputText value="Number of Pages"/>
+                    <h:outputText value="#{lang.bookNumberofPages}"/>
                     <h:outputText value="#{catalogBean.selectedBook.numberOfPages}"/>
-                    <h:outputText value="Price"/>
+                    <h:outputText value="#{lang.price}"/>
                     <h:outputText value="$ #{catalogBean.selectedBook.price}"/>
                     <h:outputText value=""/>
-                    <h:commandButton value="add to Basket" action="#{shoppingBasketBean.addBookToBasket(catalogBean.selectedBook)}"/>
+                    <h:commandButton value="#{lang.actionAddtoBasket}" action="#{shoppingBasketBean.addBookToBasket(catalogBean.selectedBook)}"/>
                 </h:panelGrid>
             </h:form>
         </ui:define>

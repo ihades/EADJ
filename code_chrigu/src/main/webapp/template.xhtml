@@ -4,28 +4,28 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>My Bookstore</title>
+        <title>#{lang.templateTitle}</title>
         <h:outputStylesheet name="styles.css"/>
     </h:head>
     <h:body>
         <h:panelGrid columns="2">
             <h:graphicImage library="images" name="books.jpg"/>
             <h:panelGrid columns="1">
-                <h:outputText class="title" value="My Bookstore"/>
+                <h:outputText class="title" value="#{lang.templateTitle}"/>
                 <h:form id="mainMenu">
-                    <h:link value="Search" outcome="catalogSearch"/>
+                    <h:link value="#{lang.linkCatalogSearch}" outcome="catalogSearch"/>
                     &nbsp; | &nbsp;
-                    <h:outputText value="Shopping Basket" rendered="#{empty shoppingBasketBean.books}"/>
-                    <h:link value="Shopping Basket" outcome="shoppingBasket" rendered="#{not empty shoppingBasketBean.books}"/>
+                    <h:outputText value="#{lang.linkShoppingBasket}" rendered="#{empty shoppingBasketBean.books}"/>
+                    <h:link value="#{lang.linkShoppingBasket}" outcome="shoppingBasket" rendered="#{not empty shoppingBasketBean.books}"/>
                     &nbsp; | &nbsp;
-                    <h:outputText value="Check out" rendered="#{empty shoppingBasketBean.books}"/>
-                    <h:link value="Check out" outcome="checkOut" rendered="#{not empty shoppingBasketBean.books}"/>
+                    <h:outputText value="#{lang.linkCheckOut}" rendered="#{empty shoppingBasketBean.books}"/>
+                    <h:link value="#{lang.linkCheckOut}" outcome="checkOut" rendered="#{not empty shoppingBasketBean.books}"/>
                     &nbsp; | &nbsp;
-                    <h:outputText value="Account" rendered="true"/>
-                    <h:link value="Account" outcome="shoppingBasket" rendered="false"/>
+                    <h:outputText value="#{lang.linkAccount}" rendered="true"/>
+                    <h:link value="#{lang.linkAccount}" outcome="shoppingBasket" rendered="false"/>
                 </h:form>
                 <ui:insert name="header">
-                    <h:outputText class="heading" value="My Bookstore"/>
+                    <h:outputText class="heading" value="#{lang.templateTitle}"/>
                 </ui:insert>
                 <ui:insert name ="content">
                 </ui:insert>

@@ -6,26 +6,26 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="template.xhtml">
         <ui:define name="header">
-            <h:outputText class="heading" value="Your Shopping Basket" rendered="#{not empty shoppingBasketBean.books}"/>
-            <h:outputText class="heading" value="Your Shopping Basket is empty!" rendered="#{empty shoppingBasketBean.books}"/>
+            <h:outputText class="heading" value="#{lang.headerShoppingBasket}" rendered="#{not empty shoppingBasketBean.books}"/>
+            <h:outputText class="heading" value="#{lang.headerEmptyShoppingBasket}" rendered="#{empty shoppingBasketBean.books}"/>
         </ui:define>
         <ui:define name="content">
             <h:form id="shoppingBasketForm">
                 <h:dataTable value="#{shoppingBasketBean.books}" var="basketEntry" rendered="#{not empty shoppingBasketBean.books}">
                     <h:column>
-                        <f:facet name="header">Book Title</f:facet>
+                        <f:facet name="header">#{lang.bookTitle}</f:facet>
                         <h:commandLink value="#{basketEntry.book.title}" action="#{catalogBean.selectBook(basketEntry.book)}"/>
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Price</f:facet>
+                        <f:facet name="header">#{lang.price}</f:facet>
                         <h:outputText value="$ #{basketEntry.book.price}"/>
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Quantity</f:facet>
+                        <f:facet name="header">#{lang.count}</f:facet>
                         <h:outputText value="#{basketEntry.count}"/>
                     </h:column>
                     <h:column>
-                        <h:commandButton value="remove" action="#{shoppingBasketBean.removeBookFromBasket(basketEntry.book)}"/>
+                        <h:commandButton value="#{lang.actionRemoveFromBasket}" action="#{shoppingBasketBean.removeBookFromBasket(basketEntry.book)}"/>
                     </h:column>
                 </h:dataTable>
             </h:form>

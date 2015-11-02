@@ -6,33 +6,33 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="template.xhtml">
         <ui:define name="header">
-            <h:outputText class="heading" value="Catalogsearch"/>
+            <h:outputText class="heading" value="#{lang.headerCatalogSearch}"/>
         </ui:define>
         <ui:define name="content">
             <h:form id="searchForm">
                 <h:panelGrid columns="2">
                     <h:panelGrid columns="2">
-                        <h:outputLabel for="isbn" value="ISBN: "/>
+                        <h:outputLabel for="isbn" value="#{lang.isbn}: "/>
                         <h:inputText id="isbn" value="#{catalogBean.isbn}" required="false"/>
-                        <h:outputLabel for="fulltext" value="Textual-Search: "/>
+                        <h:outputLabel for="fulltext" value="#{lang.search}: "/>
                         <h:inputText id="fulltext" value="#{catalogBean.keywords}" required="false"/>
                     </h:panelGrid>
-                    <h:commandButton value="Search" action="#{catalogBean.findBook()}"/>
+                    <h:commandButton value="#{lang.actionSearch}" action="#{catalogBean.findBook()}"/>
                 </h:panelGrid>
                 <p/>
                 <h:outputText value="#{catalogBean.message}"/>
                 <p/>
                 <h:dataTable value="#{catalogBean.books}" var="book" rendered="#{not empty catalogBean.books}">
                     <h:column>
-                        <f:facet name="header">Book Title</f:facet>
+                        <f:facet name="header">#{lang.bookTitle}</f:facet>
                         <h:commandLink value="#{book.title}" action="#{catalogBean.selectBook(book)}"/>
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Price</f:facet>
+                        <f:facet name="header">#{lang.price}</f:facet>
                         <h:outputText value="$ #{book.price}"/>
                     </h:column>
                     <h:column>
-                        <h:commandButton value="add to Basket" action="#{shoppingBasketBean.addBookToBasket(book)}"/>
+                        <h:commandButton value="#{lang.actionAddtoBasket}" action="#{shoppingBasketBean.addBookToBasket(book)}"/>
                     </h:column>
                 </h:dataTable>
             </h:form>
