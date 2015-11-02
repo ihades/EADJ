@@ -10,11 +10,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.books.application.BookNotFoundException;
 import org.books.application.Bookstore;
 import org.books.data.Book;
+import org.books.util.MessageFactory;
 
 /**
  *
@@ -73,6 +76,12 @@ public class CatalogBean implements Serializable {
     
     public String findWildcardBook () {
         books = bookstore.searchBooks(search);
+        
+        //FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bla", null);
+        //FacesContext context = FacesContext.getCurrentInstance();
+        //context.addMessage(null, fm);
+        MessageFactory.error("javax.faces.converter.IntegerConverter.INTEGER", search,1);
+        
         return "catalogSearch";
     }
     public String setSelectedBook(Book b) {

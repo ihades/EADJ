@@ -22,6 +22,9 @@
             <base-name>languages.texts</base-name>
             <var>texts</var>
         </resource-bundle>
+        <!--Globally overwrite Messages
+        -->
+        <message-bundle>languages.messages</message-bundle>
     </application>
     
    
