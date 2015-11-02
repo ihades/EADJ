@@ -20,8 +20,6 @@
                     <h:commandButton value="#{lang.actionSearch}" action="#{catalogBean.findBook()}"/>
                 </h:panelGrid>
                 <p/>
-                <h:outputText value="#{catalogBean.message}"/>
-                <p/>
                 <h:dataTable value="#{catalogBean.books}" var="book" rendered="#{not empty catalogBean.books}">
                     <h:column>
                         <f:facet name="header">#{lang.bookTitle}</f:facet>

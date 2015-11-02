@@ -10,25 +10,36 @@
             <h:outputText class="heading" value="#{lang.headerEmptyShoppingBasket}" rendered="#{empty shoppingBasketBean.books}"/>
         </ui:define>
         <ui:define name="content">
-            <h:form id="shoppingBasketForm">
-                <h:dataTable value="#{shoppingBasketBean.books}" var="basketEntry" rendered="#{not empty shoppingBasketBean.books}">
-                    <h:column>
-                        <f:facet name="header">#{lang.bookTitle}</f:facet>
+            <h:dataTable value="#{shoppingBasketBean.books}" var="basketEntry" rendered="#{not empty shoppingBasketBean.books}">
+                <h:column>
+                    <f:facet name="header">#{lang.bookTitle}</f:facet>
+                    <h:form id="bookLink">
                         <h:commandLink value="#{basketEntry.book.title}" action="#{catalogBean.selectBook(basketEntry.book)}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{lang.price}</f:facet>
-                        <h:outputText value="$ #{basketEntry.book.price}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{lang.count}</f:facet>
-                        <h:outputText value="#{basketEntry.count}"/>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="#{lang.actionRemoveFromBasket}" action="#{shoppingBasketBean.removeBookFromBasket(basketEntry.book)}"/>
-                    </h:column>
-                </h:dataTable>
-            </h:form>
+                    </h:form>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{lang.price}</f:facet>
+                    <h:outputText value="$ #{basketEntry.book.price}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{lang.count}</f:facet>
+                    <h:form id="changeCount">
+                        <h:inputText id="count" value="#{basketEntry.count}" required="true">
+                            <f:passThroughAttribute name="type" value="number"/>
+                            <f:passThroughAttribute name="min" value="1"/>
+                            <f:passThroughAttribute name="required" value="required"/>
+                        </h:inputText>
+                    </h:form>
+                </h:column>
+                <h:column>
+                    <h:form id="removeBook">
+                        <h:commandButton value="#{lang.actionRemoveFromBasket}" action="#{shoppingBasketBean.removeBookFromBasket(basketEntry)}"/>
+                    </h:form>
+                </h:column>
+                <h:column>
+                    <h:message for="count"></h:message>
+                </h:column>
+            </h:dataTable>
         </ui:define>
     </ui:composition>
 </html>

@@ -6,10 +6,7 @@
 package org.books.presentation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import org.books.data.Book;
 
 /**
@@ -18,51 +15,41 @@ import org.books.data.Book;
  */
 public class ShoppingBasket {
 
-    private final Map<Book, Integer> basket = new HashMap<>();
+    private final List<BookEntry> basket = new ArrayList<>();
 
     public int increment(Book buch) {
-        if (!basket.containsKey(buch)) {
-            basket.put(buch, 1);
-        } else {
-            basket.put(buch, basket.get(buch) + 1);
+        for (BookEntry bookEntry : basket) {
+            if (bookEntry.getBook().equals(buch)) {
+                bookEntry.increment();
+                return bookEntry.getCount();
+            }
         }
-        return basket.get(buch);
+        basket.add(new BookEntry(buch, 1));
+        return 1;
     }
 
     public int decrement(Book buch) {
-        if (basket.containsKey(buch)) {
-            basket.put(buch, basket.get(buch) - 1);
-            if (basket.get(buch) == 0) {
-                basket.remove(buch);
-                return 0;
-            } else {
-                return basket.get(buch);
+        BookEntry foundBook = null;
+        for (BookEntry bookEntry : basket) {
+            if (bookEntry.getBook().equals(buch)) {
+                foundBook = bookEntry;
             }
+        }
+        if ((foundBook != null) && (foundBook.getCount() > 1)) {
+            foundBook.decrement();
+            return foundBook.getCount();
         } else {
+            basket.remove(foundBook);
             return 0;
         }
     }
 
-    public int getCount(Book buch) {
-        if (basket.containsKey(buch)) {
-            return basket.get(buch);
-        } else {
-            return 0;
-        }
-    }
-
-    public void remove(Book buch) {
-        if (basket.containsKey(buch)) {
-            basket.remove(buch);
-        }
+    public void remove(BookEntry buch) {
+        basket.remove(buch);
     }
 
     public List<BookEntry> getBooks() {
-        List<BookEntry> result = new ArrayList<>();
-        for (Entry<Book, Integer> entry : basket.entrySet()) {
-            result.add(new BookEntry(entry.getKey(), entry.getValue()));
-        }
-        return result;
+        return basket;
     }
 
     boolean isEmpty() {
@@ -71,12 +58,20 @@ public class ShoppingBasket {
 
     public static class BookEntry {
 
-        Book book;
-        Integer count;
+        private Book book;
+        private Integer count;
 
         private BookEntry(Book book, Integer count) {
             this.book = book;
             this.count = count;
+        }
+
+        private void increment() {
+            count++;
+        }
+
+        private void decrement() {
+            count--;
         }
 
         public Book getBook() {
@@ -85,6 +80,10 @@ public class ShoppingBasket {
 
         public Integer getCount() {
             return count;
+        }
+
+        public void setCount(Integer count) {
+            this.count = count;
         }
 
     }
