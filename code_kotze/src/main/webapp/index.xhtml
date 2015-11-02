@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>Facelet Title</title>
+        <style>.tooltip-inner {
+            max-width: 350px;
+            /* If max-width does not work, try using width instead */
+            width: 350px; 
+        }
+        </style>
+    </h:head>
+    <h:body style="padding-top: 75px;padding-bottom: 75px;">
+        
+        <ui:composition template="/applayout/pageTemplate.xhtml">
+            <ui:define name="content">
+                <h1>
+                    Welcome to the little bookstore.
+                    
+                    
+                </h1>
+                <b:badge severity="success" value="Yes"></b:badge>
+            </ui:define>
+        </ui:composition>
+        
+    </h:body>
+</html>
+

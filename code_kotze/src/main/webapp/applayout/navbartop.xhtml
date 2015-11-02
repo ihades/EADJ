@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    
+    <b:container>
+        <b:row>
+            <b:column span = "12">
+                <b:navBar>
+                    <b:navbarLinks pull="right">
+                        <b:navLink outcome="catalogSearch" value="Search" iconAwesome="search"></b:navLink>
+                        <b:dropMenu value="User">
+                            <b:navLink outcome="catalogSearch" value="Login" iconAwesome="user"></b:navLink>
+                        </b:dropMenu>
+                        <b:navLink outcome="shoppingBasket" value="Basket" iconAwesome=" fa-shopping-cart"></b:navLink>
+                        
+                    </b:navbarLinks>
+                </b:navBar>
+            </b:column>
+        </b:row>
+        
+    </b:container>
+    
+</ui:fragment>
+

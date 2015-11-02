@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Detail book</title>
+        <h:outputStylesheet library ="styles" name="styles.css"></h:outputStylesheet>
+    </h:head>
+    <h:body>
+       
+        <b:alert title="Work in Progress!" severity="warning">
+        </b:alert>
+        <ui:composition template="/applayout/pageTemplate.xhtml">
+            <ui:define name="content">
+            <h1>Book details</h1>
+            <h:panelGrid columns="2" rendered="#{not empty catalogBean.book}">
+                <b:iconAwesome name="book"></b:iconAwesome>
+                <h:outputText value="#{catalogBean.book.title}" rendered="#{not empty catalogBean.book.title}"></h:outputText>
+                <b:iconAwesome name="user"></b:iconAwesome>    
+                <h:outputText value="#{catalogBean.book.authors}"></h:outputText>
+                <b:iconAwesome name="dollar"></b:iconAwesome>    
+                <h:outputText value="#{catalogBean.book.price}"></h:outputText>
+            </h:panelGrid>
+        <h:link outcome="catalogSearch" value="Back"></h:link>
+                
+            </ui:define>
+            
+        </ui:composition>
+        
+    </h:body>
+</html>
+
