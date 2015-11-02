@@ -19,7 +19,7 @@
             <supported-locale>fr</supported-locale>
         </locale-config>
         <resource-bundle>
-            <base-name>lang.texts</base-name>
+            <base-name>languages.texts</base-name>
             <var>texts</var>
         </resource-bundle>
     </application>
