@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>My Bookstore</title>
+        <h:outputStylesheet name="styles.css"/>
+    </h:head>
+    <h:body>
+        <h:panelGrid columns="2">
+            <h:graphicImage library="images" name="books.jpg"/>
+            <h:panelGrid columns="1">
+                <h:outputText class="title" value="My Bookstore"/>
+                <h:form id="mainMenu">
+                    <h:link value="Search" outcome="catalogSearch"/>
+                    &nbsp; | &nbsp;
+                    <h:outputText value="Shopping Basket" rendered="#{empty shoppingBasketBean.books}"/>
+                    <h:link value="Shopping Basket" outcome="shoppingBasket" rendered="#{not empty shoppingBasketBean.books}"/>
+                    &nbsp; | &nbsp;
+                    <h:outputText value="Check out" rendered="#{empty shoppingBasketBean.books}"/>
+                    <h:link value="Check out" outcome="checkOut" rendered="#{not empty shoppingBasketBean.books}"/>
+                    &nbsp; | &nbsp;
+                    <h:outputText value="Account" rendered="true"/>
+                    <h:link value="Account" outcome="shoppingBasket" rendered="false"/>
+                </h:form>
+                <ui:insert name="header">
+                    <h:outputText class="heading" value="My Bookstore"/>
+                </ui:insert>
+                <ui:insert name ="content">
+                </ui:insert>
+            </h:panelGrid>
+        </h:panelGrid>
+
+    </h:body>
+</html>
+

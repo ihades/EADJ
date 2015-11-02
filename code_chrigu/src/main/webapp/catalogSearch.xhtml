@@ -2,41 +2,41 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Search Book</title>
-    </h:head>
-    <h:body>
-        <h:form id="searchForm">
-            <h:panelGrid columns="2">
-                <h:outputLabel for="isbn" value="ISBN: "/>
-                <h:inputText id="isbn" value="#{catalogBean.isbn}" required="false"/>
-                <h:outputLabel for="fulltext" value="Textual-Search: "/>
-                <h:inputText id="fulltext" value="#{catalogBean.keywords}" required="false"/>
-            </h:panelGrid>
-            <p/>
-            <h:outputText value="#{catalogBean.message}"/>
-            <p/>
-            <h:commandButton value="Search" action="#{catalogBean.findBook()}"/>
-            <h:dataTable value="#{catalogBean.books}" var="book" rendered="#{not empty catalogBean.books}">
-                <h:column>
-                    <f:facet name="header">Book Title</f:facet>
-                    <h:commandLink value="#{book.title}" action="#{catalogBean.selectBook(book)}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">ISBN</f:facet>
-                    <h:outputText value="#{book.isbn}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Price</f:facet>
-                    <h:outputText value="#{book.price}"/>
-                </h:column>
-                <h:column>
-                    <h:commandLink value="add to Shoppingbasket" action="#{shoppingBasketBean.addBookToBasket(book)}"/>
-                </h:column>
-            </h:dataTable>
-            <h:link value="Shopping Basket" outcome="shoppingBasket" rendered="#{not empty shoppingBasketBean.books}"/>
-        </h:form>
-    </h:body>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="template.xhtml">
+        <ui:define name="header">
+            <h:outputText class="heading" value="Catalogsearch"/>
+        </ui:define>
+        <ui:define name="content">
+            <h:form id="searchForm">
+                <h:panelGrid columns="2">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="isbn" value="ISBN: "/>
+                        <h:inputText id="isbn" value="#{catalogBean.isbn}" required="false"/>
+                        <h:outputLabel for="fulltext" value="Textual-Search: "/>
+                        <h:inputText id="fulltext" value="#{catalogBean.keywords}" required="false"/>
+                    </h:panelGrid>
+                    <h:commandButton value="Search" action="#{catalogBean.findBook()}"/>
+                </h:panelGrid>
+                <p/>
+                <h:outputText value="#{catalogBean.message}"/>
+                <p/>
+                <h:dataTable value="#{catalogBean.books}" var="book" rendered="#{not empty catalogBean.books}">
+                    <h:column>
+                        <f:facet name="header">Book Title</f:facet>
+                        <h:commandLink value="#{book.title}" action="#{catalogBean.selectBook(book)}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Price</f:facet>
+                        <h:outputText value="$ #{book.price}"/>
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="add to Basket" action="#{shoppingBasketBean.addBookToBasket(book)}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 </html>
 

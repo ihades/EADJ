@@ -23,7 +23,7 @@ import org.books.data.Book;
 @SessionScoped
 public class CatalogBean implements Serializable {
 
-    private static final String NOT_FOUND_EXCEPTION = "Das Buech gits nid!";
+    private static final String NOT_FOUND_EXCEPTION = "No Books found matching your criteria!";
     private static final String BOOK_DETAILS = "bookDetails";
 
     @Inject
