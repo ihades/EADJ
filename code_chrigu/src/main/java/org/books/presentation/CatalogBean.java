@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import org.books.application.BookNotFoundException;
 import org.books.application.Bookstore;
 import org.books.data.Book;
+import org.books.presentation.util.MessageFactory;
 
 /**
  *
@@ -31,7 +32,7 @@ public class CatalogBean implements Serializable {
 
     private Book selectedBook;
     private final List<Book> books = new ArrayList<>();
-    private String isbnString = "", keywords = "", message = "";
+    private String isbnString = "", keywords = "";
 
     public void setIsbn(String isbn) {
         this.isbnString = isbn;
@@ -47,10 +48,6 @@ public class CatalogBean implements Serializable {
 
     public String getKeywords() {
         return keywords;
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     public List<Book> getBooks() {
@@ -78,12 +75,10 @@ public class CatalogBean implements Serializable {
             books.addAll(bookstore.searchBooks(keywords));
         }
         if (books.isEmpty()) {
-            message = NOT_FOUND_EXCEPTION;
-            return null;
-        } else {
-            message = "";
-            return null;
+            MessageFactory.error(BookNotFoundException.class, isbnString.isEmpty() ? keywords : isbnString + " / " + keywords);
         }
+        return null;
+
     }
 
 }

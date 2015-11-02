@@ -6,11 +6,7 @@
 package org.books.presentation;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -40,7 +36,7 @@ public class ShoppingBasketBean implements Serializable {
         basket.increment(book);
     }
 
-    public String removeBookFromBasket(Book book) {
+    public String removeBookFromBasket(ShoppingBasket.BookEntry book) {
         FacesContext context = FacesContext.getCurrentInstance();
         if (!context.getExternalContext().getSessionMap().containsKey("shoppingBasket")) {
             context.getExternalContext().getSessionMap().put("shoppingBasket", new ShoppingBasket());
