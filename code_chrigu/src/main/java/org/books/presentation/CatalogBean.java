@@ -11,9 +11,10 @@ import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-import org.books.application.BookNotFoundException;
 import org.books.application.Bookstore;
-import org.books.data.Book;
+import org.books.application.BookstoreException;
+import org.books.data.dto.BookInfo;
+import org.books.data.entity.Book;
 import org.books.presentation.util.MessageFactory;
 
 /**
@@ -24,23 +25,15 @@ import org.books.presentation.util.MessageFactory;
 @SessionScoped
 public class CatalogBean implements Serializable {
 
-    private static final String NOT_FOUND_EXCEPTION = "No Books found matching your criteria!";
     private static final String BOOK_DETAILS = "bookDetails";
 
     @Inject
     private Bookstore bookstore;
 
     private Book selectedBook;
-    private final List<Book> books = new ArrayList<>();
-    private String isbnString = "", keywords = "";
-
-    public void setIsbn(String isbn) {
-        this.isbnString = isbn;
-    }
-
-    public String getIsbn() {
-        return isbnString;
-    }
+    private BookInfo selectedBookInfo;
+    private final List<BookInfo> books = new ArrayList<>();
+    private String keywords = "";
 
     public void setKeywords(String book) {
         this.keywords = book;
@@ -50,32 +43,36 @@ public class CatalogBean implements Serializable {
         return keywords;
     }
 
-    public List<Book> getBooks() {
+    public List<BookInfo> getBooks() {
         return books;
+    }
+
+    public BookInfo getSelectedBookInfo() {
+        return selectedBookInfo;
     }
 
     public Book getSelectedBook() {
         return selectedBook;
     }
 
-    public String selectBook(Book selectedBook) {
-        this.selectedBook = selectedBook;
-        return BOOK_DETAILS;
+    public String selectBook(BookInfo selectedBook) {
+        try {
+            this.selectedBook = bookstore.findBook(selectedBook.getIsbn());
+            this.selectedBookInfo = selectedBook;
+            return BOOK_DETAILS;
+        } catch (BookstoreException ex) {
+            MessageFactory.error(ex, selectedBook.getIsbn());
+        }
+        return null;
     }
 
     public String findBook() {
         books.clear();
-        try {
-            if (!isbnString.isEmpty()) {
-                books.add(bookstore.findBook(isbnString));
-            }
-        } catch (BookNotFoundException e) {
-        }
         if (!keywords.isEmpty()) {
             books.addAll(bookstore.searchBooks(keywords));
         }
         if (books.isEmpty()) {
-            MessageFactory.error(BookNotFoundException.class, isbnString.isEmpty() ? keywords : isbnString + " / " + keywords);
+            MessageFactory.error("noBokFound", keywords);
         }
         return null;
 

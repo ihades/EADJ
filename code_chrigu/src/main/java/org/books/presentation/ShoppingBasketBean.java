@@ -5,12 +5,14 @@
  */
 package org.books.presentation;
 
+import org.books.presentation.util.ShoppingBasket;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import org.books.data.Book;
+import org.books.data.dto.BookInfo;
+import org.books.data.dto.OrderItemDTO;
 
 /**
  *
@@ -26,7 +28,7 @@ public class ShoppingBasketBean implements Serializable {
     public ShoppingBasketBean() {
     }
 
-    public void addBookToBasket(Book book) {
+    public void addBookToBasket(BookInfo book) {
         FacesContext context = FacesContext.getCurrentInstance();
         if (!context.getExternalContext().getSessionMap().containsKey("shoppingBasket")) {
             context.getExternalContext().getSessionMap().put("shoppingBasket", new ShoppingBasket());
@@ -36,7 +38,7 @@ public class ShoppingBasketBean implements Serializable {
         basket.increment(book);
     }
 
-    public String removeBookFromBasket(ShoppingBasket.BookEntry book) {
+    public String removeBookFromBasket(OrderItemDTO book) {
         FacesContext context = FacesContext.getCurrentInstance();
         if (!context.getExternalContext().getSessionMap().containsKey("shoppingBasket")) {
             context.getExternalContext().getSessionMap().put("shoppingBasket", new ShoppingBasket());
@@ -52,7 +54,7 @@ public class ShoppingBasketBean implements Serializable {
         }
     }
 
-    public List<ShoppingBasket.BookEntry> getBooks() {
+    public List<OrderItemDTO> getBooks() {
         FacesContext context = FacesContext.getCurrentInstance();
         if (!context.getExternalContext().getSessionMap().containsKey("shoppingBasket")) {
             context.getExternalContext().getSessionMap().put("shoppingBasket", new ShoppingBasket());

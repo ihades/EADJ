@@ -21,8 +21,8 @@
                     <h:outputText value="#{lang.linkCheckOut}" rendered="#{empty shoppingBasketBean.books}"/>
                     <h:link value="#{lang.linkCheckOut}" outcome="checkOut" rendered="#{not empty shoppingBasketBean.books}"/>
                     &nbsp; | &nbsp;
-                    <h:outputText value="#{lang.linkAccount}" rendered="true"/>
-                    <h:link value="#{lang.linkAccount}" outcome="shoppingBasket" rendered="false"/>
+                    <h:link value="#{lang.linkAccount}" outcome="userLogin" rendered="#{not loginBean.userLoggedIn}"/>
+                    <h:link value="#{lang.linkAccount}" outcome="userDetails" rendered="#{loginBean.userLoggedIn}"/>
                 </h:form>
                 <ui:insert name="header">
                     <h:outputText class="heading" value="#{lang.templateTitle}"/>

@@ -1,9 +1,8 @@
-package org.books.data;
+package org.books.data.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Book implements Serializable {
+public class Book {
 
 	public enum Binding {
 

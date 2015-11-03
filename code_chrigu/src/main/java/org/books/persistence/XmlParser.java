@@ -1,4 +1,4 @@
-package org.books.application;
+package org.books.persistence;
 
 import java.io.InputStream;
 import java.util.ArrayList;

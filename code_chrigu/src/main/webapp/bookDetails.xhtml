@@ -27,7 +27,7 @@
                     <h:outputText value="#{lang.price}"/>
                     <h:outputText value="$ #{catalogBean.selectedBook.price}"/>
                     <h:outputText value=" "/>
-                    <h:commandButton value="#{lang.actionAddtoBasket}" action="#{shoppingBasketBean.addBookToBasket(catalogBean.selectedBook)}"/>
+                    <h:commandButton value="#{lang.actionAddtoBasket}" action="#{shoppingBasketBean.addBookToBasket(catalogBean.selectedBookInfo)}"/>
                 </h:panelGrid>
             </h:form>
         </ui:define>

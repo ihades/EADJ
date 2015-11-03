@@ -25,11 +25,12 @@
                 <h:column>
                     <f:facet name="header">#{lang.count}</f:facet>
                     <h:form id="changeCount">
-                        <h:inputText id="count" value="#{basketEntry.count}"
+                        <h:inputText id="count" value="#{basketEntry.quantity}"
                                      required="true" p:type = "number"
                                      p:min = "1" p:required="required"
                                      p:oninvalid="setCustomValidity('#{lang.validateCountInput}')"
-                                     p:onchange="try{setCustomValidity('')}catch(e){}"/>
+                                     p:onchange="try{setCustomValidity('')}catch(e){}"
+                                     p:onBlur = "this.form.submit();"/>
                     </h:form>
                 </h:column>
                 <h:column>
