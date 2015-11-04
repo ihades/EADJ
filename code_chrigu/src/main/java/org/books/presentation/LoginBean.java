@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
 import org.books.data.entity.Customer;
+import org.books.presentation.util.LoginException;
 import org.books.presentation.util.MessageFactory;
 
 /**
@@ -32,6 +33,8 @@ public class LoginBean implements Serializable {
 
     private String username, password;
 
+    private Customer customer = null;
+
     public String getUsername() {
         return username;
     }
@@ -49,11 +52,9 @@ public class LoginBean implements Serializable {
     }
 
     public String logIn() {
-        FacesContext context = FacesContext.getCurrentInstance();
         try {
             bookstore.authenticateCustomer(username, password);
-            Customer customer = bookstore.findCustomer(username);
-            context.getExternalContext().getSessionMap().put("customer", customer);
+            customer = bookstore.findCustomer(username);
             return "success";
         } catch (BookstoreException ex) {
             MessageFactory.error("loginFailed");
@@ -62,14 +63,18 @@ public class LoginBean implements Serializable {
     }
 
     public String logOut() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getSessionMap().remove("customer");
+        customer = null;
         return "success";
     }
 
     public boolean isUserLoggedIn() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        return context.getExternalContext().getSessionMap().containsKey("customer");
+        return customer != null;
     }
 
+    public Customer getCustomer() throws LoginException {
+        if (customer == null) {
+            throw new LoginException();
+        }
+        return customer;
+    }
 }

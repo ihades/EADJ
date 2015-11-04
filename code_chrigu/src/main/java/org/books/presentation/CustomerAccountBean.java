@@ -8,21 +8,13 @@ package org.books.presentation;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
 import org.books.data.entity.Customer;
+import org.books.presentation.util.LoginException;
 import org.books.presentation.util.MessageFactory;
 
-/**
- * FacesContext context = FacesContext.getCurrentInstance(); if
- * (!context.getExternalContext().getSessionMap().containsKey("customer")) {
- * jemand ist eingelogt. Um den User zu erhalten: Customer customer = (Customer)
- * context.getExternalContext().getSessionMap().get("customer"); }
- *
- * @author cb
- */
 @Named(value = "customerAccountBean")
 @SessionScoped
 public class CustomerAccountBean implements Serializable {
@@ -30,36 +22,35 @@ public class CustomerAccountBean implements Serializable {
     @Inject
     private Bookstore bookstore;
 
+    @Inject
+    private LoginBean loginBean;
+
+    private Customer customerToRegister = null;
+
+    private String password = null;
+
     public Customer getCustomer() {
-        Customer customer;
-        FacesContext context = FacesContext.getCurrentInstance();
-        if (context.getExternalContext().getSessionMap().containsKey("customer")) {
-            customer = (Customer) context.getExternalContext().getSessionMap().get("customer");
-        } else {
-            customer = new Customer();
+        try {
+            return loginBean.getCustomer();
+        } catch (LoginException e) {
+            MessageFactory.error(e);
         }
-        return customer;
+        return null;
     }
 
     public void setCustomer(Customer customer) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getSessionMap().put("customerToRegister", customer);
+        this.customerToRegister = customer;
     }
 
     public void setPassword(String password) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getSessionMap().put("password", password);
+        this.password = password;
     }
 
     public void register() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        if ((context.getExternalContext().getSessionMap().containsKey("customerToRegister"))
-                && (context.getExternalContext().getSessionMap().containsKey("password"))) {
-            Customer customerToRegister = (Customer) context.getExternalContext().getSessionMap().get("customerToRegister");
-            String password = (String) context.getExternalContext().getSessionMap().get("password");
+        if ((customerToRegister != null) && (password != null)) {
             try {
                 bookstore.registerCustomer(customerToRegister, password);
-                context.getExternalContext().getSessionMap().put("customer", customerToRegister);
+                reLoginUser();
             } catch (BookstoreException ex) {
                 MessageFactory.error("registrationFailed");
             }
@@ -67,26 +58,29 @@ public class CustomerAccountBean implements Serializable {
     }
 
     public void change() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        if (context.getExternalContext().getSessionMap().containsKey("customerToRegister")) {
-            Customer customerToRegister = (Customer) context.getExternalContext().getSessionMap().get("customerToRegister");
+        if ((customerToRegister != null)) {
             try {
                 bookstore.updateCustomer(customerToRegister);
-                context.getExternalContext().getSessionMap().put("customer", customerToRegister);
+                reLoginUser();
             } catch (BookstoreException ex) {
                 MessageFactory.error("registrationFailed");
             }
         }
-        if ((context.getExternalContext().getSessionMap().containsKey("customer"))
-                && (context.getExternalContext().getSessionMap().containsKey("password"))) {
-            String password = (String) context.getExternalContext().getSessionMap().get("password");
-            Customer customer = (Customer) context.getExternalContext().getSessionMap().get("customerToRegister");
+        if (loginBean.isUserLoggedIn() && (password != null)) {
             try {
+                Customer customer = loginBean.getCustomer();
                 bookstore.changePassword(customer.getEmail(), password);
-            } catch (BookstoreException ex) {
+            } catch (BookstoreException | LoginException ex) {
                 MessageFactory.error("registrationFailed");
             }
         }
+    }
+
+    private void reLoginUser() {
+        loginBean.logOut();
+        loginBean.setUsername(customerToRegister.getEmail());
+        loginBean.setPassword(password);
+        loginBean.logIn();
     }
 
 }

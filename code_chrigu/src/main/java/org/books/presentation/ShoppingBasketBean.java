@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import org.books.data.dto.BookInfo;
 import org.books.data.dto.OrderItemDTO;
 
@@ -22,6 +21,8 @@ import org.books.data.dto.OrderItemDTO;
 @SessionScoped
 public class ShoppingBasketBean implements Serializable {
 
+    private ShoppingBasket basket = new ShoppingBasket();
+
     /**
      * Creates a new instance of ShoppingBasketBean
      */
@@ -29,22 +30,10 @@ public class ShoppingBasketBean implements Serializable {
     }
 
     public void addBookToBasket(BookInfo book) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        if (!context.getExternalContext().getSessionMap().containsKey("shoppingBasket")) {
-            context.getExternalContext().getSessionMap().put("shoppingBasket", new ShoppingBasket());
-        }
-        ShoppingBasket basket = (ShoppingBasket) context.getExternalContext().getSessionMap().get("shoppingBasket");
-
         basket.increment(book);
     }
 
     public String removeBookFromBasket(OrderItemDTO book) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        if (!context.getExternalContext().getSessionMap().containsKey("shoppingBasket")) {
-            context.getExternalContext().getSessionMap().put("shoppingBasket", new ShoppingBasket());
-        }
-        ShoppingBasket basket = (ShoppingBasket) context.getExternalContext().getSessionMap().get("shoppingBasket");
-
         basket.remove(book);
 
         if (basket.isEmpty()) {
@@ -55,11 +44,7 @@ public class ShoppingBasketBean implements Serializable {
     }
 
     public List<OrderItemDTO> getBooks() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        if (!context.getExternalContext().getSessionMap().containsKey("shoppingBasket")) {
-            context.getExternalContext().getSessionMap().put("shoppingBasket", new ShoppingBasket());
-        }
-        return ((ShoppingBasket) context.getExternalContext().getSessionMap().get("shoppingBasket")).getBooks();
+        return basket.getBooks();
     }
 
 }
