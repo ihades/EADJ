@@ -19,10 +19,11 @@
         <h:outputStylesheet name="styles.css"  />
         
         
-        <ui:insert name="nbtop">
-            <ui:include src="/applayout/navbartop.xhtml"/>
-            
-        </ui:insert>
+        
+        <ui:include src="/applayout/header.xhtml"></ui:include>
+        <!--Noch header machen-->
+        <ui:include src="/applayout/navbartop.xhtml"/>
+        
         
          <b:container>
              <h:messages></h:messages>

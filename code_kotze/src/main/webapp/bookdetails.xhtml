@@ -18,13 +18,13 @@
             <h1>Book details</h1>
             <h:panelGrid columns="3" rendered="#{not empty catalogBean.book}">
                 <b:iconAwesome name="book"></b:iconAwesome>
-                <h:outputText value="#{texts.bookTitle}"></h:outputText>
+                <h:outputText value="#{lang.bookTitle}"></h:outputText>
                 <h:outputText value="#{catalogBean.book.title}" rendered="#{not empty catalogBean.book.title}"></h:outputText>
                 <b:iconAwesome name="user"></b:iconAwesome>   
-                <h:outputText value="#{texts.bookAuthors}"></h:outputText>
+                <h:outputText value="#{lang.bookAuthors}"></h:outputText>
                 <h:outputText value="#{catalogBean.book.authors}"></h:outputText>
                 <b:iconAwesome name="dollar"></b:iconAwesome>    
-                <h:outputText value="#{texts.price}"></h:outputText>
+                <h:outputText value="#{lang.price}"></h:outputText>
                 <h:outputText value="#{catalogBean.book.price}"></h:outputText>
             </h:panelGrid>
         <h:link outcome="catalogSearch" value="Back"></h:link>

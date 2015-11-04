@@ -16,8 +16,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.books.application.BookNotFoundException;
 import org.books.application.Bookstore;
-import org.books.data.Book;
-import org.books.util.MessageFactory;
+import org.books.application.BookstoreException;
+import org.books.data.dto.BookInfo;
+import org.books.data.entity.Book;
+import org.books.presentation.util.MessageFactory;
 
 /**
  *
@@ -30,7 +32,7 @@ public class CatalogBean implements Serializable {
     private String isbn, search;
     
     private Book book = new Book();
-    private List<Book> books;
+    private List<BookInfo> books;
     
     @Inject
     private Bookstore bookstore;
@@ -60,19 +62,28 @@ public class CatalogBean implements Serializable {
        return book;
     }
     
-    public List<Book> getBooks(){
+    public List<BookInfo> getBooks(){
         return books;
     }
     
     public String findBook () {
+        
         try {
             this.book = bookstore.findBook(isbn);
-        } catch (BookNotFoundException ex) {
-            this.book = new Book();
+        } catch (BookstoreException ex) {
             Logger.getLogger(CatalogBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
         return "bookdetails";
     }
+    
+    public String searchBook() {
+        if (isbn != null) {
+            return findBook();
+        }
+        return findWildcardBook();
+    }
+    
     
     public String findWildcardBook () {
         books = bookstore.searchBooks(search);

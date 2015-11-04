@@ -1,4 +1,4 @@
-package org.books.util;
+package org.books.presentation.util;
 
 import java.text.MessageFormat;
 import java.util.Locale;

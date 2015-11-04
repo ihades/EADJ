@@ -14,39 +14,39 @@
             <ui:define name="content">
                 <h:form>
                 <b:alert title="Work in Progress!" severity="warning">
-                </b:alert>
-                
-                    
+                </b:alert> 
                 <h:outputText value ="Book search u can"></h:outputText>
                 <h:panelGrid columns="3">
                     <h:outputLabel for = "isbn" value = "ISBN"></h:outputLabel>
                     <h:inputText id = "isbn" value="#{catalogBean.isbn}"></h:inputText>
-                    <h:commandButton value="Search" action="#{catalogBean.findBook}"></h:commandButton>
                 </h:panelGrid>
             </h:form>
-            
             <h:form>
                 <h:outputText value ="Book search u can wildcard"></h:outputText>
                 <h:panelGrid columns="3">
                     <h:outputLabel for = "isbn" value = "Search string"></h:outputLabel>
-                    <h:inputText id = "search" value="#{catalogBean.search}"></h:inputText>
-                    <h:commandButton value="Search" action="#{catalogBean.findWildcardBook}"></h:commandButton>
+                    <h:inputText id = "search" value="#{catalogBean.search}"></h:inputText>  
                 </h:panelGrid>
+                <h:commandButton value="Search" action="#{catalogBean.searchBook}"></h:commandButton>
             </h:form>
-            <h:form>
-                <h:outputText value="#{catalogBean.books.size()} books found" rendered="#{catalogBean.books.size() > 1}"></h:outputText>
-                <h:outputText value="#{catalogBean.books.size()} book found" rendered="#{catalogBean.books.size() == 1}"></h:outputText>
-                <h:dataTable value="#{catalogBean.books}" var="item">
-                    <h:column>
-                    
-                    <h:commandLink action="#{catalogBean.setSelectedBook(item)}" value="#{item.title}"></h:commandLink>
-                    <h:commandLink action="#{shoppingBasketBean.addBookToBasket(item)}" value ="">
-                        <b:iconAwesome name="cart-arrow-down"></b:iconAwesome>
-                    </h:commandLink>
-                                     
-                    </h:column>
-                </h:dataTable>  
-            </h:form>
+                <b:container rendered="#{catalogBean.books.size() > 0}">
+                    bla
+                </b:container>
+                <h:form>
+                    <h:outputText value="#{catalogBean.books.size()} books found" rendered="#{catalogBean.books.size() > 1}"></h:outputText>
+                    <h:outputText value="#{catalogBean.books.size()} book found" rendered="#{catalogBean.books.size() == 1}"></h:outputText>
+                    <h:dataTable value="#{catalogBean.books}" var="item">
+                        <h:column>
+
+                        <h:commandLink action="#{catalogBean.setSelectedBook(item)}" value="#{item.title}"></h:commandLink>
+                        <h:commandLink action="#{shoppingBasketBean.addBookToBasket(item)}" value ="">
+                            <b:iconAwesome name="cart-arrow-down"></b:iconAwesome>
+                        </h:commandLink>
+
+                        </h:column>
+                    </h:dataTable>  
+                </h:form>
+            
             </ui:define>
         </ui:composition>
     </h:body>

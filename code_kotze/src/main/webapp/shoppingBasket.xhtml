@@ -17,7 +17,7 @@
                     
                     <h:form>
                         <h:dataTable value="#{shoppingBasketBean.books}" var="book" styleClass="book" rowClasses="odd,even"
-                                     columnClasses="title, price, count, delete">
+                                     columnClasses="title,price,count,delete">
                             <h:column headerClass="first">
                                 <f:facet name="header">Titel</f:facet>
                                 <h:outputText value="#{book.book.title}"></h:outputText>
