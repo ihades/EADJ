@@ -6,7 +6,6 @@
 package org.books.presentation;
 
 import com.google.common.collect.ImmutableMap;
-import java.util.HashMap;
 import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.StateHolder;
@@ -31,6 +30,9 @@ public class CreditCardNumberValidator implements Validator, StateHolder {
     public static final String INVALID_NUMBER_MESSAGE = "org.books.presentation.CreditCardNumberValidator.INVALID_NUMBER_MESSAGE";
     public static final String UNKNOWN_CARD_TYPE_MESSAGE = "org.books.presentation.CreditCardNumberValidator.UNKNOWN_CARD_TYPE_MESSAGE";
 
+    private Boolean isTransient = false;
+    private String cardTypeId;
+
     private final static Map<CreditCard.Type, SpecificCreditCardValidater> CREDITCARD_CARD_VALIDATORS = new ImmutableMap.Builder<CreditCard.Type, SpecificCreditCardValidater>()
             .put(CreditCard.Type.MasterCard, (String number) -> {
                 if (number.length() != 16) {
@@ -52,10 +54,6 @@ public class CreditCardNumberValidator implements Validator, StateHolder {
                     throw new ValidatorException(message);
                 }
             }).build();
-
-    private Boolean isTransient = false;
-
-    private String cardTypeId;
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
@@ -83,6 +81,12 @@ public class CreditCardNumberValidator implements Validator, StateHolder {
         }
     }
 
+    /**
+     * Calculates Credit-Card specific LUN (means only one Digit)
+     *
+     * @param data (Credit Card Number)
+     * @return
+     */
     private int getLuhn(String data) {
         int sum = 0;
         Boolean odd = false;
