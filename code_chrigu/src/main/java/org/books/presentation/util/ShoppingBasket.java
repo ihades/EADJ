@@ -5,6 +5,8 @@
  */
 package org.books.presentation.util;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.books.data.dto.BookInfo;
@@ -14,13 +16,21 @@ import org.books.data.dto.OrderItemDTO;
  *
  * @author cb
  */
-public class ShoppingBasket {
+public class ShoppingBasket implements Serializable {
 
     private final List<OrderItemDTO> basket = new ArrayList<>();
+    private final int maxOrderPerBook;
 
-    public int increment(BookInfo buch) {
+    public ShoppingBasket(int maxOrderPerBook) {
+        this.maxOrderPerBook = maxOrderPerBook;
+    }
+
+    public int increment(BookInfo buch) throws MaxOrderException {
         for (OrderItemDTO bookEntry : basket) {
             if (bookEntry.getBook().equals(buch)) {
+                if (bookEntry.getQuantity() >= maxOrderPerBook) {
+                    throw new MaxOrderException();
+                }
                 bookEntry.setQuantity(bookEntry.getQuantity() + 1);
                 return bookEntry.getQuantity();
             }
@@ -55,5 +65,15 @@ public class ShoppingBasket {
 
     public boolean isEmpty() {
         return basket.isEmpty();
+    }
+
+    public BigDecimal getTotalPrice() {
+        BigDecimal price = BigDecimal.ZERO;
+        for (OrderItemDTO book : basket) {
+            price = price
+                    .add(BigDecimal.valueOf(book.getQuantity())
+                            .multiply(book.getBook().getPrice()));
+        }
+        return price;
     }
 }

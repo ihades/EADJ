@@ -17,43 +17,54 @@
     </application>
 
     <navigation-rule>
-        <from-view-id>bookDetails.xhtml</from-view-id>
+        <from-view-id>/bookDetails.xhtml</from-view-id>
         <navigation-case>
             <from-action>#{pageController.processcatalogSearch.xhtml}</from-action>
             <from-outcome>back</from-outcome>
-            <to-view-id>catalogSearch.xhtml</to-view-id>
+            <to-view-id>/catalogSearch.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
-        <from-view-id>userLogin.xhtml</from-view-id>
+        <from-view-id>/userLogin.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>userDetails.xhtml</to-view-id>
+            <to-view-id>/userDetails.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
-        <from-view-id>userEditDetails.xhtml</from-view-id>
+        <from-view-id>/userEditDetails.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>cancel</from-outcome>
-            <to-view-id>userDetails.xhtml</to-view-id>
+            <to-view-id>/userDetails.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>userDetails.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>changePassword.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>success</from-outcome>
-            <to-view-id>userDetails.xhtml</to-view-id>
+            <to-view-id>/userDetails.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
-        <from-view-id>userDetails.xhtml</from-view-id>
+        <from-view-id>/userCreate.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancel</from-outcome>
+            <to-view-id>/userLogin.xhtml</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>catalogSearch.xhtml</to-view-id>
+            <to-view-id>/userDetails.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/changePassword.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/userDetails.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/userDetails.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/catalogSearch.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

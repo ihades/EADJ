@@ -12,6 +12,8 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import org.books.data.dto.BookInfo;
 import org.books.data.dto.OrderItemDTO;
+import org.books.presentation.util.MaxOrderException;
+import org.books.presentation.util.MessageFactory;
 
 /**
  *
@@ -21,7 +23,9 @@ import org.books.data.dto.OrderItemDTO;
 @SessionScoped
 public class ShoppingBasketBean implements Serializable {
 
-    private ShoppingBasket basket = new ShoppingBasket();
+    private static final int MAX_ORDER_PER_BOOK = 100;
+
+    private final ShoppingBasket basket = new ShoppingBasket(MAX_ORDER_PER_BOOK);
 
     /**
      * Creates a new instance of ShoppingBasketBean
@@ -30,7 +34,11 @@ public class ShoppingBasketBean implements Serializable {
     }
 
     public void addBookToBasket(BookInfo book) {
-        basket.increment(book);
+        try {
+            basket.increment(book);
+        } catch (MaxOrderException e) {
+            MessageFactory.error(e, MAX_ORDER_PER_BOOK);
+        }
     }
 
     public String removeBookFromBasket(OrderItemDTO book) {
@@ -45,6 +53,14 @@ public class ShoppingBasketBean implements Serializable {
 
     public List<OrderItemDTO> getBooks() {
         return basket.getBooks();
+    }
+
+    public String getTotalPrice() {
+        return basket.getTotalPrice().toPlainString();
+    }
+
+    public String getMaxOrderPerBook() {
+        return String.valueOf(MAX_ORDER_PER_BOOK);
     }
 
 }
