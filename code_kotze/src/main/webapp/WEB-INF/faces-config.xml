@@ -11,13 +11,13 @@
         </navigation-case>
     </navigation-rule>
     
-    <navigation-rule>
+<!--    <navigation-rule>
         <from-view-id>userLogin.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>
             <to-view-id>userDetails.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
+    </navigation-rule>-->
     
     
     

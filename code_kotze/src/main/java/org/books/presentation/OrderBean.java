@@ -6,9 +6,12 @@
 package org.books.presentation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.books.data.dto.OrderItemDTO;
 
 /**
  *
@@ -18,6 +21,10 @@ import javax.inject.Named;
 @SessionScoped
 public class OrderBean implements Serializable {
    
+    private List<List<OrderItemDTO>> orderedBooks = new ArrayList<>();
+    
+    @Inject 
+    private ShoppingBasketBean shoppingBasketBean;
     
     @Inject
     private LoginBean loginBean;
@@ -28,5 +35,16 @@ public class OrderBean implements Serializable {
         }
         return null;
     }
+    
+    public String confirm() {
+        orderedBooks.add(shoppingBasketBean.getBooks());
+        shoppingBasketBean.getBooks().clear();
+        return "index";
+    }
+    
+    
+    
+    
+    
     
 }

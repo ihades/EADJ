@@ -28,7 +28,7 @@
                             </h:column>
                             <h:column>
                                 <f:facet name="header">Anzahl</f:facet>
-                                <h:outputText id="bookcount" value="#{Integer.parseInt(shoppingBasketBean.books.get(book).count)}">
+                                <h:outputText id="bookcount" value="#{book.quantity}">
                                     
                                 </h:outputText>
                             </h:column>

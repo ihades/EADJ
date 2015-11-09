@@ -30,7 +30,6 @@
                 <h:commandButton value="Search" action="#{catalogBean.searchBook}"></h:commandButton>
             </h:form>
                 <b:container rendered="#{catalogBean.books.size() > 0}">
-                    bla
                 </b:container>
                 <h:form>
                     <h:outputText value="#{catalogBean.books.size()} books found" rendered="#{catalogBean.books.size() > 1}"></h:outputText>

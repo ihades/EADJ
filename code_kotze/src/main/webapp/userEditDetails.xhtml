@@ -9,7 +9,7 @@
             <h:outputText class="heading" value="#{lang.headerAccountDetails}"/>
         </ui:define>
         <ui:define name="content">
-            <h:form id="userDetails">
+            <h:form id="userEditDetails">
                 <h:panelGrid columns="2" rendered="#{not empty customerAccountBean.customer}">
                     <h:outputText value="#{lang.userFirstName}"/>
                     <h:inputText id="userFirstName" value="#{customerAccountBean.customer.firstName}" required="true"/>

@@ -3,22 +3,55 @@
 <ui:fragment xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     
+    
+    <b:modal id="amodal" title="Modal Example" styleClass="modalPseudoClass">
+        <p>Modal body</p>
+        <h:form id="userDetailsModal">
+                <h1>Login</h1>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{lang.userEmail}"/>
+                    <h:inputText id="userEmail" value="#{loginBean.username}" required="true"/>
+                    <h:outputText value="#{lang.userPassword}"/>
+                    <h:inputSecret  id="userPassword" value="#{loginBean.password}" required="true"/>
+                    <b:commandButton value="#{lang.actionLogin}" action="#{loginBean.logIn()}">
+                        <f:setPropertyActionListener target="#{navigationBean.target}" value="order"></f:setPropertyActionListener>
+                    </b:commandButton>
+                </h:panelGrid>
+            </h:form>
+        <f:facet name="footer">
+            <b:button value="close" dismiss="modal" onclick="return false;"/>
+            <!--<b:button value="Ok" look="primary" dismiss="modal" onclick="return false;"/>-->
+        </f:facet>
+    </b:modal>
+            
     <b:container>
         <b:row>
             <b:column span = "12">
+                <h:form>
                 <b:navBar>
                     <b:navbarLinks pull="right">
-                        <b:navLink outcome="catalogSearch" value="Search" iconAwesome="search"></b:navLink>
-                        <b:dropMenu value="User">
-                            <b:navLink outcome="userLogin" value="Login" iconAwesome="user"></b:navLink>
-                        </b:dropMenu>
+                        <b:navCommandLink outcome="catalogSearch" value="Search" iconAwesome="search"></b:navCommandLink>
                         <b:navLink outcome="shoppingBasket" value="Basket" iconAwesome=" fa-shopping-cart"></b:navLink>
-                        <b:navLink outcome="order" value="Pay" iconAwesome="credit-card"></b:navLink>
+                        <b:dropMenu value="User">
+                            <b:navLink outcome="userDetails" value="Account" iconAwesome="user" rendered="#{loginBean.userLoggedIn}"></b:navLink>
+                            <b:navLink outcome="userLogin" value="Account" iconAwesome="user" rendered="#{loginBean.userLoggedIn != true}"></b:navLink>
+                        </b:dropMenu>
+                        <b:navCommandLink value="Pay" iconAwesome="credit-card" onclick="$('.modalPseudoClass').modal();return false;" rendered="#{loginBean.userLoggedIn != true}" tooltip="Login necessary">
+                            <f:setPropertyActionListener target="#{navigationBean.target}" value="order"></f:setPropertyActionListener>
+                        </b:navCommandLink>
+                        <b:navCommandLink action="#{navigationBean.lastTarget}" value="Pay" iconAwesome="credit-card" rendered="#{loginBean.userLoggedIn}">
+                            <!--<f:actionListener type="org.books.presentation.util.OrderActionListener"></f:actionListener>-->
+                            
+                        </b:navCommandLink>
+                        
                         
                     </b:navbarLinks>
                 </b:navBar>
+                    </h:form>
             </b:column>
         </b:row>
         

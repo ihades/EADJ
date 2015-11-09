@@ -15,6 +15,7 @@ import org.books.application.BookstoreException;
 import org.books.data.entity.Customer;
 import org.books.presentation.util.LoginException;
 import org.books.presentation.util.MessageFactory;
+import org.books.presentation.util.Navigation;
 
 
 /**
@@ -29,6 +30,9 @@ import org.books.presentation.util.MessageFactory;
 @SessionScoped
 public class LoginBean implements Serializable {
 
+    @Inject
+    private Navigation navigation;
+    
     @Inject
     private Bookstore bookstore;
 
@@ -56,7 +60,7 @@ public class LoginBean implements Serializable {
         try {
             bookstore.authenticateCustomer(username, password);
             customer = bookstore.findCustomer(username);
-            return "success";
+            return navigation.lastTarget();
         } catch (BookstoreException ex) {
             MessageFactory.error("loginFailed");
         }
