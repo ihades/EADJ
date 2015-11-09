@@ -28,6 +28,7 @@ public class CustomerAccountBean implements Serializable {
     private Customer customerToRegister = null;
 
     private String password = null;
+    private String oldPassword;
 
     public Customer getCustomer() {
         try {
@@ -42,6 +43,18 @@ public class CustomerAccountBean implements Serializable {
         this.customerToRegister = customer;
     }
 
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String password) {
+        this.oldPassword = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -50,37 +63,39 @@ public class CustomerAccountBean implements Serializable {
         if ((customerToRegister != null) && (password != null)) {
             try {
                 bookstore.registerCustomer(customerToRegister, password);
-                reLoginUser();
+                loginBean.setUser(customerToRegister);
             } catch (BookstoreException ex) {
                 MessageFactory.error("registrationFailed");
             }
         }
     }
 
-    public void change() {
+    public String change() {
+        String returnValue = "success";
         if ((customerToRegister != null)) {
             try {
                 bookstore.updateCustomer(customerToRegister);
-                reLoginUser();
+                loginBean.setUser(customerToRegister);
             } catch (BookstoreException ex) {
                 MessageFactory.error("registrationFailed");
+                returnValue = null;
+            } finally {
+                customerToRegister = null;
             }
         }
-        if (loginBean.isUserLoggedIn() && (password != null)) {
+        if (loginBean.isUserLoggedIn() && (password != null) && (oldPassword != null)) {
             try {
                 Customer customer = loginBean.getCustomer();
+                bookstore.authenticateCustomer(customer.getEmail(), oldPassword);
                 bookstore.changePassword(customer.getEmail(), password);
             } catch (BookstoreException | LoginException ex) {
-                MessageFactory.error("registrationFailed");
+                MessageFactory.error("passwordChangeFailed");
+                returnValue = null;
+            } finally {
+                password = null;
+                oldPassword = null;
             }
         }
+        return returnValue;
     }
-
-    private void reLoginUser() {
-        loginBean.logOut();
-        loginBean.setUsername(customerToRegister.getEmail());
-        loginBean.setPassword(password);
-        loginBean.logIn();
-    }
-
 }

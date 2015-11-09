@@ -8,7 +8,6 @@ package org.books.presentation;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
@@ -16,14 +15,6 @@ import org.books.data.entity.Customer;
 import org.books.presentation.util.LoginException;
 import org.books.presentation.util.MessageFactory;
 
-/**
- * FacesContext context = FacesContext.getCurrentInstance(); if
- * (!context.getExternalContext().getSessionMap().containsKey("customer")) {
- * jemand ist eingelogt. Um den User zu erhalten: Customer customer = (Customer)
- * context.getExternalContext().getSessionMap().get("customer"); }
- *
- * @author cb
- */
 @Named(value = "loginBean")
 @SessionScoped
 public class LoginBean implements Serializable {
@@ -32,7 +23,6 @@ public class LoginBean implements Serializable {
     private Bookstore bookstore;
 
     private String username, password;
-
     private Customer customer = null;
 
     public String getUsername() {
@@ -76,5 +66,9 @@ public class LoginBean implements Serializable {
             throw new LoginException();
         }
         return customer;
+    }
+
+    protected void setUser(Customer customerToRegister) {
+        this.customer = customerToRegister;
     }
 }

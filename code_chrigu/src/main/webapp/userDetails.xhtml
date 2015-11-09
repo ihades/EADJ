@@ -26,13 +26,15 @@
                     <h:outputText value="#{lang.userCreditCard}"/>
                     <h:outputText value="#{customerAccountBean.customer.creditCard.type}"/>
                     <h:outputText value=""/>
-                    <h:outputText value="#{customerAccountBean.customer.creditCard.number}"/>
+                    <h:outputText value="#{customerAccountBean.customer.creditCard.number}">
+                        <f:converter converterId="org.books.presentatio.CreditCardNumberConverter"/>
+                    </h:outputText>
                     <h:outputText value=""/>
                     <h:outputText value="#{customerAccountBean.customer.creditCard.expirationMonth} / #{customerAccountBean.customer.creditCard.expirationYear}"/>
                 </h:panelGrid>
                 <h:link value="#{lang.linkChange}" outcome="userEditDetails"/>
                 &nbsp; | &nbsp;
-                <h:commandLink value="#{lang.linkPasswordChange}" action="#{loginBean.logOut()}"/>
+                <h:link value="#{lang.linkPasswordChange}" outcome="changePassword"/>
                 &nbsp; | &nbsp;
                 <h:commandLink value="#{lang.linkLogOut}" action="#{loginBean.logOut()}"/>
             </h:form>
