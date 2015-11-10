@@ -11,6 +11,7 @@ p {
 a {
 	color: #bd7e00;
 	text-decoration: none;
+        cursor: pointer;
 }
 table {
     border-collapse: collapse;
@@ -57,3 +58,29 @@ td {
 .error {
 	color: #645078;
 }
+.navbar {
+        width: 40%;
+}
+.link-not-active {
+    pointer-events : none;
+}
+.link-active {
+    pointer-events: all;
+}
+a:link { /* Essentially means a[href], or that the link actually goes somewhere */
+  color: blue;
+}
+a:visited {
+  color: purple;
+}
+a:hover {
+  color: green;
+}
+a:active {
+  color: red;
+}
+
+.alert {
+    width : 40%;
+}
+

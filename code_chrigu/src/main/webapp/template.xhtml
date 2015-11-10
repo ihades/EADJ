@@ -2,36 +2,86 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:book="http://jsf.examples/book"
+      xmlns:bookStore="http://xmlns.jcp.org/jsf/composite/bookStore"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <bookStore:inputLoginModalDialog login="#{loginBean}" navigation="#{navigationBean}"></bookStore:inputLoginModalDialog>
+    
     <h:head>
         <title>#{lang.templateTitle}</title>
         <h:outputStylesheet name="styles.css"/>
     </h:head>
     <h:body>
-        <h:panelGrid columns="2">
-            <h:graphicImage library="images" name="books.jpg"/>
-            <h:panelGrid columns="1">
-                <h:outputText class="title" value="#{lang.templateTitle}"/>
-                <h:form id="mainMenu">
-                    <h:link value="#{lang.linkCatalogSearch}" outcome="catalogSearch"/>
-                    &nbsp; | &nbsp;
-                    <h:outputText value="#{lang.linkShoppingBasket}" rendered="#{empty shoppingBasketBean.books}"/>
-                    <h:link value="#{lang.linkShoppingBasket}" outcome="shoppingBasket" rendered="#{not empty shoppingBasketBean.books}"/>
-                    &nbsp; | &nbsp;
-                    <h:outputText value="#{lang.linkCheckOut}" rendered="#{empty shoppingBasketBean.books}"/>
-                    <h:link value="#{lang.linkCheckOut}" outcome="checkOut" rendered="#{not empty shoppingBasketBean.books}"/>
-                    &nbsp; | &nbsp;
-                    <h:link value="#{lang.linkAccount}" outcome="userLogin" rendered="#{not loginBean.userLoggedIn}"/>
-                    <h:link value="#{lang.linkAccount}" outcome="userDetails" rendered="#{loginBean.userLoggedIn}"/>
-                </h:form>
-                <ui:insert name="header">
-                    <h:outputText class="heading" value="#{lang.templateTitle}"/>
-                </ui:insert>
-                <ui:insert name ="content">
-                </ui:insert>
-                <h:messages errorClass="errors" layout="table" globalOnly="true"/>
-            </h:panelGrid>
-        </h:panelGrid>
+        <b:container>
+            <b:row>
+                <b:column>
+                    <h:panelGrid columns="2">
+                        <h:column>
+                            <h:graphicImage library="images" name="books.jpg"/>
+                        </h:column>
+                        <h:column>
+                            <h:panelGrid columns="1">
+                            <h:outputText class="title" value="#{lang.templateTitle}"/>
+                            <h:form id="mainMenu">
+                                
+                        <b:navBar>
+                        <b:navbarLinks pull="left">
+                        <b:navCommandLink outcome="catalogSearch" value="#{lang.linkCatalogSearch}" iconAwesome="search"></b:navCommandLink>
+                        
+                        <b:navLink outcome="shoppingBasket" value="#{lang.linkShoppingBasket}" iconAwesome=" fa-shopping-cart"></b:navLink>
+                        
+                        
+                        
+                        <b:navCommandLink value="#{lang.linkCheckOut}" iconAwesome="credit-card" 
+                                          action="checkOut"
+                                          onclick="$('.modalPseudoClass').modal();return false;" 
+                                          rendered="#{loginBean.userLoggedIn != true}" 
+                                          tooltip="Login necessary" 
+                                          active="#{not empty shoppingBasketBean.books}"
+                                          class="#{shoppingBasketBean.style}">
+                            <f:setPropertyActionListener target="#{navigationBean.target}" value="checkOut"></f:setPropertyActionListener>
+                        </b:navCommandLink>
+                        <b:navCommandLink action="#{navigationBean.lastTarget()}" value="#{lang.linkCheckOut}" 
+                                          iconAwesome="credit-card" rendered="#{loginBean.userLoggedIn}" 
+                                          class="#{shoppingBasketBean.style}" >
+                            <!--<f:actionListener type="org.books.presentation.util.OrderActionListener"></f:actionListener>-->  
+                        </b:navCommandLink>
+                        
+                        <b:navLink outcome="userDetails" value="Account" iconAwesome="user" rendered="#{loginBean.userLoggedIn}"></b:navLink>
+                        <b:navLink outcome="userLogin" value="Account" iconAwesome="user" rendered="#{loginBean.userLoggedIn != true}"></b:navLink>
+                        
+                    </b:navbarLinks>
+                </b:navBar>
+                                
+                                                        
+      </h:form>
+    <ui:insert name="header">
+    <h:outputText class="heading" value="#{lang.templateTitle}"/>
+    </ui:insert>
+    <ui:insert name ="content">
+    </ui:insert>
+    <h:messages errorClass="errors" layout="table" globalOnly="true"/>
+    </h:panelGrid>
+                        </h:column>
+                    </h:panelGrid>
+                </b:column>
+            </b:row>
+            
+            
+            
+            
+            
+            
+        </b:container>
+                
+        
+        
+        
+        
+        
 
     </h:body>
 </html>

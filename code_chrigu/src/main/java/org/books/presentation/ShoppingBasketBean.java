@@ -46,5 +46,18 @@ public class ShoppingBasketBean implements Serializable {
     public List<OrderItemDTO> getBooks() {
         return basket.getBooks();
     }
+    
+    /**
+     * Return a css class to control a link's behaviour as to
+     * whether it is active or not depending on the basket's emptiness.
+     * 
+     * @return String {active | not-active}
+     */
+    public String getStyle () {
+        if (getBooks().isEmpty()) {
+            return "link-not-active";
+        }
+        return "link-active";
+    }
 
 }

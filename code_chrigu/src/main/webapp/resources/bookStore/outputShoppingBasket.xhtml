@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <cc:interface>
+        <cc:attribute name="shoppingBasket"></cc:attribute>
+        <cc:attribute name="order"></cc:attribute>
+    </cc:interface>
+    
+    <cc:implementation>
+        <b:alert severity="info" rendered="#{empty shoppingBasketBean.books}">#{lang.headerEmptyShoppingBasket}</b:alert>
+        <h:form  rendered="#{not empty shoppingBasketBean.books}">
+                <h:dataTable value="#{cc.attrs.shoppingBasket.books}" var="item">
+                    <h:column headerClass="first">
+                        <f:facet name="header">#{lang.bookTitle}</f:facet>
+                        <h:outputText value="#{item.book.title}"></h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{lang.price}</f:facet>
+                        <h:outputText value="#{item.book.price}"></h:outputText>
+                    </h:column>
+                    <h:column headerClass="last">
+                        <f:facet name="header">#{lang.count}</f:facet>
+                        <h:outputText value="#{item.quantity}"></h:outputText>
+                    </h:column>
+                </h:dataTable>
+                <h:commandButton action="#{cc.attrs.order.confirm()}" value="Pay"></h:commandButton>
+            </h:form>
+    </cc:implementation>
+</html>
+
