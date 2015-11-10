@@ -55,6 +55,14 @@ public class ShoppingBasketBean implements Serializable {
         return basket.getBooks();
     }
     
+    public String getTotalBookCount() {
+        int total = 0;
+        for (OrderItemDTO bookDto : basket.getBooks()) {
+            total+=bookDto.getQuantity(); 
+        }
+        return Integer.toString(total);
+    }
+    
     /**
      * Return a css class to control a link's behaviour as to
      * whether it is active or not depending on the basket's emptiness.

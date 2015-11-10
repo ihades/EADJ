@@ -15,17 +15,35 @@
         <h:form  rendered="#{not empty shoppingBasketBean.books}">
                 <h:dataTable value="#{cc.attrs.shoppingBasket.books}" var="item">
                     <h:column headerClass="first">
-                        <f:facet name="header">#{lang.bookTitle}</f:facet>
+                        <f:facet name="header">
+                            <h:outputText value="#{lang.bookTitle}"></h:outputText> 
+                        </f:facet>
                         <h:outputText value="#{item.book.title}"></h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{lang.totalPrice}" styleClass="totalPrice"></h:outputText>
+                        </f:facet>
                     </h:column>
                     <h:column>
-                        <f:facet name="header">#{lang.price}</f:facet>
+                        <f:facet name="header">
+                            <h:outputText value="#{lang.price}"></h:outputText>
+                        </f:facet>
                         <h:outputText value="#{item.book.price}"></h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{shoppingBasketBean.totalPrice}" styleClass="totalPrice"></h:outputText>
+                        </f:facet>
                     </h:column>
                     <h:column headerClass="last">
-                        <f:facet name="header">#{lang.count}</f:facet>
+                        <f:facet name="header">
+                            <h:outputText value="#{lang.count}"></h:outputText>
+                        </f:facet>
                         <h:outputText value="#{item.quantity}"></h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{shoppingBasketBean.totalBookCount}" styleClass="totalPrice"></h:outputText>
+                        </f:facet>
                     </h:column>
+                    
+                    
+                    
                 </h:dataTable>
                 <h:commandButton action="#{cc.attrs.order.confirm()}" value="Pay"></h:commandButton>
             </h:form>

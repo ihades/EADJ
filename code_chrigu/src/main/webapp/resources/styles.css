@@ -83,4 +83,9 @@ a:active {
 .alert {
     width : 40%;
 }
+.totalPrice {
+    font-weight: bold;
+}
+
+
 
