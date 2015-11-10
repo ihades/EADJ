@@ -34,9 +34,8 @@ public class CustomerAccountBean implements Serializable {
         try {
             return loginBean.getCustomer();
         } catch (LoginException e) {
-            MessageFactory.error(e);
+            return new Customer();
         }
-        return null;
     }
 
     public void setCustomer(Customer customer) {

@@ -16,11 +16,15 @@ and open the template in the editor.
     </cc:interface>
 
     <cc:implementation>
-        <h:panelGrid columns="2">
+        <h:panelGrid columns="3">
             <h:outputText value="#{lang.userEmail}"/>
             <h:inputText id="userEmail" value="#{cc.attrs.name}" required="true"/>
+            <h:message for="userFirstName" styleClass="error"/>
+
             <h:outputText value="#{lang.userPassword}"/>
             <h:inputSecret  id="userPassword" value="#{cc.attrs.passwd}" required="true"/>
+            <h:message for="userFirstName" styleClass="error"/>
+
             <h:commandButton value="#{lang.actionLogin}" action="#{cc.attrs.login}"/>
         </h:panelGrid>
     </cc:implementation>

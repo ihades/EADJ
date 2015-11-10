@@ -11,6 +11,7 @@
         <ui:define name="content">
             <h:form id="userDetails">
                 <book:inputLogin name="#{loginBean.username}" passwd="#{loginBean.password}" login="#{loginBean.logIn()}"/>
+                <h:link value="#{lang.linkCreateAccount}" outcome="userCreate"/>
             </h:form>
         </ui:define>
     </ui:composition>

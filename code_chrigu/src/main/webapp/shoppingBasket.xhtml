@@ -21,13 +21,14 @@
                 <h:column>
                     <f:facet name="header">#{lang.price}</f:facet>
                     <h:outputText value="$ #{basketEntry.book.price}"/>
+                    <f:facet name="footer">$ #{shoppingBasketBean.totalPrice}</f:facet>
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{lang.count}</f:facet>
                     <h:form id="changeCount">
-                        <h:inputText id="count" value="#{basketEntry.quantity}"
+                        <h:inputText id="count" value="#{basketEntry.quantity}" size="3" style="width: 50px"
                                      required="true" p:type = "number"
-                                     p:min = "1" p:required="required"
+                                     p:min = "1" p:max ="#{shoppingBasketBean.maxOrderPerBook}" p:required="required"
                                      p:oninvalid="setCustomValidity('#{lang.validateCountInput}')"
                                      p:onchange="try{setCustomValidity('')}catch(e){}"
                                      p:onBlur = "this.form.submit();"/>

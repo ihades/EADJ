@@ -12,15 +12,22 @@ and open the template in the editor.
         <cc:attribute name="customer" required="true"/>
     </cc:interface>
     <cc:implementation>
-        <h:panelGrid columns="2" rendered="#{not empty cc.attrs.customer}">
+        <h:panelGrid columns="3" rendered="#{not empty cc.attrs.customer}">
             <h:outputText value="#{lang.userAddressStreet}"/>
             <h:inputText id="userAddressStreet" value="#{cc.attrs.customer.address.street}" required="true"/>
+            <h:message for="userAddressStreet" styleClass="error"/>
+
             <h:outputText value="#{lang.userAddressCity}"/>
             <h:inputText id="userAddressCity" value="#{cc.attrs.customer.address.city}" required="true"/>
+            <h:message for="userAddressCity" styleClass="error"/>
+
             <h:outputText value="#{lang.userAddressPostalCode}"/>
             <h:inputText id="userAddressPostalCode" value="#{cc.attrs.customer.address.postalCode}" required="true"/>
+            <h:message for="userAddressPostalCode" styleClass="error"/>
+
             <h:outputText value="#{lang.userAddressCountry}"/>
             <h:inputText id="userAddressCountry" value="#{cc.attrs.customer.address.country}" required="true"/>
+            <h:message for="userAddressCountry" styleClass="error"/>
         </h:panelGrid>
     </cc:implementation>
 </html>
