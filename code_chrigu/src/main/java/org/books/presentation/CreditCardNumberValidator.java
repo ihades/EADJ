@@ -82,7 +82,7 @@ public class CreditCardNumberValidator implements Validator, StateHolder {
     }
 
     /**
-     * Calculates Credit-Card specific LUN (means only one Digit)
+     * Calculates Credit-Card specific LUHN (means only one Digit)
      *
      * @param data (Credit Card Number)
      * @return

@@ -11,7 +11,11 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.books.application.Bookstore;
+import org.books.application.BookstoreException;
 import org.books.data.dto.OrderItemDTO;
+import org.books.presentation.util.LoginException;
+import org.books.presentation.util.MessageFactory;
 
 /**
  *
@@ -29,17 +33,21 @@ public class OrderBean implements Serializable {
     @Inject
     private LoginBean loginBean;
     
-//    public String doIt(){
-//        if (!loginBean.isUserLoggedIn()) {
-//            return "userLogin";
-//        }
-//        return null;
-//    }
+    @Inject
+    private Bookstore bookstore;
     
     public String confirm() {
-        orderedBooks.add(shoppingBasketBean.getBooks());
-        shoppingBasketBean.getBooks().clear();
-        return "success";
+        try {
+            bookstore.placeOrder(loginBean.getCustomer().getEmail(), shoppingBasketBean.getBooks());
+            shoppingBasketBean.getBooks().clear();
+            return "success";
+        } catch (BookstoreException ex) {
+            MessageFactory.error("exceptionClassBookstoreException");
+            
+        } catch (LoginException ex) {
+            MessageFactory.error("loginFailed");
+        }
+        return null;
     }
     
     

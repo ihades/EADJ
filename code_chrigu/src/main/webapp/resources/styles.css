@@ -56,10 +56,36 @@ td {
 	color: #556455;
 }
 .error {
-	color: #645078;
+        color: #645078;
+}
+
+.errors {
+	
+        color: #ff3333;
+        font-weight: bold;
 }
 .navbar {
-        width: 40%;
+       font-size: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #c0c0c0;
+    -webkit-transition: color 0.25s;
+    -moz-transition: color 0.25s;
+    -o-transition: color 0.25s;
+    transition: color 0.25s; 
+}
+
+
+
+.navbar-links a {
+    font-size: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #c0c0c0;
+    -webkit-transition: color 0.25s;
+    -moz-transition: color 0.25s;
+    -o-transition: color 0.25s;
+    transition: color 0.25s;
 }
 .link-not-active {
     pointer-events : none;
@@ -86,6 +112,7 @@ a:active {
 .totalPrice {
     font-weight: bold;
 }
+
 
 
 

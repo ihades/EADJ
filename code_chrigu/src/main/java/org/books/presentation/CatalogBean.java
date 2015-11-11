@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
@@ -75,7 +77,10 @@ public class CatalogBean implements Serializable {
             MessageFactory.error("noBokFound", keywords);
         }
         return null;
-
+    }
+    public void autoComplete(AjaxBehaviorEvent abe) {
+        
+        findBook();
     }
 
 }

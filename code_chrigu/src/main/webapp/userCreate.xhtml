@@ -10,11 +10,13 @@
         </ui:define>
         <ui:define name="content">
             <h:form id="userDetails">
-                <book:inputUserDetails customer="#{customerAccountBean.customer}" password="#{customerAccountBean.password}"/>
+                <book:inputUserDetails customer="#{customerAccountBean.customerToRegister}"
+                                       password="#{customerAccountBean.password}"
+                                       editPassword="true"/>
                 <h:outputText class="subheading" value="#{lang.subHeaderAddress}"/>
-                <book:inputUserAddress customer="#{customerAccountBean.customer}"/>
+                <book:inputUserAddress customer="#{customerAccountBean.customerToRegister}"/>
                 <h:outputText class="subheading" value="#{lang.subHeaderCreditCard}"/>
-                <book:inputUserCreditCard creditCard="#{customerAccountBean.customer.creditCard}"/>
+                <book:inputUserCreditCard creditCard="#{customerAccountBean.customerToRegister.creditCard}"/>
                 <h:commandButton value="#{lang.actionSave}" action="#{customerAccountBean.register()}"/>
                 <h:button value="#{lang.actionDiscard}" outcome="cancel"/>
             </h:form>

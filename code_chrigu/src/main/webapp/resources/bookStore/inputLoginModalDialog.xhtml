@@ -7,27 +7,23 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <cc:interface>
         <cc:attribute name="login" required="true"></cc:attribute>
-        <cc:attribute name="navigation" required="true"></cc:attribute>
     </cc:interface>
     <cc:implementation>
         <b:modal id="amodal" title="#{lang.loginWindowTitle}" styleClass="modalPseudoClass">
-       
-        <h:form id="userDetailsModal">
+            <h:form id="userDetailsModal">
                 <h:panelGrid columns="2">
                     <h:outputText value="#{lang.userEmail}"/>
                     <h:inputText id="userEmail" value="#{cc.attrs.login.username}" required="true"/>
                     <h:outputText value="#{lang.userPassword}"/>
                     <h:inputSecret  id="userPassword" value="#{cc.attrs.login.password}" required="true"/>
-                    <b:commandButton value="#{lang.actionLogin}" action="#{loginBean.logIn()}">
-                        <f:setPropertyActionListener target="#{cc.attrs.navigation.target}" value="checkOut"></f:setPropertyActionListener>
-                    </b:commandButton>
+                    <b:commandButton value="#{lang.actionLogin}" action="#{loginBean.logIn()}"/>
                 </h:panelGrid>
             </h:form>
-        <f:facet name="footer">
-            <b:button value="close" dismiss="modal" onclick="return false;"/>
-            <!--<b:button value="Ok" look="primary" dismiss="modal" onclick="return false;"/>-->
-        </f:facet>
-    </b:modal>
+            <f:facet name="footer">
+                <b:button value="close" dismiss="modal" onclick="return false;"/>
+                <!--<b:button value="Ok" look="primary" dismiss="modal" onclick="return false;"/>-->
+            </f:facet>
+        </b:modal>
     </cc:implementation>
 </html>
 
