@@ -21,7 +21,9 @@
                 <h:dataTable value="#{catalogBean.books}" var="book" rendered="#{not empty catalogBean.books}">
                     <h:column>
                         <f:facet name="header">#{lang.bookTitle}</f:facet>
-                        <h:commandLink value="#{book.title}" action="#{catalogBean.selectBook(book)}"/>
+                        <h:commandLink value="#{book.title}" action="#{catalogBean.selectBook(book)}">
+                            <f:setPropertyActionListener target="#{navigationBean.outcome}" value="catalogSearch" />
+                        </h:commandLink>
                     </h:column>
                     <h:column>
                         <f:facet name="header">#{lang.price}</f:facet>

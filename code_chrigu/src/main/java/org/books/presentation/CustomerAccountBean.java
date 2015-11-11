@@ -25,21 +25,32 @@ public class CustomerAccountBean implements Serializable {
     @Inject
     private LoginBean loginBean;
 
-    private Customer customerToRegister = null;
+    @Inject
+    private NavigationBean nav;
 
-    private String password = null;
+    private Customer customerToRegister = null;
+    private String password;
     private String oldPassword;
+    private String registrationOutcome = "success";
 
     public Customer getCustomer() {
         try {
             return loginBean.getCustomer();
         } catch (LoginException e) {
-            return new Customer();
+            return null;
         }
     }
 
     public void setCustomer(Customer customer) {
         this.customerToRegister = customer;
+    }
+
+    public Customer getCustomerToRegister() {
+        return customerToRegister;
+    }
+
+    public void setCustomerToRegister(Customer customerToRegister) {
+        this.customerToRegister = customerToRegister;
     }
 
     public String getOldPassword() {
@@ -58,18 +69,25 @@ public class CustomerAccountBean implements Serializable {
         this.password = password;
     }
 
-    public void register() {
+    public void setRegistrationOutcome(String registrationOutcome) {
+        this.registrationOutcome = registrationOutcome;
+    }
+
+    public String register() {
         if ((customerToRegister != null) && (password != null)) {
             try {
                 bookstore.registerCustomer(customerToRegister, password);
                 loginBean.setUser(customerToRegister);
+                customerToRegister = null;
             } catch (BookstoreException ex) {
                 MessageFactory.error("registrationFailed");
             }
         }
+        return registrationOutcome;
     }
 
     public String change() {
+
         String returnValue = "success";
         if ((customerToRegister != null)) {
             try {
@@ -95,6 +113,10 @@ public class CustomerAccountBean implements Serializable {
                 oldPassword = null;
             }
         }
-        return returnValue;
+        if (nav.getHasOutcome() && returnValue != null) {
+            return nav.getOutcome();
+        } else {
+            return returnValue;
+        }
     }
 }

@@ -26,9 +26,8 @@
                     <h:outputText value="#{catalogBean.selectedBook.numberOfPages}"/>
                     <h:outputText value="#{lang.price}"/>
                     <h:outputText value="$ #{catalogBean.selectedBook.price}"/>
-                    <h:outputText value=" "/>
-                    <h:commandButton value="#{lang.actionAddtoBasket}" action="#{shoppingBasketBean.addBookToBasket(catalogBean.selectedBookInfo)}"/>
                 </h:panelGrid>
+                <h:link outcome="#{navigationBean.outcome}" value="#{lang.actionBack}" rendered="#{navigationBean.hasOutcome}"/>
             </h:form>
         </ui:define>
     </ui:composition>

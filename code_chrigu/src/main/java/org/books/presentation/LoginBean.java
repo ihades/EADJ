@@ -22,6 +22,9 @@ public class LoginBean implements Serializable {
     @Inject
     private Bookstore bookstore;
 
+    @Inject
+    private NavigationBean nav;
+
     private String username, password;
     private Customer customer = null;
 
@@ -45,7 +48,11 @@ public class LoginBean implements Serializable {
         try {
             bookstore.authenticateCustomer(username, password);
             customer = bookstore.findCustomer(username);
-            return "success";
+            if (nav.getHasOutcome()) {
+                return nav.getOutcome();
+            } else {
+                return "success";
+            }
         } catch (BookstoreException ex) {
             MessageFactory.error("loginFailed");
         }
