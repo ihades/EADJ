@@ -13,17 +13,22 @@
                 <h:panelGrid columns="2">
                     <h:panelGrid columns="2">
                         <h:outputLabel for="fulltext" value="#{lang.search}: "/>
-                        <h:inputText id="fulltext" value="#{catalogBean.keywords}" required="false"/>
+                        <h:inputText id="fulltext" value="#{catalogBean.keywords}" required="false">
+                            <!--<f:event type="preValidate" listener="#{catalogBean.autoComplete}"></f:event>--> 
+                            <f:ajax render="booksTable" event="keyup" listener="#{catalogBean.autoComplete}"></f:ajax>
+                        </h:inputText>
                     </h:panelGrid>
-                    <h:commandButton value="#{lang.actionSearch}" action="#{catalogBean.findBook()}"/>
+                    <h:commandButton value="#{lang.actionSearch}" action="#{catalogBean.findBook()}">
+                        
+                    </h:commandButton>
                 </h:panelGrid>
                 <p/>
-                <h:dataTable value="#{catalogBean.books}" var="book" rendered="#{not empty catalogBean.books}">
-                    <h:column>
+                <h:dataTable id="booksTable" value="#{catalogBean.books}" var="book">
+                    <h:column rendered="#{not empty catalogBean.books}">
                         <f:facet name="header">#{lang.bookTitle}</f:facet>
                         <h:commandLink value="#{book.title}" action="#{catalogBean.selectBook(book)}"/>
                     </h:column>
-                    <h:column>
+                    <h:column rendered="#{not empty catalogBean.books}">
                         <f:facet name="header">#{lang.price}</f:facet>
                         <h:outputText value="$ #{book.price}"/>
                     </h:column>
