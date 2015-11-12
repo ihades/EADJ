@@ -11,7 +11,12 @@
         </ui:define>
         <ui:define name="content">
             <h:form id="userDetails">
-                <book:outputUserDetails customer="#{customerAccountBean.customer}"/>
+                <book:outputUserDetails customer="#{customerAccountBean.customer}"
+                                        address="#{customerAccountBean.customer.address}"
+                                        creditCard="#{customerAccountBean.customer.creditCard}"/>
+                <book:widgetOrderManagement searchInput="#{orderBean.searchString}"
+                                            searchAction="#{orderBean.search()}"
+                                            searchResult="#{orderBean.orderInfo}"/>
                 <h:commandLink value="#{lang.linkChange}" action="userEditDetails">
                     <f:setPropertyActionListener target="#{navigationBean.outcome}" value="userDetails" />
                 </h:commandLink>

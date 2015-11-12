@@ -11,6 +11,8 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <cc:interface>
         <cc:attribute name="customer" required="true"/>
+        <cc:attribute name="address" required ="true"/>
+        <cc:attribute name="creditCard" required ="true"/>
     </cc:interface>
     <cc:implementation>
         <h:panelGrid columns="2" rendered="#{not empty cc.attrs.customer}">
@@ -19,21 +21,21 @@ and open the template in the editor.
             <h:outputText value="#{lang.userEmail}"/>
             <h:outputText value="#{cc.attrs.customer.email}"/>
             <h:outputText value="#{lang.userAddress}"/>
-            <h:outputText value="#{cc.attrs.customer.address.street}"/>
+            <h:outputText value="#{cc.attrs.address.street}"/>
             <h:outputText value=""/>
-            <h:outputText value="#{cc.attrs.customer.address.city}"/>
+            <h:outputText value="#{cc.attrs.address.city}"/>
             <h:outputText value=""/>
-            <h:outputText value="#{cc.attrs.customer.address.postalCode}"/>
+            <h:outputText value="#{cc.attrs.address.postalCode}"/>
             <h:outputText value=""/>
-            <h:outputText value="#{cc.attrs.customer.address.country}"/>
+            <h:outputText value="#{cc.attrs.address.country}"/>
             <h:outputText value="#{lang.userCreditCard}"/>
-            <h:outputText value="#{cc.attrs.customer.creditCard.type}"/>
+            <h:outputText value="#{cc.attrs.creditCard.type}"/>
             <h:outputText value=""/>
-            <h:outputText value="#{cc.attrs.customer.creditCard.number}">
+            <h:outputText value="#{cc.attrs.creditCard.number}">
                 <f:converter converterId="org.books.presentatio.CreditCardNumberConverter"/>
             </h:outputText>
             <h:outputText value=""/>
-            <h:outputText value="#{cc.attrs.customer.creditCard.expirationMonth} / #{cc.attrs.customer.creditCard.expirationYear}"/>
+            <h:outputText value="#{cc.attrs.creditCard.expirationMonth} / #{cc.attrs.creditCard.expirationYear}"/>
         </h:panelGrid>
     </cc:implementation>
 </html>

@@ -46,6 +46,9 @@ public class CustomerAccountBean implements Serializable {
     }
 
     public Customer getCustomerToRegister() {
+        if (customerToRegister == null) {
+            customerToRegister = new Customer();
+        }
         return customerToRegister;
     }
 
