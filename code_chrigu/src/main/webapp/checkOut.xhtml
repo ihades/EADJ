@@ -17,10 +17,6 @@
                 <h:commandLink value="#{lang.linkChange}" action="userEditDetails">
                     <f:setPropertyActionListener target="#{navigationBean.outcome}" value="checkOut" />
                 </h:commandLink>
-                &nbsp; | &nbsp;
-                <h:link value="#{lang.linkPasswordChange}" outcome="changePassword"/>
-                &nbsp; | &nbsp;
-                <h:commandLink value="#{lang.linkLogOut}" action="#{loginBean.logOut()}"/>
             </h:form>
             <h1><h:outputText value="#{lang.shoppingBasketOrderOverview}"></h:outputText></h1>
             <book:outputShoppingBasket shoppingBasket="#{shoppingBasketBean}" order="#{orderBean}"></book:outputShoppingBasket>

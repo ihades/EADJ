@@ -11,38 +11,41 @@
             <h:outputText class="heading" value="#{lang.headerEmptyShoppingBasket}" rendered="#{empty shoppingBasketBean.books}"/>
         </ui:define>
         <ui:define name="content">
-            <h:dataTable value="#{shoppingBasketBean.books}" var="basketEntry" rendered="#{not empty shoppingBasketBean.books}">
-                <h:column>
-                    <f:facet name="header">#{lang.bookTitle}</f:facet>
-                    <h:form id="bookLink">
-                        <h:commandLink value="#{basketEntry.book.title}" action="#{catalogBean.selectBook(basketEntry.book)}"/>
-                    </h:form>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{lang.price}</f:facet>
-                    <h:outputText value="$ #{basketEntry.book.price}"/>
-                    <f:facet name="footer">$ #{shoppingBasketBean.totalPrice}</f:facet>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{lang.count}</f:facet>
-                    <h:form id="changeCount">
+            <h:form id="changeCount">
+                <h:dataTable value="#{shoppingBasketBean.books}" var="basketEntry" rendered="#{not empty shoppingBasketBean.books}">
+                    <h:column>
+                        <f:facet name="header">#{lang.bookTitle}</f:facet>
+                        <h:form id="bookLink">
+                            <h:commandLink value="#{basketEntry.book.title}" action="#{catalogBean.selectBook(basketEntry.book)}"/>
+                        </h:form>
+                        <f:facet name="footer">
+                            <h:outputText  class="important" value="#{lang.totalPrice}"/>
+                        </f:facet>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{lang.price}</f:facet>
+                        <h:outputText value="$ #{basketEntry.book.price}"/>
+                        <f:facet name="footer">
+                            <h:outputText  class="important" value="$ #{shoppingBasketBean.totalPrice}"/>
+                        </f:facet>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{lang.count}</f:facet>
                         <h:inputText id="count" value="#{basketEntry.quantity}" size="3" style="width: 50px"
                                      required="true" p:type = "number"
                                      p:min = "1" p:max ="#{shoppingBasketBean.maxOrderPerBook}" p:required="required"
                                      p:oninvalid="setCustomValidity('#{lang.validateCountInput}')"
-                                     p:onchange="try{setCustomValidity('')}catch(e){}"
-                                     p:onBlur = "this.form.submit();"/>
-                    </h:form>
-                </h:column>
-                <h:column>
-                    <h:form id="removeBook">
+                                     p:onchange="try{setCustomValidity('')}catch(e){}"/>
+                    </h:column>
+                    <h:column>
                         <h:commandButton value="#{lang.actionRemoveFromBasket}" action="#{shoppingBasketBean.removeBookFromBasket(basketEntry)}"/>
-                    </h:form>
-                </h:column>
-                <h:column>
-                    <h:message for="count"></h:message>
-                </h:column>
-            </h:dataTable>
+                    </h:column>
+                    <h:column>
+                        <h:message for="count"></h:message>
+                    </h:column>
+                </h:dataTable>
+                <h:commandButton  value="#{lang.refresh}" type="submit" rendered="#{not empty shoppingBasketBean.books}"/>
+            </h:form>
         </ui:define>
     </ui:composition>
 </html>

@@ -7,6 +7,7 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <cc:interface>
         <cc:attribute name="customer" required="true"/>
@@ -26,7 +27,10 @@ and open the template in the editor.
             <h:message for="userAddressPostalCode" styleClass="error"/>
 
             <h:outputText value="#{lang.userAddressCountry}"/>
-            <h:inputText id="userAddressCountry" value="#{cc.attrs.customer.address.country}" required="true"/>
+            <h:selectOneMenu id="userAddressCountry" value="#{cc.attrs.customer.address.country}" required="true">
+                <f:selectItem itemValue=""/>
+                <f:selectItems value="#{localeHelper.countries}" />
+            </h:selectOneMenu>
             <h:message for="userAddressCountry" styleClass="error"/>
         </h:panelGrid>
     </cc:implementation>

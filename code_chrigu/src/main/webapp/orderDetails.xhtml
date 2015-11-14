@@ -7,7 +7,7 @@
       xmlns:book = "http://xmlns.jcp.org/jsf/composite/bookStore">
     <ui:composition template="template.xhtml">
         <ui:define name="header">
-            <h:outputText class="heading" value="#{lang.headerOrderDetails}"/>
+            <h:outputText class="heading" value="#{lang.headerOrderDetails} #{orderBean.selectedOrder.number}"/>
         </ui:define>
         <ui:define name="content">
             <h:form id="oderDetails">
@@ -25,6 +25,7 @@
                     <h:column>
                         <f:facet name="header">#{lang.price}</f:facet>
                         <h:outputText value="$ #{basketEntry.book.price}"/>
+                        <f:facet name="footer">#{basketEntry.amount}</f:facet>
                     </h:column>
                     <h:column>
                         <f:facet name="header">#{lang.count}</f:facet>

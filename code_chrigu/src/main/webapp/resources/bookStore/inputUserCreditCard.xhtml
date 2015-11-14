@@ -31,12 +31,14 @@ and open the template in the editor.
 
             <h:outputText value="#{lang.userCreditCardExpireDate}"/>
             <h:panelGroup>
-                <h:selectOneMenu id="userCreditCardExpirationMonth" value="#{cc.attrs.creditCard.expirationMonth}" required="true">
+                <h:selectOneMenu id="userCreditCardExpirationMonth" value="#{cc.attrs.creditCard.expirationMonth}"
+                                 required="true" requiredMessage="#{lang.creditCardMonthRequired}">
                     <f:selectItem itemValue=""/>
                     <f:selectItems value="#{creditCardHelper.expirationMonths}"/>
                 </h:selectOneMenu>
                 <h:outputText value="/"/>
-                <h:selectOneMenu id="userCreditCardExpirationYear" value="#{cc.attrs.creditCard.expirationYear}" required="true">
+                <h:selectOneMenu id="userCreditCardExpirationYear" value="#{cc.attrs.creditCard.expirationYear}"
+                                 required="true"  requiredMessage="#{lang.creditCardYearRequired}">
                     <f:selectItem itemValue=""/>
                     <f:selectItems value="#{creditCardHelper.expirationYears}"/>
                 </h:selectOneMenu>

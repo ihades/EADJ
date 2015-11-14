@@ -14,12 +14,12 @@
                     <h:panelGrid columns="2">
                         <h:outputLabel for="fulltext" value="#{lang.search}: "/>
                         <h:inputText id="fulltext" value="#{catalogBean.keywords}" required="false">
-                            <!--<f:event type="preValidate" listener="#{catalogBean.autoComplete}"></f:event>--> 
+                            <!--<f:event type="preValidate" listener="#{catalogBean.autoComplete}"></f:event>-->
                             <f:ajax render="booksTable" event="keyup" listener="#{catalogBean.autoComplete}"></f:ajax>
                         </h:inputText>
                     </h:panelGrid>
                     <h:commandButton value="#{lang.actionSearch}" action="#{catalogBean.findBook()}">
-                        
+
                     </h:commandButton>
                 </h:panelGrid>
                 <p/>
