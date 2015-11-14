@@ -17,7 +17,9 @@
                 <book:inputUserAddress customer="#{customerAccountBean.customerToRegister}"/>
                 <h:outputText class="subheading" value="#{lang.subHeaderCreditCard}"/>
                 <book:inputUserCreditCard creditCard="#{customerAccountBean.customerToRegister.creditCard}"/>
+                <p/>
                 <h:commandButton value="#{lang.actionSave}" action="#{customerAccountBean.register()}"/>
+                &nbsp;
                 <h:button value="#{lang.actionDiscard}" outcome="cancel"/>
             </h:form>
         </ui:define>

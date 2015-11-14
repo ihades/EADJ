@@ -16,6 +16,7 @@ import org.books.application.BookstoreException;
 import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
 import org.books.data.dto.OrderItemDTO;
+import org.books.data.entity.Order;
 import org.books.presentation.util.LoginException;
 import org.books.presentation.util.MessageFactory;
 
@@ -62,6 +63,21 @@ public class OrderBean implements Serializable {
     public String setSelectedOrder(OrderInfo selectedOrder) {
         this.selectedOrder = selectedOrder;
         return ORDER_DETAILS;
+    }
+
+    public String cancelOrder(OrderInfo order) {
+        try {
+            bookstore.cancelOrder(order.getNumber());
+        } catch (BookstoreException e) {
+            MessageFactory.error(e);
+        }
+        search();
+        return "userDetails";
+    }
+
+    public Boolean canCancelOrder(OrderInfo order) {
+        return ((order.getStatus() != Order.Status.canceled)
+                && (order.getStatus() != Order.Status.shipped));
     }
 
     public OrderDTO getSelectedOrder() {

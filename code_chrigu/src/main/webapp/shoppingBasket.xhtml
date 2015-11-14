@@ -16,7 +16,7 @@
                     <h:column>
                         <f:facet name="header">#{lang.bookTitle}</f:facet>
                         <h:form id="bookLink">
-                            <h:commandLink value="#{basketEntry.book.title}" action="#{catalogBean.selectBook(basketEntry.book)}"/>
+                            <h:outputText value="#{basketEntry.book.title}"/>
                         </h:form>
                         <f:facet name="footer">
                             <h:outputText  class="important" value="#{lang.totalPrice}"/>
@@ -44,6 +44,7 @@
                         <h:message for="count"></h:message>
                     </h:column>
                 </h:dataTable>
+                <p/>
                 <h:commandButton  value="#{lang.refresh}" type="submit" rendered="#{not empty shoppingBasketBean.books}"/>
             </h:form>
         </ui:define>

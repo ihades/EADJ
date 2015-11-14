@@ -31,7 +31,6 @@ public class CustomerAccountBean implements Serializable {
     private Customer customerToRegister = null;
     private String password;
     private String oldPassword;
-    private String registrationOutcome = "success";
 
     public Customer getCustomer() {
         try {
@@ -72,10 +71,6 @@ public class CustomerAccountBean implements Serializable {
         this.password = password;
     }
 
-    public void setRegistrationOutcome(String registrationOutcome) {
-        this.registrationOutcome = registrationOutcome;
-    }
-
     public String register() {
         if ((customerToRegister != null) && (password != null)) {
             try {
@@ -86,7 +81,7 @@ public class CustomerAccountBean implements Serializable {
                 MessageFactory.error("registrationFailed");
             }
         }
-        return registrationOutcome;
+        return nav.getOutcome();
     }
 
     public String change() {
@@ -120,6 +115,14 @@ public class CustomerAccountBean implements Serializable {
             return nav.getOutcome();
         } else {
             return returnValue;
+        }
+    }
+
+    public String cancel() {
+        if (nav.getHasOutcome()) {
+            return nav.getOutcome();
+        } else {
+            return "cancel";
         }
     }
 }

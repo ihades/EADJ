@@ -41,6 +41,11 @@ and open the template in the editor.
                     <f:facet name="header">#{lang.state}</f:facet>
                     <h:outputText value="#{order.status}"/>
                 </h:column>
+                <h:column>
+                    <h:commandButton value="#{lang.actionOrderCancel}" action="#{orderBean.cancelOrder(order)}"
+                                     rendered="#{orderBean.canCancelOrder(order)}">
+                    </h:commandButton>
+                </h:column>
             </h:dataTable>
         </h:panelGrid>
     </cc:implementation>

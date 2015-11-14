@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:book = "http://xmlns.jcp.org/jsf/composite/bookStore">
     <ui:composition template="template.xhtml">
         <ui:define name="header">
@@ -11,7 +12,10 @@
         <ui:define name="content">
             <h:form id="userDetails">
                 <book:inputLogin name="#{loginBean.username}" passwd="#{loginBean.password}" login="#{loginBean.logIn()}"/>
-                <h:link value="#{lang.linkCreateAccount}" outcome="userCreate"/>
+                <p/>
+                <h:commandLink value="#{lang.linkCreateAccount}" action="userCreate">
+                    <f:setPropertyActionListener target="#{navigationBean.outcome}" value="userDetails" />
+                </h:commandLink>
             </h:form>
         </ui:define>
     </ui:composition>

@@ -17,8 +17,10 @@
                 <book:inputUserAddress customer="#{customerAccountBean.customer}"/>
                 <h:outputText class="subheading" value="#{lang.subHeaderCreditCard}"/>
                 <book:inputUserCreditCard creditCard="#{customerAccountBean.customer.creditCard}"/>
+                <p/>
                 <h:commandButton value="#{lang.actionSave}" action="#{customerAccountBean.change()}"/>
-                <h:button value="#{lang.actionDiscard}" outcome="cancel"/>
+                &nbsp;
+                <h:button value="#{lang.actionDiscard}" outcome="#{customerAccountBean.cancel()}"/>
             </h:form>
         </ui:define>
     </ui:composition>

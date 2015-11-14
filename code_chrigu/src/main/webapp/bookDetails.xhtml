@@ -24,9 +24,12 @@
                     <h:outputText value="#{catalogBean.selectedBook.binding}"/>
                     <h:outputText value="#{lang.bookNumberofPages}"/>
                     <h:outputText value="#{catalogBean.selectedBook.numberOfPages}"/>
+                    <h:outputText value="#{lang.isbn}"/>
+                    <h:outputText value="#{catalogBean.selectedBook.isbn}"/>
                     <h:outputText value="#{lang.price}"/>
                     <h:outputText value="$ #{catalogBean.selectedBook.price}"/>
                 </h:panelGrid>
+                <p/>
                 <h:link outcome="#{navigationBean.outcome}" value="#{lang.actionBack}" rendered="#{navigationBean.hasOutcome}"/>
             </h:form>
         </ui:define>

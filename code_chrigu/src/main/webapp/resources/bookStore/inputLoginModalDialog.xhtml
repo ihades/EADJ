@@ -16,7 +16,9 @@
                     <h:inputText id="userEmail" value="#{cc.attrs.login.username}" required="true"/>
                     <h:outputText value="#{lang.userPassword}"/>
                     <h:inputSecret  id="userPassword" value="#{cc.attrs.login.password}" required="true"/>
-                    <b:commandButton value="#{lang.actionLogin}" action="#{loginBean.logIn()}"/>
+                    <b:commandButton value="#{lang.actionLogin}" action="#{loginBean.logIn()}">
+                        <f:setPropertyActionListener target="#{navigationBean.outcome}" value="checkOut" />
+                    </b:commandButton>
                 </h:panelGrid>
             </h:form>
             <f:facet name="footer">
