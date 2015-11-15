@@ -11,4 +11,11 @@
             </validator-id>
         </validator>
     </tag>
+    
+    <function>
+        <function-name>translate</function-name>
+        <function-class>org.books.presentation.util.EnumTranslator</function-class>
+        <function-signature>String getMessageKey(java.lang.Enum)</function-signature>
+    </function>
+    
 </facelet-taglib>

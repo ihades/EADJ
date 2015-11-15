@@ -16,13 +16,15 @@
                     <h:inputText id="userEmail" value="#{cc.attrs.login.username}" required="true"/>
                     <h:outputText value="#{lang.userPassword}"/>
                     <h:inputSecret  id="userPassword" value="#{cc.attrs.login.password}" required="true"/>
-                    <b:commandButton value="#{lang.actionLogin}" action="#{loginBean.logIn()}">
-                        <f:setPropertyActionListener target="#{navigationBean.outcome}" value="checkOut" />
+                    <b:commandButton value="#{lang.actionLogin}" action="#{loginBean.logIn()}" iconAwesome="send"/>
+                    <b:commandButton value="#{lang.linkCreateAccount}" action="userCreate.xhtml" iconAwesome="user-plus">
+                        <f:setPropertyActionListener target="#{navigationBean.outcome}" value="checkOut"/>
                     </b:commandButton>
                 </h:panelGrid>
             </h:form>
             <f:facet name="footer">
                 <b:button value="close" dismiss="modal" onclick="return false;"/>
+                
                 <!--<b:button value="Ok" look="primary" dismiss="modal" onclick="return false;"/>-->
             </f:facet>
         </b:modal>

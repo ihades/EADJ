@@ -8,7 +8,8 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:l="http://jsf.examples/book">
     <cc:interface>
         <cc:attribute name="searchInput" required="true"/>
         <cc:attribute name="searchResult" required="true"/>
@@ -39,7 +40,7 @@ and open the template in the editor.
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{lang.state}</f:facet>
-                    <h:outputText value="#{order.status}"/>
+                    <h:outputText value="#{status[l:translate(order.status)]}"/>
                 </h:column>
                 <h:column>
                     <h:commandButton value="#{lang.actionOrderCancel}" action="#{orderBean.cancelOrder(order)}"

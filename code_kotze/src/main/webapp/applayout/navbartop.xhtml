@@ -44,14 +44,11 @@
                             <f:setPropertyActionListener target="#{navigationBean.target}" value="order"></f:setPropertyActionListener>
                         </b:navCommandLink>
                         <b:navCommandLink action="#{navigationBean.lastTarget}" value="Pay" iconAwesome="credit-card" rendered="#{loginBean.userLoggedIn}">
-                            <!--<f:actionListener type="org.books.presentation.util.OrderActionListener"></f:actionListener>-->
-                            
+                            <!--<f:actionListener type="org.books.presentation.util.OrderActionListener"></f:actionListener>-->  
                         </b:navCommandLink>
-                        
-                        
                     </b:navbarLinks>
                 </b:navBar>
-                    </h:form>
+                </h:form>
             </b:column>
         </b:row>
         

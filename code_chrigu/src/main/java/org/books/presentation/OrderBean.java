@@ -28,7 +28,7 @@ import org.books.presentation.util.MessageFactory;
 @SessionScoped
 public class OrderBean implements Serializable {
 
-    private List<List<OrderItemDTO>> orderedBooks = new ArrayList<>();
+    private OrderInfo lastOrder;
 
     @Inject
     private ShoppingBasketBean shoppingBasketBean;
@@ -54,6 +54,10 @@ public class OrderBean implements Serializable {
 
     public List<OrderInfo> getOrderInfo() {
         return orderInfo;
+    }
+    
+    public OrderInfo getLastOrder() {
+        return lastOrder;
     }
 
     public void setOrderInfo(List<OrderInfo> OrderInfo) {
@@ -87,7 +91,7 @@ public class OrderBean implements Serializable {
             MessageFactory.error(e);
         }
         return null;
-    }
+    } 
 
     public String search() {
         try {
@@ -103,9 +107,11 @@ public class OrderBean implements Serializable {
 
     public String confirm() {
         try {
-            bookstore.placeOrder(loginBean.getCustomer().getEmail(), shoppingBasketBean.getBooks());
+            
+            lastOrder = bookstore.placeOrder(loginBean.getCustomer().getEmail(), shoppingBasketBean.getBooks());
+            lastOrder.setStatus(Order.Status.processing);
             shoppingBasketBean.getBooks().clear();
-            return "success";
+            return "orderOverviewConfirmation";
         } catch (BookstoreException ex) {
             MessageFactory.error("exceptionClassBookstoreException");
 

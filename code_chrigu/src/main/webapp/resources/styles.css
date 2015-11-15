@@ -60,19 +60,33 @@ td {
 }
 
 .errors {
-	
         color: #ff3333;
         font-weight: bold;
 }
-.navbar {
-       font-size: 16px;
+
+
+.navbar li a {
+    font-size: 16px;
     font-weight: 300;
-    text-transform: uppercase;
-    color: #c0c0c0;
+    /*text-transform: uppercase;*/
+    color: #3399ff;
     -webkit-transition: color 0.25s;
     -moz-transition: color 0.25s;
     -o-transition: color 0.25s;
-    transition: color 0.25s; 
+    transition: color 0.25s;
+    -moz-transform: scale(1.1);
+}
+
+.navbar li a:hover {
+    font-size: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #3399ff;
+    -webkit-transition: color 0.25s;
+    -moz-transition: color 0.25s;
+    -o-transition: color 0.25s;
+    transition: color 0.25s;
+    -moz-transform: scale(1.1);
 }
 
 
@@ -86,6 +100,7 @@ td {
     -moz-transition: color 0.25s;
     -o-transition: color 0.25s;
     transition: color 0.25s;
+    transform: scale(1.1);
 }
 .link-not-active {
     pointer-events : none;
