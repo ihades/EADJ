@@ -78,7 +78,7 @@ public class CustomerAccountBean implements Serializable {
                 loginBean.setUser(customerToRegister);
                 customerToRegister = null;
             } catch (BookstoreException ex) {
-                MessageFactory.error("registrationFailed");
+                MessageFactory.error(ex);
             }
         }
         return nav.getOutcome();
@@ -92,7 +92,7 @@ public class CustomerAccountBean implements Serializable {
                 bookstore.updateCustomer(customerToRegister);
                 loginBean.setUser(customerToRegister);
             } catch (BookstoreException ex) {
-                MessageFactory.error("registrationFailed");
+                MessageFactory.error(ex);
                 returnValue = null;
             } finally {
                 customerToRegister = null;
@@ -103,7 +103,10 @@ public class CustomerAccountBean implements Serializable {
                 Customer customer = loginBean.getCustomer();
                 bookstore.authenticateCustomer(customer.getEmail(), oldPassword);
                 bookstore.changePassword(customer.getEmail(), password);
-            } catch (BookstoreException | LoginException ex) {
+            } catch (BookstoreException ex) {
+                MessageFactory.error(ex);
+                returnValue = null;
+            } catch (LoginException ex) {
                 MessageFactory.error("passwordChangeFailed");
                 returnValue = null;
             } finally {

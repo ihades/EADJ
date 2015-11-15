@@ -57,7 +57,7 @@ public class LoginBean implements Serializable {
                 return "success";
             }
         } catch (BookstoreException ex) {
-            MessageFactory.error("loginFailed");
+            MessageFactory.error(ex);
         }
         return null;
     }

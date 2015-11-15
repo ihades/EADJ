@@ -6,6 +6,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.books.application.BookstoreException;
 
 /**
  * The class MessageFactory is used to create faces messages.
@@ -51,6 +52,10 @@ public class MessageFactory {
     }
 
     public static <T extends Throwable> void error(T exception, Object... params) {
-        error(exception.getClass(), params);
+        if (exception instanceof BookstoreException) {
+            error(((BookstoreException) exception).getCode().name(), params);
+        } else {
+            error(exception.getClass(), params);
+        }
     }
 }

@@ -102,7 +102,7 @@ public class OrderBean implements Serializable {
                 MessageFactory.error("noOrderFound");
             }
         } catch (BookstoreException ex) {
-            MessageFactory.error("noOrderFound");
+            MessageFactory.error(ex);
         } catch (LoginException ex) {
             MessageFactory.error("loginFailed");
         } catch (NumberFormatException e) {
@@ -117,11 +117,10 @@ public class OrderBean implements Serializable {
         try {
 
             lastOrder = bookstore.placeOrder(loginBean.getCustomer().getEmail(), shoppingBasketBean.getBooks());
-            lastOrder.setStatus(Order.Status.processing);
             shoppingBasketBean.getBooks().clear();
             return "orderOverviewConfirmation";
         } catch (BookstoreException ex) {
-            MessageFactory.error("exceptionClassBookstoreException");
+            MessageFactory.error(ex);
 
         } catch (LoginException ex) {
             MessageFactory.error("loginFailed");
