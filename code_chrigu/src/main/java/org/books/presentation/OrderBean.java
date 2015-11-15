@@ -51,6 +51,7 @@ public class OrderBean implements Serializable {
     }
 
     public List<OrderInfo> getOrderInfo() {
+        search();
         return orderInfo;
     }
 
@@ -94,9 +95,10 @@ public class OrderBean implements Serializable {
     public String search() {
         try {
             orderInfo = bookstore.searchOrders(loginBean.getCustomer().getEmail(), Integer.parseInt(searchString));
-            if ((Integer.parseInt(searchString) <= 1900) || (Integer.parseInt(searchString) >= 2120)) {
+            if ((searchString != null && !searchString.isEmpty())
+                    && ((Integer.parseInt(searchString) <= 1900) || (Integer.parseInt(searchString) >= 2120))) {
                 MessageFactory.error("noValidNumber");
-            } else if (orderInfo.isEmpty()) {
+            } else if (orderInfo.isEmpty() && !searchString.isEmpty()) {
                 MessageFactory.error("noOrderFound");
             }
         } catch (BookstoreException ex) {
@@ -104,7 +106,9 @@ public class OrderBean implements Serializable {
         } catch (LoginException ex) {
             MessageFactory.error("loginFailed");
         } catch (NumberFormatException e) {
-            MessageFactory.error("noValidNumber");
+            if (searchString != null && !searchString.isEmpty()) {
+                MessageFactory.error("noValidNumber");
+            }
         }
         return null;
     }

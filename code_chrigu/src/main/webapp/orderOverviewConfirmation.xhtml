@@ -10,11 +10,12 @@
     <ui:composition template="template.xhtml">
         <ui:define name="header">
             <h:outputText class="heading" value="#{lang.shoppingBasketOrderOverviewConfirmation}"/>
+            <f:event listener="#{loginBean.isLoggedIn}" type="preRenderView" />
         </ui:define>
         <ui:define name="content">
-            
+
             <h:outputText class="info" value="#{lang.thanksForYourOrder}"></h:outputText>
-            
+
             <h:panelGrid columns="2">
                 <h:column>
                     #{lang.numberOnly}
@@ -36,7 +37,7 @@
                 <h:column>
                     <b:iconAwesome name="dollar"></b:iconAwesome>
                     <h:outputText value="#{orderBean.lastOrder.amount}">
-                        
+
                     </h:outputText>
                 </h:column>
                 <h:column>
@@ -45,15 +46,15 @@
                 <h:column>
                     <h:outputText value="#{status[l:translate(orderBean.lastOrder.status)]}"/>
                 </h:column>
-                
+
             </h:panelGrid>
-            
+
             <h:form id="orderOverviewConfirmation">
-                
+
             </h:form>
-            
+
             <h:link outcome="catalogSearch" value="Start"></h:link>
-            
+
         </ui:define>
     </ui:composition>
 </html>

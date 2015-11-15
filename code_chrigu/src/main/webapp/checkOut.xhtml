@@ -8,6 +8,7 @@
     <ui:composition template="template.xhtml">
         <ui:define name="header">
             <h:outputText class="heading" value="#{lang.shoppingBasketPay}"/>
+            <f:event listener="#{loginBean.isLoggedIn}" type="preRenderView" />
         </ui:define>
         <ui:define name="content">
             <h:form id="userDetails">

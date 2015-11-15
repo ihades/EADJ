@@ -8,6 +8,9 @@ package org.books.presentation;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import javax.faces.application.ConfigurableNavigationHandler;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
@@ -77,5 +80,16 @@ public class LoginBean implements Serializable {
 
     protected void setUser(Customer customerToRegister) {
         this.customer = customerToRegister;
+    }
+
+    public void isLoggedIn(ComponentSystemEvent event) {
+        if (customer == null) {
+
+            ConfigurableNavigationHandler navHandler
+                    = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance()
+                    .getApplication().getNavigationHandler();
+
+            navHandler.performNavigation("userLogin");
+        }
     }
 }
