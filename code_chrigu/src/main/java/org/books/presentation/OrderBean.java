@@ -28,8 +28,6 @@ import org.books.presentation.util.MessageFactory;
 @SessionScoped
 public class OrderBean implements Serializable {
 
-    private List<List<OrderItemDTO>> orderedBooks = new ArrayList<>();
-
     @Inject
     private ShoppingBasketBean shoppingBasketBean;
 
@@ -92,11 +90,17 @@ public class OrderBean implements Serializable {
     public String search() {
         try {
             orderInfo = bookstore.searchOrders(loginBean.getCustomer().getEmail(), Integer.parseInt(searchString));
+            if ((Integer.parseInt(searchString) <= 1900) || (Integer.parseInt(searchString) >= 2120)) {
+                MessageFactory.error("noValidNumber");
+            } else if (orderInfo.isEmpty()) {
+                MessageFactory.error("noOrderFound");
+            }
         } catch (BookstoreException ex) {
-            MessageFactory.error("exceptionClassBookstoreException");
-
+            MessageFactory.error("noOrderFound");
         } catch (LoginException ex) {
             MessageFactory.error("loginFailed");
+        } catch (NumberFormatException e) {
+            MessageFactory.error("noValidNumber");
         }
         return null;
     }

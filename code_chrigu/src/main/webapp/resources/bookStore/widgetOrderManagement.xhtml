@@ -19,7 +19,9 @@ and open the template in the editor.
             <h:outputText class="subheading" value="#{lang.orders}: "/>
             <h:panelGrid columns="3">
                 <h:outputText value="#{lang.jear}: "/>
-                <h:inputText id="fulltext" value="#{cc.attrs.searchInput}" required="false"/>
+                <h:inputText id="fulltext" value="#{cc.attrs.searchInput}" required="false" validatorMessage="#{lang.errorValidYear}">
+                    <f:validateLongRange minimum="1900" maximum="2120"/>
+                </h:inputText>
                 <h:commandButton value="#{lang.actionSearch}" action="#{cc.attrs.searchAction}"/>
             </h:panelGrid>
             <h:dataTable id="booksTable" value="#{cc.attrs.searchResult}" var="order" rendered = "#{not empty cc.attrs.searchResult}">
@@ -47,6 +49,7 @@ and open the template in the editor.
                     </h:commandButton>
                 </h:column>
             </h:dataTable>
+            <h:message for="fulltext" styleClass="error"/>
         </h:panelGrid>
     </cc:implementation>
 </html>

@@ -14,13 +14,12 @@
                 <book:outputUserDetails customer="#{customerAccountBean.customer}"
                                         address="#{customerAccountBean.customer.address}"
                                         creditCard="#{customerAccountBean.customer.creditCard}"/>
-                <h:commandLink value="#{lang.linkChange}" action="userEditDetails">
+                <h:commandButton value="#{lang.linkChange}" action="userEditDetails">
                     <f:setPropertyActionListener target="#{navigationBean.outcome}" value="checkOut" />
-                </h:commandLink>
+                </h:commandButton>
             </h:form>
-            <h1><h:outputText value="#{lang.shoppingBasketOrderOverview}"></h:outputText></h1>
+            <h:outputText class="subheading" value="#{lang.shoppingBasketOrderOverview}"></h:outputText>
             <book:outputShoppingBasket shoppingBasket="#{shoppingBasketBean}" order="#{orderBean}"></book:outputShoppingBasket>
-
         </ui:define>
     </ui:composition>
 </html>

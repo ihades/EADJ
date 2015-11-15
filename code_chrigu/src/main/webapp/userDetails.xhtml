@@ -16,13 +16,13 @@
                                         creditCard="#{customerAccountBean.customer.creditCard}"/>
 
                 <p/>
-                <h:commandLink value="#{lang.linkChange}" action="userEditDetails">
+                <h:commandLink value="#{lang.linkChange}" action="userEditDetails" immediate="true">
                     <f:setPropertyActionListener target="#{navigationBean.outcome}" value="userDetails" />
                 </h:commandLink>
                 &nbsp; | &nbsp;
                 <h:link value="#{lang.linkPasswordChange}" outcome="changePassword"/>
                 &nbsp; | &nbsp;
-                <h:commandLink value="#{lang.linkLogOut}" action="#{loginBean.logOut()}"/>
+                <h:commandLink value="#{lang.linkLogOut}" action="#{loginBean.logOut()}" immediate="true"/>
                 <book:widgetOrderManagement searchInput="#{orderBean.searchString}"
                                             searchAction="#{orderBean.search()}"
                                             searchResult="#{orderBean.orderInfo}"/>
