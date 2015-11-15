@@ -13,6 +13,10 @@
             <base-name>bundles.texts</base-name>
             <var>lang</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>bundles.statusTranslator</base-name>
+            <var>status</var>
+        </resource-bundle>
         <message-bundle>bundles.messages</message-bundle>
     </application>
 

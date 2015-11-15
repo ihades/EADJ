@@ -6,7 +6,6 @@
 package org.books.presentation;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -15,7 +14,6 @@ import org.books.application.Bookstore;
 import org.books.application.BookstoreException;
 import org.books.data.dto.OrderDTO;
 import org.books.data.dto.OrderInfo;
-import org.books.data.dto.OrderItemDTO;
 import org.books.data.entity.Order;
 import org.books.presentation.util.LoginException;
 import org.books.presentation.util.MessageFactory;
@@ -27,6 +25,8 @@ import org.books.presentation.util.MessageFactory;
 @Named("orderBean")
 @SessionScoped
 public class OrderBean implements Serializable {
+
+    private OrderInfo lastOrder;
 
     @Inject
     private ShoppingBasketBean shoppingBasketBean;
@@ -52,6 +52,10 @@ public class OrderBean implements Serializable {
 
     public List<OrderInfo> getOrderInfo() {
         return orderInfo;
+    }
+
+    public OrderInfo getLastOrder() {
+        return lastOrder;
     }
 
     public void setOrderInfo(List<OrderInfo> OrderInfo) {
@@ -107,9 +111,11 @@ public class OrderBean implements Serializable {
 
     public String confirm() {
         try {
-            bookstore.placeOrder(loginBean.getCustomer().getEmail(), shoppingBasketBean.getBooks());
+
+            lastOrder = bookstore.placeOrder(loginBean.getCustomer().getEmail(), shoppingBasketBean.getBooks());
+            lastOrder.setStatus(Order.Status.processing);
             shoppingBasketBean.getBooks().clear();
-            return "success";
+            return "orderOverviewConfirmation";
         } catch (BookstoreException ex) {
             MessageFactory.error("exceptionClassBookstoreException");
 
