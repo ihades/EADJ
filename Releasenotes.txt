@@ -1,0 +1,53 @@
+English:
+
+Catalog is a project that is to be realized in the CAS module EADJ (Enterprise Application Development with JEE) at the Berne University of Applied Sciences.
+It is an online bookstore that is realized by the means of JEE technology and standards.
+
+Releasedate: 2015-10-15
+System Requirements: JEE standards compliant application server (tested and developed on Glassfish 4 Application Server (Win, OSX)).
+Features:
+Account management (with order overview).
+Book search (AJAX).
+Shopping basket (editable).
+Payment (with payment functionality).
+Capability to globally translate bean enum values in JSF views.
+Bootsfaces integration (Bootstrap for JSF).
+Most of the components are reusable (composite components).
+Navigation handling to control navigation from intermediate views (i.e. redirection to login view prior to navigating to account management) to original targets.
+Integration of stable third party bookstore API from Mr. Fischli.
+Registration form is thoroughly validated.
+Functionality is adapted from distsys.ch:8080/books, but own styles have been applied in order to learn CSS, bootstrap and web a little bit of webdesign.
+Every user facing string is translatable and translated (I18N).
+
+Bugs:
+-CreditCardNumberValidator does not work on OSX with Mojarra 2.2.0. 2.2.7 works but breaks bootsfaces.
+-Chrome in Windows shows a warning on catalogSearch.xhtml when searching books. Might be the case that the separation between AJAX and native HTTP-POST is not done properly.
+
+
+Deutsch:
+
+Veröffentlichungsdatum: 2015-10-15
+Systemanforderungen: JEE-standard-kompatibler Anwendungsserver (getestet und entwickelt auf Glassfish 4 Application Server (Win, OSX)).
+
+Catalog ist eine Schulprojekt im CAS-Modul EADJ (Enterprise Application Development with JEE) an der Berner Fachhochschule.
+Es ist ein Online-Buchladen der mit JEE-Technologie und den dazugehörigen Standards realisiert wird.
+
+Funktionen:
+Konto-Management (mit Bestellübersicht)
+Buchsuche (AJAX).
+Warenkorb (mit Editierfunktion).
+Kasse (mit Bezahlfunktion).
+Globaler Bean-Enum-Übersetzer in JSF.
+Bootsfacesintegration (Bootstrap für JSF).
+Die meisten Komponenten sind wiederverwendbar (Composite Components).
+Navigationssteuerung ermöglicht das Umleiten von zwischengelagerten Seiten (Umleitung nach Login vor Konto-Management) auf die Zielseite.
+Integration der externen API von Herr Fischli.
+Registrierungsformular wird gründlich validiert.
+Funktionalität wurde von distsys.ch:8080/books übernommen. Es wurden jedoch eigene Styles verwendet um CSS, bootstrap und etwas Webdesign zu lernen.
+Alle sichtspezifischen Strings sind übersetzbar und übersetzt (I18N).
+
+Bugs:
+-CreditCardNumberValidator funktioniert nicht unter OSX mit Mojarra 2.2.0. 2.2.7 funktioniert, aber die Bootsfaces-Integration dafür nicht.
+
+-In Chrome unter Windows kommt eine Warnmeldung bei catalogsearch.xhtml, die sich auf das Suchform bezieht. Wahrscheinlich muss dort zwischen AJAX und nativem HTTP-POST besser unterschieden werden.
+

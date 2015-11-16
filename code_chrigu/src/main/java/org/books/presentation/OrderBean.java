@@ -115,13 +115,11 @@ public class OrderBean implements Serializable {
 
     public String confirm() {
         try {
-
             lastOrder = bookstore.placeOrder(loginBean.getCustomer().getEmail(), shoppingBasketBean.getBooks());
             shoppingBasketBean.getBooks().clear();
             return "orderOverviewConfirmation";
         } catch (BookstoreException ex) {
             MessageFactory.error(ex);
-
         } catch (LoginException ex) {
             MessageFactory.error("loginFailed");
         }
