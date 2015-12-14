@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<customers>
+	<customer>
+		<firstName>Alice</firstName>
+		<lastName>Smith</lastName>
+		<email>alice@example.org</email>
+		<password>alice</password>
+		<address>
+			<street>123 Maple Street</street>
+			<city>Mill Valley</city>
+			<postalCode>CA 90952</postalCode>
+			<country>US</country>
+		</address>
+		<creditCard>
+			<type>MasterCard</type>
+			<number>5400000000000005</number>
+			<expirationMonth>01</expirationMonth>
+			<expirationYear>2018</expirationYear>
+		</creditCard>
+	</customer>
+</customers>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="4" failures="2" name="org.books.persistence.BookDaoTest" time="26.874" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_40\jre\bin"/>
+    <property name="java.vm.version" value="25.40-b25"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=";"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="CH"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="test" value="org.books.persistence.BookDaoTest"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="E:\Dokumente\GIT\EADJ_git\code\bookstore-persist"/>
+    <property name="java.runtime.version" value="1.8.0_40-b26"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.8.0_40\jre\lib\endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\cb\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 8.1"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans 8.0.2\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="classworlds.conf" value="C:\Program Files\NetBeans 8.0.2\java\maven\bin\m2.conf"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_40\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\MiKTeX 2.9\miktex\bin\x64\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Java\jdk1.8.0_40\bin;C:\Program Files\NetBeans 8.0.2\java\maven\bin;."/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="52.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="6.3"/>
+    <property name="jpda.listen" value="true"/>
+    <property name="jpda.address" value="60943"/>
+    <property name="user.home" value="C:\Users\cb"/>
+    <property name="user.timezone" value="Europe/Berlin"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="user.name" value="cb"/>
+    <property name="java.class.path" value="C:\Program Files\NetBeans 8.0.2\java\maven\boot\plexus-classworlds-2.4.jar"/>
+    <property name="maven.surefire.debug" value="-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=60943"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_40\jre"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dtest=org.books.persistence.BookDaoTest -DforkMode=once -Dmaven.surefire.debug=-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=60943 -Djpda.listen=true -Djpda.address=60943 -Dmaven.ext.class.path=C:\Program Files\NetBeans 8.0.2\java\maven-nblib\netbeans-eventspy.jar -Dfile.encoding=UTF-8 surefire:test"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="de"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.8.0_40"/>
+    <property name="java.ext.dirs" value="C:\Program Files\Java\jdk1.8.0_40\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext"/>
+    <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.8.0_40\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_40\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_40\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_40\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_40\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_40\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_40\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_40\jre\classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="C:\Program Files\NetBeans 8.0.2\java\maven"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="forkMode" value="once"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase classname="org.books.persistence.BookDaoTest" name="testSearchByKeywords" time="0.068">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:92)
+	at org.junit.Assert.assertTrue(Assert.java:43)
+	at org.junit.Assert.assertTrue(Assert.java:54)
+	at org.books.persistence.BookDaoTest.testSearchByKeywords(BookDaoTest.java:32)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:30)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:53)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:123)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:104)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:164)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:110)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
+</failure>
+    <system-out>[EL Config]: metadata: 2015-12-14 21:45:41.751--ServerSession(1221027335)--Thread(Thread[main,5,main])--The access type for the persistent class [class org.books.persistence.entity.IdentifiableObject] is set to [FIELD].
+[EL Config]: metadata: 2015-12-14 21:45:41.765--ServerSession(1221027335)--Thread(Thread[main,5,main])--The access type for the persistent class [class org.books.persistence.entity.Order] is set to [FIELD].
+[EL Config]: metadata: 2015-12-14 21:45:41.778--ServerSession(1221027335)--Thread(Thread[main,5,main])--The target entity (reference) class for the one to many mapping element [field items] is being defaulted to: class org.books.persistence.entity.OrderItem.
+[EL Config]: metadata: 2015-12-14 21:45:41.78--ServerSession(1221027335)--Thread(Thread[main,5,main])--The target entity (reference) class for the many to one mapping element [field customer] is being defaulted to: class org.books.persistence.entity.Customer.
+[EL Config]: metadata: 2015-12-14 21:45:41.781--ServerSession(1221027335)--Thread(Thread[main,5,main])--The access type for the persistent class [class org.books.persistence.entity.Book] is set to [FIELD].
+[EL Config]: metadata: 2015-12-14 21:45:41.783--ServerSession(1221027335)--Thread(Thread[main,5,main])--The access type for the persistent class [class org.books.persistence.entity.Customer] is set to [FIELD].
+[EL Config]: metadata: 2015-12-14 21:45:41.784--ServerSession(1221027335)--Thread(Thread[main,5,main])--The access type for the persistent class [class org.books.persistence.entity.OrderItem] is set to [FIELD].
+[EL Config]: metadata: 2015-12-14 21:45:41.784--ServerSession(1221027335)--Thread(Thread[main,5,main])--The target entity (reference) class for the many to one mapping element [field book] is being defaulted to: class org.books.persistence.entity.Book.
+[EL Config]: metadata: 2015-12-14 21:45:41.785--ServerSession(1221027335)--Thread(Thread[main,5,main])--The access type for the persistent class [class org.books.persistence.entity.Login] is set to [FIELD].
+[EL Config]: metadata: 2015-12-14 21:45:41.785--ServerSession(1221027335)--Thread(Thread[main,5,main])--The access type for the persistent class [class org.books.persistence.entity.CreditCard] is set to [FIELD].
+[EL Config]: metadata: 2015-12-14 21:45:41.787--ServerSession(1221027335)--Thread(Thread[main,5,main])--The access type for the persistent class [class org.books.persistence.entity.Address] is set to [FIELD].
+[EL Config]: metadata: 2015-12-14 21:45:41.791--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [id] is being defaulted to: ID.
+[EL Config]: metadata: 2015-12-14 21:45:41.792--ServerSession(1221027335)--Thread(Thread[main,5,main])--The alias name for the entity class [class org.books.persistence.entity.Order] is being defaulted to: Order.
+[EL Config]: metadata: 2015-12-14 21:45:41.807--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [amount] is being defaulted to: AMOUNT.
+[EL Config]: metadata: 2015-12-14 21:45:41.808--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [country] is being defaulted to: COUNTRY.
+[EL Config]: metadata: 2015-12-14 21:45:41.809--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [city] is being defaulted to: CITY.
+[EL Config]: metadata: 2015-12-14 21:45:41.809--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [street] is being defaulted to: STREET.
+[EL Config]: metadata: 2015-12-14 21:45:41.809--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [postalCode] is being defaulted to: POSTALCODE.
+[EL Config]: metadata: 2015-12-14 21:45:41.81--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [id] is being defaulted to: ID.
+[EL Config]: metadata: 2015-12-14 21:45:41.811--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [expirationYear] is being defaulted to: EXPIRATIONYEAR.
+[EL Config]: metadata: 2015-12-14 21:45:41.811--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [number] is being defaulted to: NUMBER.
+[EL Config]: metadata: 2015-12-14 21:45:41.811--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [expirationMonth] is being defaulted to: EXPIRATIONMONTH.
+[EL Config]: metadata: 2015-12-14 21:45:41.812--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [type] is being defaulted to: TYPE.
+[EL Config]: metadata: 2015-12-14 21:45:41.814--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [status] is being defaulted to: STATUS.
+[EL Config]: metadata: 2015-12-14 21:45:41.815--ServerSession(1221027335)--Thread(Thread[main,5,main])--The alias name for the entity class [class org.books.persistence.entity.Book] is being defaulted to: Book.
+[EL Config]: metadata: 2015-12-14 21:45:41.816--ServerSession(1221027335)--Thread(Thread[main,5,main])--The table name for entity [class org.books.persistence.entity.Book] is being defaulted to: BOOK.
+[EL Config]: metadata: 2015-12-14 21:45:41.817--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [numberOfPages] is being defaulted to: NUMBEROFPAGES.
+[EL Config]: metadata: 2015-12-14 21:45:41.817--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [price] is being defaulted to: PRICE.
+[EL Config]: metadata: 2015-12-14 21:45:41.817--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [isbn] is being defaulted to: ISBN.
+[EL Config]: metadata: 2015-12-14 21:45:41.818--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [publisher] is being defaulted to: PUBLISHER.
+[EL Config]: metadata: 2015-12-14 21:45:41.818--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [publicationYear] is being defaulted to: PUBLICATIONYEAR.
+[EL Config]: metadata: 2015-12-14 21:45:41.818--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [binding] is being defaulted to: BINDING.
+[EL Config]: metadata: 2015-12-14 21:45:41.819--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [id] is being defaulted to: ID.
+[EL Config]: metadata: 2015-12-14 21:45:41.819--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [title] is being defaulted to: TITLE.
+[EL Config]: metadata: 2015-12-14 21:45:41.82--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [authors] is being defaulted to: AUTHORS.
+[EL Config]: metadata: 2015-12-14 21:45:41.82--ServerSession(1221027335)--Thread(Thread[main,5,main])--The alias name for the entity class [class org.books.persistence.entity.Customer] is being defaulted to: Customer.
+[EL Config]: metadata: 2015-12-14 21:45:41.82--ServerSession(1221027335)--Thread(Thread[main,5,main])--The table name for entity [class org.books.persistence.entity.Customer] is being defaulted to: CUSTOMER.
+[EL Config]: metadata: 2015-12-14 21:45:41.821--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [firstName] is being defaulted to: FIRSTNAME.
+[EL Config]: metadata: 2015-12-14 21:45:41.821--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [lastName] is being defaulted to: LASTNAME.
+[EL Config]: metadata: 2015-12-14 21:45:41.822--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [id] is being defaulted to: ID.
+[EL Config]: metadata: 2015-12-14 21:45:41.826--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [email] is being defaulted to: EMAIL.
+[EL Config]: metadata: 2015-12-14 21:45:41.827--ServerSession(1221027335)--Thread(Thread[main,5,main])--The alias name for the entity class [class org.books.persistence.entity.OrderItem] is being defaulted to: OrderItem.
+[EL Config]: metadata: 2015-12-14 21:45:41.829--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [amount] is being defaulted to: AMOUNT.
+[EL Config]: metadata: 2015-12-14 21:45:41.829--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [quantity] is being defaulted to: QUANTITY.
+[EL Config]: metadata: 2015-12-14 21:45:41.829--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [id] is being defaulted to: ID.
+[EL Config]: metadata: 2015-12-14 21:45:41.829--ServerSession(1221027335)--Thread(Thread[main,5,main])--The alias name for the entity class [class org.books.persistence.entity.Login] is being defaulted to: Login.
+[EL Config]: metadata: 2015-12-14 21:45:41.83--ServerSession(1221027335)--Thread(Thread[main,5,main])--The table name for entity [class org.books.persistence.entity.Login] is being defaulted to: LOGIN.
+[EL Config]: metadata: 2015-12-14 21:45:41.83--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [password] is being defaulted to: PASSWORD.
+[EL Config]: metadata: 2015-12-14 21:45:41.831--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [id] is being defaulted to: ID.
+[EL Config]: metadata: 2015-12-14 21:45:41.831--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [userName] is being defaulted to: USERNAME.
+[EL Config]: metadata: 2015-12-14 21:45:41.831--ServerSession(1221027335)--Thread(Thread[main,5,main])--The column name for element [groupname] is being defaulted to: GROUPNAME.
+[EL Config]: metadata: 2015-12-14 21:45:41.833--ServerSession(1221027335)--Thread(Thread[main,5,main])--The pk column value for the table generator named [general_sequence] defined on [field id] from [field id] is being defaulted to: general_sequence.
+[EL Config]: metadata: 2015-12-14 21:45:41.868--ServerSession(1221027335)--Thread(Thread[main,5,main])--The primary key column name for the mapping element [field items] is being defaulted to: ID.
+[EL Config]: metadata: 2015-12-14 21:45:41.877--ServerSession(1221027335)--Thread(Thread[main,5,main])--The primary key column name for the mapping element [field customer] is being defaulted to: ID.
+[EL Config]: metadata: 2015-12-14 21:45:41.878--ServerSession(1221027335)--Thread(Thread[main,5,main])--The primary key column name for the mapping element [field book] is being defaulted to: ID.
+[EL Info]: 2015-12-14 21:45:42.599--ServerSession(1221027335)--Thread(Thread[main,5,main])--EclipseLink, version: Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd
+[EL Fine]: connection: 2015-12-14 21:45:42.764--Thread(Thread[main,5,main])--Detected database platform: org.eclipse.persistence.platform.database.JavaDBPlatform
+[EL Config]: connection: 2015-12-14 21:45:42.775--ServerSession(1221027335)--Connection(1958375413)--Thread(Thread[main,5,main])--connecting(DatabaseLogin(
+	platform=&gt;JavaDBPlatform
+	user name=&gt; &quot;app&quot;
+	datasource URL=&gt; &quot;jdbc:derby://localhost:1527/bookstore&quot;
+))
+[EL Config]: connection: 2015-12-14 21:45:42.778--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--Connected: jdbc:derby://localhost:1527/bookstore
+	User: app
+	Database: Apache Derby  Version: 10.11.1.2 - (1629631)
+	Driver: Apache Derby Network Client JDBC Driver  Version: 10.11.1.1 - (1616546)
+[EL Info]: connection: 2015-12-14 21:45:42.885--ServerSession(1221027335)--Thread(Thread[main,5,main])--file:/E:/Dokumente/GIT/EADJ_git/code/bookstore-persist/target/classes/_test-bookstore login successful
+[EL Fine]: sql: 2015-12-14 21:45:42.903--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--ALTER TABLE ORDERITEM DROP CONSTRAINT ORDERITEM_ORDER_ID
+[EL Fine]: sql: 2015-12-14 21:45:42.924--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--ALTER TABLE ORDERITEM DROP CONSTRAINT ORDERITEM_bookId
+[EL Fine]: sql: 2015-12-14 21:45:42.935--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--ALTER TABLE BOOKORDER DROP CONSTRAINT BOKORDERCUSTOMERID
+[EL Fine]: sql: 2015-12-14 21:45:42.945--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--DROP TABLE LOGIN
+[EL Fine]: sql: 2015-12-14 21:45:42.966--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--DROP TABLE CUSTOMER
+[EL Fine]: sql: 2015-12-14 21:45:42.993--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--DROP TABLE BOOK
+[EL Fine]: sql: 2015-12-14 21:45:43.026--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--DROP TABLE ORDERITEM
+[EL Fine]: sql: 2015-12-14 21:45:43.04--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--DROP TABLE BOOKORDER
+[EL Fine]: sql: 2015-12-14 21:45:43.081--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--DELETE FROM GENERAL_SEQUENCE WHERE SEQ_NAME = general_sequence
+[EL Fine]: sql: 2015-12-14 21:45:43.092--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--CREATE TABLE LOGIN (ID BIGINT NOT NULL, GROUPNAME VARCHAR(255), PASSWORD VARCHAR(255) NOT NULL, USERNAME VARCHAR(255) NOT NULL UNIQUE, PRIMARY KEY (ID))
+[EL Fine]: sql: 2015-12-14 21:45:43.111--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--CREATE TABLE CUSTOMER (ID BIGINT NOT NULL, EMAIL VARCHAR(255) NOT NULL UNIQUE, FIRSTNAME VARCHAR(255) NOT NULL, LASTNAME VARCHAR(255) NOT NULL, CITY VARCHAR(255) NOT NULL, COUNTRY VARCHAR(255) NOT NULL, POSTALCODE VARCHAR(255) NOT NULL, STREET VARCHAR(255) NOT NULL, EXPIRATIONMONTH INTEGER NOT NULL, EXPIRATIONYEAR INTEGER NOT NULL, NUMBER VARCHAR(255) NOT NULL, TYPE VARCHAR(255) NOT NULL, PRIMARY KEY (ID))
+[EL Fine]: sql: 2015-12-14 21:45:43.131--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--CREATE TABLE BOOK (ID BIGINT NOT NULL, AUTHORS VARCHAR(255) NOT NULL, BINDING VARCHAR(255), ISBN VARCHAR(255) NOT NULL UNIQUE, NUMBEROFPAGES INTEGER NOT NULL, PRICE DECIMAL(7,2) NOT NULL, PUBLICATIONYEAR INTEGER NOT NULL, PUBLISHER VARCHAR(255) NOT NULL, TITLE VARCHAR(255) NOT NULL, PRIMARY KEY (ID))
+[EL Fine]: sql: 2015-12-14 21:45:43.151--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--CREATE TABLE ORDERITEM (ID BIGINT NOT NULL, AMOUNT DECIMAL(7,2) NOT NULL, QUANTITY INTEGER NOT NULL, bookId BIGINT NOT NULL, ORDER_ID BIGINT, PRIMARY KEY (ID))
+[EL Fine]: sql: 2015-12-14 21:45:43.164--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--CREATE TABLE BOOKORDER (ID BIGINT NOT NULL, AMOUNT DECIMAL(7,2) NOT NULL, ORDER_DATE TIMESTAMP NOT NULL, ORDER_NUMBER VARCHAR(255) NOT NULL UNIQUE, STATUS VARCHAR(255) NOT NULL, CITY VARCHAR(255) NOT NULL, COUNTRY VARCHAR(255) NOT NULL, POSTALCODE VARCHAR(255) NOT NULL, STREET VARCHAR(255) NOT NULL, EXPIRATIONMONTH INTEGER NOT NULL, EXPIRATIONYEAR INTEGER NOT NULL, NUMBER VARCHAR(255) NOT NULL, TYPE VARCHAR(255) NOT NULL, CUSTOMER_ID BIGINT, PRIMARY KEY (ID))
+[EL Fine]: sql: 2015-12-14 21:45:43.178--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--ALTER TABLE ORDERITEM ADD CONSTRAINT ORDERITEM_ORDER_ID FOREIGN KEY (ORDER_ID) REFERENCES BOOKORDER (ID)
+[EL Fine]: sql: 2015-12-14 21:45:43.186--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--ALTER TABLE ORDERITEM ADD CONSTRAINT ORDERITEM_bookId FOREIGN KEY (bookId) REFERENCES BOOK (ID)
+[EL Fine]: sql: 2015-12-14 21:45:43.195--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--ALTER TABLE BOOKORDER ADD CONSTRAINT BOKORDERCUSTOMERID FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMER (ID)
+[EL Fine]: sql: 2015-12-14 21:45:43.204--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT * FROM GENERAL_SEQUENCE WHERE SEQ_NAME = general_sequence
+[EL Fine]: sql: 2015-12-14 21:45:43.205--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--INSERT INTO GENERAL_SEQUENCE(SEQ_NAME, SEQ_COUNT) values (general_sequence, 9999)
+[EL Fine]: sql: 2015-12-14 21:45:43.254--ClientSession(539322891)--Connection(962548461)--Thread(Thread[main,5,main])--DELETE FROM ORDERITEM
+[EL Fine]: sql: 2015-12-14 21:45:43.259--ClientSession(539322891)--Connection(962548461)--Thread(Thread[main,5,main])--DELETE FROM BOOK
+[EL Fine]: sql: 2015-12-14 21:45:43.263--ClientSession(539322891)--Connection(962548461)--Thread(Thread[main,5,main])--DELETE FROM BOOKORDER
+[EL Fine]: sql: 2015-12-14 21:45:43.266--ClientSession(539322891)--Connection(962548461)--Thread(Thread[main,5,main])--DELETE FROM CUSTOMER
+[EL Fine]: sql: 2015-12-14 21:45:43.269--ClientSession(539322891)--Connection(962548461)--Thread(Thread[main,5,main])--DELETE FROM LOGIN
+[EL Fine]: sql: 2015-12-14 21:45:43.558--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT ID, EMAIL, FIRSTNAME, LASTNAME, CITY, COUNTRY, POSTALCODE, STREET, EXPIRATIONMONTH, EXPIRATIONYEAR, NUMBER, TYPE FROM CUSTOMER WHERE (ID = ?)
+	bind =&gt; [42]
+[EL Fine]: sql: 2015-12-14 21:45:43.566--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT ID, EMAIL, FIRSTNAME, LASTNAME, CITY, COUNTRY, POSTALCODE, STREET, EXPIRATIONMONTH, EXPIRATIONYEAR, NUMBER, TYPE FROM CUSTOMER WHERE (ID = ?)
+	bind =&gt; [84]
+[EL Fine]: sql: 2015-12-14 21:45:43.626--ClientSession(539322891)--Connection(962548461)--Thread(Thread[main,5,main])--UPDATE GENERAL_SEQUENCE SET SEQ_COUNT = SEQ_COUNT + ? WHERE SEQ_NAME = ?
+	bind =&gt; [10, general_sequence]
+[EL Fine]: sql: 2015-12-14 21:45:43.627--ClientSession(539322891)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT SEQ_COUNT FROM GENERAL_SEQUENCE WHERE SEQ_NAME = ?
+	bind =&gt; [general_sequence]
+[EL Fine]: sql: 2015-12-14 21:45:43.632--ClientSession(539322891)--Connection(962548461)--Thread(Thread[main,5,main])--INSERT INTO BOOKORDER (ID, AMOUNT, ORDER_DATE, ORDER_NUMBER, STATUS, CITY, COUNTRY, POSTALCODE, STREET, EXPIRATIONMONTH, EXPIRATIONYEAR, NUMBER, TYPE, CUSTOMER_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	bind =&gt; [10001, 77.1, 2014-09-23 02:00:00.0, 3333-001, accepted, Verrebroek, Korea, South, 7245, P.O. Box 162, 3979 Aliquet Rd., 11, 2014, 5520341523175640, MasterCard, 84]
+[EL Fine]: sql: 2015-12-14 21:45:43.637--ClientSession(539322891)--Connection(962548461)--Thread(Thread[main,5,main])--INSERT INTO BOOKORDER (ID, AMOUNT, ORDER_DATE, ORDER_NUMBER, STATUS, CITY, COUNTRY, POSTALCODE, STREET, EXPIRATIONMONTH, EXPIRATIONYEAR, NUMBER, TYPE, CUSTOMER_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	bind =&gt; [10000, 28.15, 2014-09-23 02:00:00.0, 2222-001, accepted, Akola, Guinea-Bissau, 56968, Ap #266-8829 Ipsum Rd., 11, 2014, 5553826954946740, MasterCard, 42]
+[EL Fine]: sql: 2015-12-14 21:45:43.665--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT ID, AUTHORS, BINDING, ISBN, NUMBEROFPAGES, PRICE, PUBLICATIONYEAR, PUBLISHER, TITLE FROM BOOK WHERE (UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ? OR UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ?)
+	bind =&gt; [	, 	, %PROGRAMMIEREN%, 	, 	, %PHILIP%]
+[EL Fine]: sql: 2015-12-14 21:45:43.671--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT ID, AUTHORS, BINDING, ISBN, NUMBEROFPAGES, PRICE, PUBLICATIONYEAR, PUBLISHER, TITLE FROM BOOK WHERE UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ?
+	bind =&gt; [	, 	, %HABELITZ%]
+[EL Fine]: sql: 2015-12-14 21:45:43.676--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT ID, AUTHORS, BINDING, ISBN, NUMBEROFPAGES, PRICE, PUBLICATIONYEAR, PUBLISHER, TITLE FROM BOOK WHERE (UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ? OR UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ?)
+	bind =&gt; [	, 	, %INSEL%, 	, 	, %REILLY%]
+[EL Fine]: sql: 2015-12-14 21:45:43.681--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT ID, AUTHORS, BINDING, ISBN, NUMBEROFPAGES, PRICE, PUBLICATIONYEAR, PUBLISHER, TITLE FROM BOOK WHERE (UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ? OR UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ?)
+	bind =&gt; [	, 	, %GALILEO%, 	, 	, %REILLY%]
+[EL Fine]: sql: 2015-12-14 21:45:43.685--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT ID, AUTHORS, BINDING, ISBN, NUMBEROFPAGES, PRICE, PUBLICATIONYEAR, PUBLISHER, TITLE FROM BOOK WHERE UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ?
+	bind =&gt; [	, 	, %CKERMA%]
+[EL Fine]: sql: 2015-12-14 21:45:43.688--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT ID, AUTHORS, BINDING, ISBN, NUMBEROFPAGES, PRICE, PUBLICATIONYEAR, PUBLISHER, TITLE FROM BOOK WHERE (UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ? OR UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ?)
+	bind =&gt; [	, 	, %RUNGEN%, 	, 	, %ANSE%]
+</system-out>
+    <system-err>SLF4J: Failed to load class &quot;org.slf4j.impl.StaticLoggerBinder&quot;.
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+</system-err>
+  </testcase>
+  <testcase classname="org.books.persistence.BookDaoTest" name="testSearchConcatMatch" time="24.029">
+    <failure type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:92)
+	at org.junit.Assert.assertTrue(Assert.java:43)
+	at org.junit.Assert.assertTrue(Assert.java:54)
+	at org.books.persistence.BookDaoTest.testSearchConcatMatch(BookDaoTest.java:58)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:30)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:53)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:123)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:104)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:164)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:110)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
+</failure>
+    <system-out>[EL Fine]: sql: 2015-12-14 21:45:43.698--ServerSession(1221027335)--Connection(962548461)--Thread(Thread[main,5,main])--SELECT ID, AUTHORS, BINDING, ISBN, NUMBEROFPAGES, PRICE, PUBLICATIONYEAR, PUBLISHER, TITLE FROM BOOK WHERE (UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ? OR UCASE(VARCHAR(VARCHAR(VARCHAR(VARCHAR(TITLE || ?) || AUTHORS) || ?) || PUBLISHER)) LIKE ?)
+	bind =&gt; [	, 	, %HOLMES%, 	, 	, %LEARNING%]
+</system-out>
+  </testcase>
+  <testcase classname="org.books.persistence.BookDaoTest" name="testGetByIsbn" time="0.004"/>
+  <testcase classname="org.books.persistence.BookDaoTest" name="testLatest3Books" time="0.014"/>
+</testsuite>

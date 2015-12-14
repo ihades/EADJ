@@ -1,0 +1,133 @@
+* {
+	font-family: arial, helvetica, sans-serif;
+	font-size: small;
+}
+body {
+	background-color: #ffffff;
+}
+p {
+	margin-top: 15pt;
+}
+a {
+	color: #bd7e00;
+	text-decoration: none;
+        cursor: pointer;
+}
+table {
+    border-collapse: collapse;
+}
+th {
+	background-color: #dddddd;
+	font-weight: normal;
+	text-align: left;
+	padding: 2pt 10pt 2pt 0pt;
+}
+td {
+	vertical-align: top;
+	padding: 2pt 10pt 2pt 0pt;
+}
+
+.title {
+	display: block;
+	margin-top: 20pt;
+	font-size: xx-large;
+	font-weight: bold;
+	color: #697d91;
+}
+.heading {
+	display: block;
+	margin-top: 40pt;
+	margin-bottom: 20pt;
+	font-size: large;
+	font-weight: bold;
+	color: #697d91;
+}
+.subheading {
+	display: block;
+	margin-top: 20pt;
+	margin-bottom: 5pt;
+	font-weight: bold;
+	color: #697d91;
+}
+.important {
+	font-weight: bold;
+}
+.info {
+	color: #556455;
+}
+.error {
+        color: #645078;
+}
+
+.errors {
+        color: #ff3333;
+        font-weight: bold;
+}
+
+
+.navbar li a {
+    font-size: 16px;
+    font-weight: 300;
+    /*text-transform: uppercase;*/
+    color: #3399ff;
+    -webkit-transition: color 0.25s;
+    -moz-transition: color 0.25s;
+    -o-transition: color 0.25s;
+    transition: color 0.25s;
+    -moz-transform: scale(1.1);
+}
+
+.navbar li a:hover {
+    font-size: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #3399ff;
+    -webkit-transition: color 0.25s;
+    -moz-transition: color 0.25s;
+    -o-transition: color 0.25s;
+    transition: color 0.25s;
+    -moz-transform: scale(1.1);
+}
+
+
+
+.navbar-links a {
+    font-size: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #c0c0c0;
+    -webkit-transition: color 0.25s;
+    -moz-transition: color 0.25s;
+    -o-transition: color 0.25s;
+    transition: color 0.25s;
+    transform: scale(1.1);
+}
+.link-not-active {
+    pointer-events : none;
+}
+.link-active {
+    pointer-events: all;
+}
+a:link { /* Essentially means a[href], or that the link actually goes somewhere */
+  color: blue;
+}
+a:visited {
+  color: purple;
+}
+a:hover {
+  color: green;
+}
+a:active {
+  color: red;
+}
+
+.alert {
+    width : 40%;
+}
+.totalPrice {
+    font-weight: bold;
+}
+
+
+
+

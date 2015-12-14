@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:book="http://jsf.examples/book"
+      xmlns:bookStore="http://xmlns.jcp.org/jsf/composite/bookStore"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <bookStore:inputLoginModalDialog login="#{loginBean}"></bookStore:inputLoginModalDialog>
+
+    <h:head>
+        <title>#{lang.templateTitle}</title>
+        <h:outputStylesheet name="styles.css"/>
+    </h:head>
+    <h:body>
+        <b:container>
+            <b:row>
+                <b:column col-md="12">
+                    <h:panelGrid columns="1">
+                        <h:column>
+                            <h:panelGrid columns="1">
+
+                            <h:outputText class="title" value="#{lang.templateTitle}"/>
+                            <h:form id="mainMenu">
+                                <b:navBar>
+                                    <b:navbarLinks>
+                                        <b:navCommandLink outcome="catalogSearch" value="#{lang.linkCatalogSearch}" iconAwesome="search"></b:navCommandLink>
+                                        <b:navLink outcome="shoppingBasket" value="#{lang.linkShoppingBasket}" iconAwesome=" fa-shopping-cart"></b:navLink>
+                                        
+                                        <b:navCommandLink value="#{lang.linkCheckOut}" iconAwesome="credit-card" 
+                                                          action="checkOut.xhtml?faces-redirect=true"
+                                                          onclick="$('.modalPseudoClass').modal();return false;" 
+                                                          rendered="#{loginBean.userLoggedIn != true}" 
+                                                          tooltip="#{lang.loginNeeded}" 
+                                                          active="#{not empty shoppingBasketBean.books}"
+                                                          class="#{shoppingBasketBean.style}">
+                                        </b:navCommandLink>
+                                        <b:navCommandLink action="checkOut.xhtml?faces-redirect=true" value="#{lang.linkCheckOut}" 
+                                                          iconAwesome="credit-card" rendered="#{loginBean.userLoggedIn}"
+                                                           
+                                                          class="#{shoppingBasketBean.style}" >
+                                            <!--<f:actionListener type="org.books.presentation.util.OrderActionListener"></f:actionListener>-->  
+                                        </b:navCommandLink>
+
+                                        <b:navLink outcome="userDetails" value="Account" iconAwesome="user" rendered="#{loginBean.userLoggedIn}"></b:navLink>
+                                        <b:navLink outcome="userLogin" value="Account" iconAwesome="user" rendered="#{loginBean.userLoggedIn != true}"></b:navLink>
+
+                                    </b:navbarLinks>
+                                </b:navBar>                                 
+                            </h:form>
+    <ui:insert name="header">
+    <h:outputText class="heading" value="#{lang.templateTitle}"/>
+    </ui:insert>
+    <ui:insert name ="content">
+    </ui:insert>
+    <h:messages errorClass="errors" globalOnly="true" layout="table"/>
+    </h:panelGrid>
+
+                        </h:column>
+                    </h:panelGrid>
+                </b:column>
+            </b:row>
+
+
+
+
+
+
+        </b:container>
+
+
+
+
+
+
+
+    </h:body>
+</html>
+
