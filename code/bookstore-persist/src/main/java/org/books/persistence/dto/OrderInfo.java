@@ -7,7 +7,7 @@ import org.books.persistence.entity.Order;
 
 public class OrderInfo implements Serializable {
 
-    public static final String QUERY_ORDER_BY_CUSTOMER_AND_DATE = "org.books.persistence.OrderByCustomerAndDate";
+    public static final String QUERY_ORDER_BY_CUSTOMER_AND_DATE = "org.books.persistence.dto.OrderInfo.findByCustomerAndDate";
     public static final String QUERY_ORDER_BY_CUSTOMER_AND_DATE_PARAM_BEGIN = "begin";
     public static final String QUERY_ORDER_BY_CUSTOMER_AND_DATE_PARAM_END = "end";
     public static final String QUERY_ORDER_BY_CUSTOMER_AND_DATE_PARAM_CUSTOMER = "customer";

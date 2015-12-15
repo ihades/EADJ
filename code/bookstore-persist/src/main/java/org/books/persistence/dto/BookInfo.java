@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 public class BookInfo implements Serializable {
 
-    public static final String QUERY_BOOKS_BY_YEAR = "org.books.persistence.dao.BooksOrderedByPublicationYear";
+    public static final String QUERY_BOOKS_BY_YEAR = "org.books.persistence.dto.BookInfo.findByPublicationYear";
 
     private Long id;
     private String title;

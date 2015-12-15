@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class CustomerInfo implements Serializable {
 
-    public static final String CUSTOMER_FIND_BY_NAME_PART_QUERY = "org.books.persistence.CustomerByNamePart";
+    public static final String CUSTOMER_FIND_BY_NAME_PART_QUERY = "org.books.persistence.dto.CustomerInfo.findByNamePart";
     public transient static final String CUSTOMER_FIND_BY_NAME_PART_PARAM = "name";
 
     private Long id;

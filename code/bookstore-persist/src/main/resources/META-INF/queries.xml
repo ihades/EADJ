@@ -4,7 +4,7 @@
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd ">
 
 
-    <named-query name="org.books.persistence.dao.BooksOrderedByPublicationYear">
+    <named-query name="org.books.persistence.dto.BookInfo.findByPublicationYear">
         <query>
             SELECT new org.books.persistence.dto.BookInfo(b.id, b.title, b.isbn, b.price)
             FROM Book b
@@ -12,7 +12,7 @@
         </query>
     </named-query>
 
-    <named-query name="org.books.persistence.CustomerByNamePart">
+    <named-query name="org.books.persistence.dto.CustomerInfo.findByNamePart">
         <query>
             SELECT new org.books.persistence.dto.CustomerInfo(c.id, c.firstName, c.lastName, c.email)
             FROM Customer c
@@ -21,20 +21,12 @@
         </query>
     </named-query>
 
-    <named-query name="org.books.persistence.OrderByCustomerAndDate">
+    <named-query name="org.books.persistence.dto.OrderInfo.findByCustomerAndDate">
         <query>
             SELECT NEW org.books.persistence.dto.OrderInfo(o.id, o.number, o.date, o.amount, o.status)
             FROM Order o
             WHERE o.date BETWEEN :begin AND :end
             AND o.customer = :customer
-        </query>
-    </named-query>
-
-    <named-query name="org.books.persistence.LoginByUserName">
-        <query>
-            SELECT l
-            FROM Login l
-            WHERE UPPER(l.userName) = UPPER(:userName)
         </query>
     </named-query>
 
