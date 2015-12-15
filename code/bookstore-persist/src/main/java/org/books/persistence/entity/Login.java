@@ -2,12 +2,20 @@ package org.books.persistence.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
+@NamedQueries({
+    @NamedQuery(name = "Login.findByUserName", query = "SELECT l "
+            + "FROM Login l "
+            + "WHERE l.userName = :userName")
+})
 @Entity
 public class Login extends IdentifiableObject {
 
-    @Column(
-            nullable = false,
+    public transient static final String LOGIN_FIND_BY_USER_NAME = "userName";
+
+    @Column(nullable = false,
             unique = true)
     private String userName;
 

@@ -1,5 +1,6 @@
 package org.books.persistence.dao;
 
+import org.books.persistence.exception.NotExistException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.books.persistence.entity.IdentifiableObject;
@@ -27,7 +28,8 @@ public class GenericDao<T extends IdentifiableObject> {
         mgr.persist(entity);
     }
 
-    public T update(T entity) {
+    public T update(T entity) throws NotExistException {
+        ensureExistence(entity);
         return mgr.merge(entity);
     }
 
@@ -43,5 +45,11 @@ public class GenericDao<T extends IdentifiableObject> {
 
     protected EntityManager getEM() {
         return mgr;
+    }
+
+    private void ensureExistence(T entity) throws NotExistException {
+        if ((entity.getId() == null) || (mgr.find(type, entity.getId()) == null)) {
+            throw new NotExistException();
+        }
     }
 }

@@ -5,12 +5,11 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.books.persistence.dto.BookInfo;
 import org.books.persistence.entity.Book;
 import org.books.persistence.entity.Book_;
 
@@ -32,7 +31,7 @@ public class BookDao extends GenericDao<Book> {
                 .getSingleResult();
     }
 
-    public List<Book> searchByKeywords(List<String> keywords) {
+    public List<BookInfo> searchByKeywords(List<String> keywords) {
         CriteriaBuilder qb = getEM().getCriteriaBuilder();
         CriteriaQuery cq = qb.createQuery();
         Root<Book> book = cq.from(Book.class);
@@ -53,33 +52,14 @@ public class BookDao extends GenericDao<Book> {
                     }));
         }
         //query itself
-        cq.select(book).where(predicates.toArray(new Predicate[]{}));
+        cq.select(qb.construct(
+                BookInfo.class,
+                book.get(Book_.id),
+                book.get(Book_.title),
+                book.get(Book_.isbn),
+                book.get(Book_.price)))
+                .where(predicates.toArray(new Predicate[]{}));
 
         return getEM().createQuery(cq).getResultList();
-    }
-
-    /**
-     * Check all given books if they exists in our local database and add them
-     * if required.
-     *
-     * @param books List of books to check or add
-     */
-    public void checkAndAddBooks(List<Book> books) {
-
-        Book bookInDb;
-
-        for (Book book : books) {
-            try {
-                // Try to load the book by ISBN
-                bookInDb = this.getByIsbn(book.getIsbn());
-            } catch (NoResultException e) {
-                bookInDb = null;
-            }
-
-            // Nothing found? --> Insert
-            if (bookInDb == null) {
-                getEM().merge(book);
-            }
-        }
     }
 }

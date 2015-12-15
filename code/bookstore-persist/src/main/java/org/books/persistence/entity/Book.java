@@ -1,6 +1,7 @@
 package org.books.persistence.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.Digits;
 
 @NamedQueries({
     @NamedQuery(name = "Book.findByIsbn", query = "SELECT b "
@@ -128,7 +130,7 @@ public class Book extends IdentifiableObject {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override

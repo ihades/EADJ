@@ -1,10 +1,15 @@
 package org.books.persistence;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import org.books.persistence.testdata.AbstractTestBase;
 import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.RollbackException;
 import org.books.persistence.dao.BookDao;
+import org.books.persistence.dto.BookInfo;
 import org.books.persistence.entity.Book;
+import org.books.persistence.exception.NotExistException;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -18,6 +23,18 @@ public class BookDaoTest extends AbstractTestBase {
         assertEquals("The Java Language Specification (3rd Edition)", book.getTitle());
     }
 
+    @Test(expected = NoResultException.class)
+    public void testGetByUnknownIsbn() {
+        BookDao bookDao = new BookDao(getEm());
+        bookDao.getByIsbn("1234257890");
+    }
+
+    @Test(expected = NoResultException.class)
+    public void testGetByInvalidIsbn() {
+        BookDao bookDao = new BookDao(getEm());
+        bookDao.getByIsbn("asdds1234875üé");
+    }
+
     @Test
     public void testGetById() {
         BookDao bookDao = new BookDao(getEm());
@@ -29,12 +46,12 @@ public class BookDaoTest extends AbstractTestBase {
     @Test
     public void testNotValidSearch() {
         BookDao bookDao = new BookDao(getEm());
-        List<Book> result1 = searchByKeywords(bookDao, new String[]{"Programmieren", "Philip"});
-        List<Book> result2 = searchByKeywords(bookDao, new String[]{"Habelitz"});
-        List<Book> result3 = searchByKeywords(bookDao, new String[]{"Insel", "Reilly"});
-        List<Book> result4 = searchByKeywords(bookDao, new String[]{"Galileo", "Reilly"});
-        List<Book> result5 = searchByKeywords(bookDao, new String[]{"ckerma"});
-        List<Book> result = searchByKeywords(bookDao, new String[]{"Holmes", "Learning"});
+        List<BookInfo> result1 = searchByKeywords(bookDao, new String[]{"Programmieren", "Philip"});
+        List<BookInfo> result2 = searchByKeywords(bookDao, new String[]{"Habelitz"});
+        List<BookInfo> result3 = searchByKeywords(bookDao, new String[]{"Insel", "Reilly"});
+        List<BookInfo> result4 = searchByKeywords(bookDao, new String[]{"Galileo", "Reilly"});
+        List<BookInfo> result5 = searchByKeywords(bookDao, new String[]{"ckerma"});
+        List<BookInfo> result = searchByKeywords(bookDao, new String[]{"Holmes", "Learning"});
         assertTrue("Holmes and Learning is not occuring within the same Book", result.isEmpty());
         assertTrue("Size of \"Programmieren Philip\"", result1.isEmpty());
         assertTrue("Size of \"Habelitz\"", result2.isEmpty());
@@ -46,7 +63,7 @@ public class BookDaoTest extends AbstractTestBase {
     @Test
     public void testValidSearch() {
         BookDao bookDao = new BookDao(getEm());
-        List<Book> result = searchByKeywords(bookDao, new String[]{"Holmes", "Java"});
+        List<BookInfo> result = searchByKeywords(bookDao, new String[]{"Holmes", "Java"});
         assertEquals(1, result.size());
 
         result = searchByKeywords(bookDao, new String[]{"Pro", "W"});
@@ -65,7 +82,108 @@ public class BookDaoTest extends AbstractTestBase {
         assertEquals(2, result.size());
     }
 
-    public List<Book> searchByKeywords(BookDao bookDao, String[] keywords) {
+    @Test
+    public void updateBook() throws NotExistException {
+        BookDao bookDao = new BookDao(getEm());
+        Book book = bookDao.getById(9l);
+        assertNotNull(book);
+        assertNotSame("Globi", book.getAuthors());
+        book.setPrice(new BigDecimal(75.9));
+
+        try {
+            getEm().getTransaction().begin();
+            book.setAuthors("Globi");
+            bookDao.update(book);
+        } catch (RollbackException e) {
+            getEm().getTransaction().rollback();
+            getEm().clear();
+            throw e;
+        } finally {
+            getEm().getTransaction().commit();
+            getEm().clear();
+        }
+
+        book = bookDao.getById(9l);
+        assertEquals("Globi", book.getAuthors());
+    }
+
+    @Test(expected = RollbackException.class)
+    public void updateBookMaxPrice() throws NotExistException {
+        BookDao bookDao = new BookDao(getEm());
+        Book book = bookDao.getById(9l);
+        assertNotNull(book);
+        book.setPrice(new BigDecimal(75000000.9));
+
+        try {
+            getEm().getTransaction().begin();
+            book.setAuthors("Globi");
+            bookDao.update(book);
+        } catch (RollbackException e) {
+            getEm().getTransaction().rollback();
+            getEm().clear();
+            throw e;
+        } finally {
+            getEm().getTransaction().commit();
+            getEm().clear();
+        }
+    }
+
+    @Test(expected = NotExistException.class)
+    public void updateInexistingBook() throws NotExistException {
+        BookDao bookDao = new BookDao(getEm());
+        Book book = new Book();
+
+        book.setAuthors("Globi");
+        book.setBinding(Book.Binding.Unknown);
+        book.setIsbn("1234567890");
+        book.setNumberOfPages(42);
+        book.setPrice(new BigDecimal(75.9));
+        book.setPublicationYear(1984);
+        book.setPublisher("der Verlag");
+        book.setTitle("the Book");
+
+        try {
+            getEm().getTransaction().begin();
+            bookDao.update(book);
+        } catch (RollbackException e) {
+            getEm().getTransaction().rollback();
+            getEm().clear();
+            throw e;
+        } finally {
+            getEm().getTransaction().commit();
+            getEm().clear();
+        }
+    }
+
+    @Test
+    public void insertInexistingBook() throws NotExistException {
+        BookDao bookDao = new BookDao(getEm());
+        Book book = new Book();
+
+        book.setAuthors("Globi");
+        book.setBinding(Book.Binding.Unknown);
+        book.setIsbn("1234567890");
+        book.setNumberOfPages(42);
+        book.setPrice(new BigDecimal(75.9));
+        book.setPublicationYear(1984);
+        book.setPublisher("der Verlag");
+        book.setTitle("the Book");
+
+        try {
+            getEm().getTransaction().begin();
+            bookDao.create(book);
+        } catch (RollbackException e) {
+            getEm().getTransaction().rollback();
+            getEm().clear();
+            throw e;
+        } finally {
+            getEm().getTransaction().commit();
+            getEm().clear();
+        }
+
+    }
+
+    public List<BookInfo> searchByKeywords(BookDao bookDao, String[] keywords) {
         return bookDao.searchByKeywords(Arrays.asList(keywords));
     }
 
