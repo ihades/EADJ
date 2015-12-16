@@ -13,3 +13,7 @@ hs_err_pid*
 /code_chrigu/target/
 *.NavData
 code/bookstore-persist/target/
+/bookstore-template/bookstore-jpa/target/
+/bookstore-template/bookstore-ejb/target/
+/bookstore-template/bookstore-app/target/
+/bookstore-ear/nbproject/private/

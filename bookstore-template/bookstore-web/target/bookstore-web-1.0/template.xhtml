@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<h:head>
+		<title>#{texts.bookstore}</title>
+		<h:outputStylesheet name="styles.css"/>
+	</h:head>
+
+	<h:body>
+		<h:panelGrid columns="2">
+			<h:graphicImage name="books.jpg"/>
+			<h:panelGroup>
+				<h:outputText value="#{texts.bookstore}" styleClass="title"/>
+				<p/>
+				<ui:insert name="content"/>
+				<p/>
+				<h:messages globalOnly="true" layout="table" infoClass="info" warnClass="warning" errorClass="error"/>
+			</h:panelGroup>
+		</h:panelGrid>
+	</h:body>
+
+</html>
