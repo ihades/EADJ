@@ -9,7 +9,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.validation.constraints.Digits;
 
 @NamedQueries({
     @NamedQuery(name = "Book.findByIsbn", query = "SELECT b "
@@ -26,8 +25,7 @@ public class Book extends IdentifiableObject {
         Hardcover, Paperback, Unknown
     }
 
-    @Column(
-            unique = true,
+    @Column(unique = true,
             nullable = false)
     private String isbn;
 

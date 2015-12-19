@@ -15,15 +15,17 @@ public class OrderDaoTest extends AbstractTestBase {
 
     @Test
     public void testGetByNumber() {
-        Order result = new OrderDao(getEm()).getByNumber(OrderData.O_2222_001.number());
+        Order result = new OrderDao(getEm()).getByNumber(OrderData.ORDER_6.number());
         assertNotNull(result);
-        assertEquals(OrderData.O_2222_001.number(), result.getNumber());
+        assertEquals(OrderData.ORDER_6.number(), result.getNumber());
         assertEquals(new Long(42), result.getCustomer().getId());
+        assertEquals(2, result.getItems().size());
 
-        result = new OrderDao(getEm()).getByNumber(OrderData.O_3333_001.number());
+        result = new OrderDao(getEm()).getByNumber(OrderData.ORDER_8.number());
         assertNotNull(result);
-        assertEquals(OrderData.O_3333_001.number(), result.getNumber());
+        assertEquals(OrderData.ORDER_8.number(), result.getNumber());
         assertEquals(new Long(84), result.getCustomer().getId());
+        assertEquals(1, result.getItems().size());
     }
 
     @Test
@@ -37,6 +39,6 @@ public class OrderDaoTest extends AbstractTestBase {
 
         assertEquals(1, result1.size());
         assertEquals(0, result2.size());
-        assertEquals(OrderData.O_2222_001.number(), result1.get(0).getNumber());
+        assertEquals(OrderData.ORDER_6.number(), result1.get(0).getNumber());
     }
 }

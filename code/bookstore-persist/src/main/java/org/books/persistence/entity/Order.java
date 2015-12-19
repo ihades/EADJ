@@ -1,6 +1,7 @@
 package org.books.persistence.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -110,7 +111,7 @@ public class Order extends IdentifiableObject {
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+        this.amount = amount.setScale(2, RoundingMode.HALF_UP);
     }
 
     public Status getStatus() {

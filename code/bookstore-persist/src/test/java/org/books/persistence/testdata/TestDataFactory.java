@@ -7,9 +7,11 @@ package org.books.persistence.testdata;
 
 import org.books.persistence.entity.Book;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -64,25 +66,34 @@ public class TestDataFactory {
     }
 
     private void initManualData() {
+        List<Book> testBooks = getTestBooks();
         em.getTransaction().begin();
         Customer c42 = em.find(Customer.class, 42l);
         Customer c84 = em.find(Customer.class, 84l);
         em.persist(createOrder(
                 c42,
-                OrderData.O_2222_001.amount(),
-                OrderData.O_2222_001.date(),
-                OrderData.O_2222_001.number(),
+                OrderData.ORDER_6.amount(),
+                OrderData.ORDER_6.date(),
+                OrderData.ORDER_6.number(),
                 c42.getAddress(),
-                c42.getCreditCard())
+                c42.getCreditCard(),
+                createOrderItem(testBooks.get(0), 2),
+                createOrderItem(testBooks.get(3), 1))
         );
         em.persist(createOrder(
                 c84,
-                OrderData.O_3333_001.amount(),
-                OrderData.O_3333_001.date(),
-                OrderData.O_3333_001.number(),
+                OrderData.ORDER_8.amount(),
+                OrderData.ORDER_8.date(),
+                OrderData.ORDER_8.number(),
                 c84.getAddress(),
-                c84.getCreditCard()));
+                c84.getCreditCard(),
+                createOrderItem(testBooks.get(0), 2))
+        );
         em.getTransaction().commit();
+    }
+
+    private OrderItem createOrderItem(Book book, int quantity) {
+        return new OrderItem(book, quantity);
     }
 
     private Order createOrder(Customer customer, BigDecimal amount, Date date, String number, Address address, CreditCard card, OrderItem... lineItems) {
@@ -96,6 +107,17 @@ public class TestDataFactory {
         order.setCreditCard(card);
         order.setItems(Arrays.asList(lineItems));
         return order;
+    }
+
+    private List<Book> getTestBooks() {
+        List<Book> books = new ArrayList<>();
+        for (long i = 1; i < 10l; i++) {
+            Book book = em.find(Book.class, i);
+            if (book != null) {
+                books.add(book);
+            }
+        }
+        return books;
     }
 
 }

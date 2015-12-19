@@ -9,7 +9,6 @@ import javax.persistence.RollbackException;
 import org.books.persistence.dao.BookDao;
 import org.books.persistence.dto.BookInfo;
 import org.books.persistence.entity.Book;
-import org.books.persistence.exception.NotExistException;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -66,24 +65,24 @@ public class BookDaoTest extends AbstractTestBase {
         List<BookInfo> result = searchByKeywords(bookDao, new String[]{"Holmes", "Java"});
         assertEquals(1, result.size());
 
-        result = searchByKeywords(bookDao, new String[]{"Pro", "W"});
+        result = searchByKeywords(bookDao, "Pro", "W");
         assertEquals(1, result.size());
 
-        result = searchByKeywords(bookDao, new String[]{"Pro", "w"});
+        result = searchByKeywords(bookDao, "Pro", "w");
         assertEquals(1, result.size());
 
-        result = searchByKeywords(bookDao, new String[]{"Pro", "Java"});
+        result = searchByKeywords(bookDao, "Pro", "Java");
         assertEquals(2, result.size());
 
-        result = searchByKeywords(bookDao, new String[]{"Da"});
+        result = searchByKeywords(bookDao, "Da");
         assertEquals(4, result.size());
 
-        result = searchByKeywords(bookDao, new String[]{"Da", "NutSHell"});
+        result = searchByKeywords(bookDao, "Da", "NutSHell");
         assertEquals(2, result.size());
     }
 
     @Test
-    public void updateBook() throws NotExistException {
+    public void updateBook() {
         BookDao bookDao = new BookDao(getEm());
         Book book = bookDao.getById(9l);
         assertNotNull(book);
@@ -108,7 +107,7 @@ public class BookDaoTest extends AbstractTestBase {
     }
 
     @Test(expected = RollbackException.class)
-    public void updateBookMaxPrice() throws NotExistException {
+    public void updateBookMaxPrice() {
         BookDao bookDao = new BookDao(getEm());
         Book book = bookDao.getById(9l);
         assertNotNull(book);
@@ -128,8 +127,8 @@ public class BookDaoTest extends AbstractTestBase {
         }
     }
 
-    @Test(expected = NotExistException.class)
-    public void updateInexistingBook() throws NotExistException {
+    @Test(expected = RollbackException.class)
+    public void updateInexistingBook() {
         BookDao bookDao = new BookDao(getEm());
         Book book = new Book();
 
@@ -156,7 +155,7 @@ public class BookDaoTest extends AbstractTestBase {
     }
 
     @Test
-    public void insertInexistingBook() throws NotExistException {
+    public void insertInexistingBook() {
         BookDao bookDao = new BookDao(getEm());
         Book book = new Book();
 
@@ -172,18 +171,18 @@ public class BookDaoTest extends AbstractTestBase {
         try {
             getEm().getTransaction().begin();
             bookDao.create(book);
+            getEm().getTransaction().commit();
         } catch (RollbackException e) {
             getEm().getTransaction().rollback();
             getEm().clear();
             throw e;
         } finally {
-            getEm().getTransaction().commit();
             getEm().clear();
         }
 
     }
 
-    public List<BookInfo> searchByKeywords(BookDao bookDao, String[] keywords) {
+    public List<BookInfo> searchByKeywords(BookDao bookDao, String... keywords) {
         return bookDao.searchByKeywords(Arrays.asList(keywords));
     }
 
