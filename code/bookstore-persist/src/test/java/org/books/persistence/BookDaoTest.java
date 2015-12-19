@@ -10,6 +10,7 @@ import org.books.persistence.dao.BookDao;
 import org.books.persistence.dto.BookInfo;
 import org.books.persistence.entity.Book;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class BookDaoTest extends AbstractTestBase {
@@ -111,7 +112,7 @@ public class BookDaoTest extends AbstractTestBase {
         BookDao bookDao = new BookDao(getEm());
         Book book = bookDao.getById(9l);
         assertNotNull(book);
-        book.setPrice(new BigDecimal(75000000.9));
+        book.setPrice(new BigDecimal(75000000.9)); //to high...
 
         try {
             getEm().getTransaction().begin();
@@ -127,7 +128,8 @@ public class BookDaoTest extends AbstractTestBase {
         }
     }
 
-    @Test(expected = RollbackException.class)
+    @Ignore
+    @Test(expected = IllegalStateException.class)
     public void updateInexistingBook() {
         BookDao bookDao = new BookDao(getEm());
         Book book = new Book();
@@ -144,12 +146,12 @@ public class BookDaoTest extends AbstractTestBase {
         try {
             getEm().getTransaction().begin();
             bookDao.update(book);
+            getEm().getTransaction().commit();
         } catch (RollbackException e) {
             getEm().getTransaction().rollback();
             getEm().clear();
             throw e;
         } finally {
-            getEm().getTransaction().commit();
             getEm().clear();
         }
     }
