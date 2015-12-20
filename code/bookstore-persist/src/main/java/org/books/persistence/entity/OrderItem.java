@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ORDERITEM")
-public class OrderItem extends IdentifiableObject {
+public class OrderItem extends IDObject {
 
     @ManyToOne
     @JoinColumn(name = "bookId",

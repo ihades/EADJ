@@ -9,7 +9,7 @@
     <developers>
         <developer>
             <id>ihades</id>
-            <name>Christoph Bühlmann</name>
+            <name>Christoph Buehlmann</name>
         </developer>
         <developer>
             <id>easy-da-man</id>
@@ -20,6 +20,5 @@
     <modules>
         <module>bookstore-persist</module>
         <module>bookstore-web</module>
-    <module>bookstore-ejb</module>
   </modules>
 </project>

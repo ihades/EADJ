@@ -11,7 +11,7 @@ import javax.persistence.NamedQuery;
             + "WHERE l.userName = :userName")
 })
 @Entity
-public class Login extends IdentifiableObject {
+public class Login extends IDObject {
 
     public transient static final String LOGIN_FIND_BY_USER_NAME = "userName";
 

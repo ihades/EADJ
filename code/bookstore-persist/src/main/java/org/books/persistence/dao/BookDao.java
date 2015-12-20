@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -17,7 +18,7 @@ import org.books.persistence.entity.Book_;
 @LocalBean
 public class BookDao extends GenericDao<Book> {
 
-    public BookDao(EntityManager mgr) {
+    protected BookDao(EntityManager mgr) {
         super(Book.class, mgr);
     }
 
@@ -25,12 +26,52 @@ public class BookDao extends GenericDao<Book> {
         super(Book.class);
     }
 
-    public Book getByIsbn(String isbn) {
-        return this.getEM().createNamedQuery("Book.findByIsbn", Book.class)
-                .setParameter(Book.BOOK_FIND_BY_ISBN_PARAM, isbn)
-                .getSingleResult();
+    /**
+     * API Compatibility, like {@link #getByIsbn(java.lang.String) }.
+     *
+     * @param isbn
+     * @return
+     */
+    @Deprecated
+    public Book find(String isbn) {
+        return getByIsbn(isbn);
     }
 
+    /**
+     * Finds a Book by it's ISBN-Number.
+     *
+     * @param isbn the ISBN number to look for
+     * @return the data of the found book or null is no Book is found.
+     */
+    public Book getByIsbn(String isbn) {
+        try {
+            return this.getEM().createNamedQuery("Book.findByIsbn", Book.class)
+                    .setParameter(Book.BOOK_FIND_BY_ISBN_PARAM, isbn)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
+     * API Compatibility, like {@link #searchByKeywords(List<String> keywords)
+     * }.
+     *
+     * @param keywords
+     * @return
+     */
+    @Deprecated
+    public List<BookInfo> search(List<String> keywords) {
+        return searchByKeywords(keywords);
+    }
+
+    /**
+     * Searches for books by keywords. A book is included in the result list if
+     * every keyword is contained in its title, authors or publisher field.
+     *
+     * @param keywords the keywords to search for
+     * @return a list of matching books (may be empty)
+     */
     public List<BookInfo> searchByKeywords(List<String> keywords) {
         CriteriaBuilder qb = getEM().getCriteriaBuilder();
         CriteriaQuery cq = qb.createQuery();

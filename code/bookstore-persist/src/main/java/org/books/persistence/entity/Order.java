@@ -29,7 +29,7 @@ import org.books.persistence.dto.CustomerInfo;
 })
 @Entity
 @Table(name = "BOOKORDER")
-public class Order extends IdentifiableObject {
+public class Order extends IDObject {
 
     public transient static String ORDER_FIND_BY_NUMBER_PARAM = "number";
 

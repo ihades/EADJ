@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import org.books.persistence.entity.Customer;
 import org.books.persistence.entity.Order;
 import org.books.persistence.dto.OrderInfo;
@@ -14,7 +15,7 @@ import org.books.persistence.dto.OrderInfo;
 @LocalBean
 public class OrderDao extends GenericDao<Order> {
 
-    public OrderDao(EntityManager mgr) {
+    protected OrderDao(EntityManager mgr) {
         super(Order.class, mgr);
     }
 
@@ -22,12 +23,54 @@ public class OrderDao extends GenericDao<Order> {
         super(Order.class);
     }
 
-    public Order getByNumber(String number) {
-        return this.getEM().createNamedQuery("Order.findbyNumber", Order.class)
-                .setParameter(Order.ORDER_FIND_BY_NUMBER_PARAM, number)
-                .getSingleResult();
+    /**
+     * API Compatibility, like {@link #getByNumber(java.lang.String) }.
+     *
+     * @param number
+     * @return
+     */
+    @Deprecated
+    public Order find(String number) {
+        return getByNumber(number);
     }
 
+    /**
+     * Finds a Order by it's Order-Number.
+     *
+     * @param number the Order number to look for
+     * @return the data of the found book or null is no Order is found.
+     */
+    public Order getByNumber(String number) {
+        try {
+            return this.getEM().createNamedQuery("Order.findbyNumber", Order.class)
+                    .setParameter(Order.ORDER_FIND_BY_NUMBER_PARAM, number)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
+     * API Compatibility, like {@link #searchByCustomerAndYear(org.books.persistence.entity.Customer, int)
+     * }.
+     *
+     * @param customer
+     * @param year
+     *
+     * @return
+     */
+    @Deprecated
+    public List<OrderInfo> search(Customer customer, int year) {
+        return searchByCustomerAndYear(customer, year);
+    }
+
+    /**
+     * Searches for Orders by Customer and Order-Year.
+     *
+     * @param customer
+     * @param year
+     * @return a list of matching Orders (may be empty)
+     */
     public List<OrderInfo> searchByCustomerAndYear(Customer customer, int year) {
 
         Calendar beginCal = Calendar.getInstance();

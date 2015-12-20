@@ -16,7 +16,7 @@ public abstract class AbstractTestBase {
     public static void setUpClass() {
         em = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT).createEntityManager();
         tdf = new TestDataFactory(em);
-        tdf.deleteTestData();
+//        tdf.deleteTestData();
         tdf.setUp();
     }
 

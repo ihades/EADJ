@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
             + "WHERE UPPER(c.email) = UPPER(:email)")
 })
 @Entity
-public class Customer extends IdentifiableObject {
+public class Customer extends IDObject {
 
     public transient static final String CUSTOMER_FIND_BY_MAIL_PARAM = "email";
 

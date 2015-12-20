@@ -16,7 +16,7 @@ import javax.persistence.NamedQuery;
             + "WHERE UPPER(b.isbn) = UPPER(:isbn)")
 })
 @Entity
-public class Book extends IdentifiableObject {
+public class Book extends IDObject {
 
     public transient static final String BOOK_FIND_BY_ISBN_PARAM = "isbn";
 

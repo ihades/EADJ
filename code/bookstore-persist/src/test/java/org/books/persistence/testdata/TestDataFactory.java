@@ -37,6 +37,9 @@ public class TestDataFactory {
     }
 
     public void setUp() {
+        em.getTransaction().begin();
+        Customer c42 = em.find(Customer.class, 42l);
+        em.getTransaction().commit();
         initDBUnit();
         initManualData();
     }
