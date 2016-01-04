@@ -20,3 +20,4 @@ code/bookstore-persist/target/
 /code/bookstore-ejb/nbproject/private/
 /code/bookstore-ejb/target/
 /code/bookstore-web/target/
+*.log
