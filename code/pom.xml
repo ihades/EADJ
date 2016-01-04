@@ -20,5 +20,6 @@
     <modules>
         <module>bookstore-persist</module>
         <module>bookstore-web</module>
-  </modules>
+        <module>bookstore-ejb</module>
+    </modules>
 </project>

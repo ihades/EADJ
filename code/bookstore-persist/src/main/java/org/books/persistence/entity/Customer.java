@@ -26,6 +26,11 @@ public class Customer extends IDObject {
             unique = true)
     private String email;
 
+    @Column(nullable = false,
+            unique = true,
+            name = "CUSTOMER_NUMBER")
+    private String number;
+
     @Embedded
     private Address address;
 
@@ -57,6 +62,14 @@ public class Customer extends IDObject {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public Address getAddress() {

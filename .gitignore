@@ -17,3 +17,6 @@ code/bookstore-persist/target/
 /bookstore-template/bookstore-ejb/target/
 /bookstore-template/bookstore-app/target/
 /bookstore-ear/nbproject/private/
+/code/bookstore-ejb/nbproject/private/
+/code/bookstore-ejb/target/
+/code/bookstore-web/target/

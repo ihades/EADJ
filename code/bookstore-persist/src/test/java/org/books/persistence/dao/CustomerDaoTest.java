@@ -63,6 +63,7 @@ public class CustomerDaoTest extends AbstractTestBase {
         result.setFirstName("Christoph");
         result.setLastName("Bühlmann");
         result.setEmail("christoph@buehlmann.tk");
+        result.setNumber("C-00000111");
         result.setAddress(new Address("Sulgenbachstrasse 14", "Bern", "3007", "Switzerland"));
         result.setCreditCard(new CreditCard(CreditCard.Type.MasterCard, "5380152162655250", 12, 2020));
         CustomerDao customerDao = new CustomerDao(getEm());
