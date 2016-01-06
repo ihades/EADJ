@@ -1,12 +1,13 @@
 package org.books.ejb;
 
+import java.io.Serializable;
 import org.books.ejb.exception.BookAlreadyExistsException;
 import org.books.ejb.exception.BookNotFoundException;
 import java.util.List;
 import org.books.ejb.dto.BookDTO;
 import org.books.persistence.dto.BookInfo;
 
-public interface CatalogService {
+public interface CatalogService extends Serializable {
 
     /**
      * Adds a book to the catalog.

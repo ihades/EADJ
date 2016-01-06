@@ -1,5 +1,6 @@
 package org.books.ejb;
 
+import java.io.Serializable;
 import org.books.ejb.exception.CustomerAlreadyExistsException;
 import org.books.ejb.exception.InvalidPasswordException;
 import org.books.ejb.exception.CustomerNotFoundException;
@@ -11,7 +12,7 @@ import org.books.persistence.dto.CustomerInfo;
  *
  * @author cb
  */
-public interface CustomerService {
+public interface CustomerService extends Serializable {
 
     /**
      * Authenticates a customer.

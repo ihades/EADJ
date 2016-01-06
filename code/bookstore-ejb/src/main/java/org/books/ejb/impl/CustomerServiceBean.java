@@ -4,7 +4,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import org.books.ejb.exception.CustomerAlreadyExistsException;
 import org.books.ejb.exception.CustomerNotFoundException;
-import org.books.ejb.CustomerService;
+import org.books.ejb.CustomerServiceLocal;
+import org.books.ejb.CustomerServiceRemote;
 import org.books.ejb.exception.InvalidPasswordException;
 import org.books.ejb.dto.CustomerDTO;
 import org.books.persistence.dto.CustomerInfo;
@@ -14,7 +15,7 @@ import org.books.persistence.dto.CustomerInfo;
  * @author cb
  */
 @Stateless(name = "CustomerService")
-public class CustomerServiceBean implements CustomerService {
+public class CustomerServiceBean implements CustomerServiceLocal, CustomerServiceRemote {
 
     @Override
     public void authenticateCustomer(String email, String password) throws CustomerNotFoundException, InvalidPasswordException {

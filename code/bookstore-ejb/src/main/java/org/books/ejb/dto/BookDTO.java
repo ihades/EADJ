@@ -1,8 +1,9 @@
 package org.books.ejb.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class BookDTO {
+public class BookDTO implements Serializable {
 
     public enum Binding {
 

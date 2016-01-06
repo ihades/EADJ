@@ -1,6 +1,8 @@
 package org.books.ejb.dto;
 
-public class CustomerDTO {
+import java.io.Serializable;
+
+public class CustomerDTO implements Serializable {
 
     private String email;
     private String firstName;

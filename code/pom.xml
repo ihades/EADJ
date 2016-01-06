@@ -21,5 +21,6 @@
         <module>bookstore-persist</module>
         <module>bookstore-web</module>
         <module>bookstore-ejb</module>
+        <module>bookstore-app</module>
     </modules>
 </project>

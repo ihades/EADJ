@@ -1,8 +1,9 @@
 package org.books.ejb.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class OrderItemDTO {
+public class OrderItemDTO implements Serializable {
 
     private BookDTO book;
     private BigDecimal price;

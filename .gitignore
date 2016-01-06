@@ -21,3 +21,4 @@ code/bookstore-persist/target/
 /code/bookstore-ejb/target/
 /code/bookstore-web/target/
 *.log
+/code/bookstore-app/target/
