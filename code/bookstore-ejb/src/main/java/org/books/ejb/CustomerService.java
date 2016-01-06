@@ -67,9 +67,9 @@ public interface CustomerService extends Serializable {
      * @param password - the password of the customer
      * @throws org.books.ejb.CustomerAlreadyExistsException - if another
      * customer with the same email address already exists
-     * @return the number of the registered customer
+     * @return the data of the registered customer (including the number)
      */
-    String registerCustomer(CustomerDTO customer, String password) throws CustomerAlreadyExistsException;
+    CustomerDTO registerCustomer(CustomerDTO customer, String password) throws CustomerAlreadyExistsException;
 
     /**
      * Searches for customers by name. A customer is included in the result list

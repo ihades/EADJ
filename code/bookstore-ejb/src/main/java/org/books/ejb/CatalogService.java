@@ -13,10 +13,11 @@ public interface CatalogService extends Serializable {
      * Adds a book to the catalog.
      *
      * @param book the data of the book to be added
+     * @return the data of the added book
      * @throws BookAlreadyExistsException if a book with the same ISBN number
      * already exists
      */
-    void addBook(BookDTO book) throws BookAlreadyExistsException;
+    BookDTO addBook(BookDTO book) throws BookAlreadyExistsException;
 
     /**
      * Finds a book by ISBN number.

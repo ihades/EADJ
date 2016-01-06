@@ -38,7 +38,8 @@ public class CustomerServiceBean implements CustomerServiceLocal, CustomerServic
     }
 
     @Override
-    public String registerCustomer(CustomerDTO customer, String password) throws CustomerAlreadyExistsException {
+    public CustomerDTO registerCustomer(CustomerDTO customer, String password) throws CustomerAlreadyExistsException {
+        //ACHTUNG Kundennummer generieren!!!
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

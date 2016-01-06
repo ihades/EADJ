@@ -1,5 +1,6 @@
 package org.books.ejb.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -23,25 +24,31 @@ public class CatalogSeviceBean implements CatalogServiceRemote, CatalogServiceLo
     @EJB
     BookDao bookDao;
 
+    private final ModelMapper modelMapper = new ModelMapper();
+
     @Override
-    public void addBook(BookDTO bookDTO) throws BookAlreadyExistsException {
+    public BookDTO addBook(BookDTO bookDTO) throws BookAlreadyExistsException {
 
         if (bookDao.getByIsbn(bookDTO.getIsbn()) != null) {
             throw new BookAlreadyExistsException();
         }
-        ModelMapper modelMapper = new ModelMapper();
         Book book = modelMapper.map(bookDTO, Book.class);
         bookDao.create(book);
+        return bookDTO;
     }
 
     @Override
     public BookDTO findBook(String isbn) throws BookNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Book book = bookDao.getByIsbn(isbn);
+        if (book == null) {
+            throw new BookNotFoundException();
+        }
+        return modelMapper.map(book, BookDTO.class);
     }
 
     @Override
     public List<BookInfo> searchBooks(String keywords) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return bookDao.searchByKeywords(Arrays.asList(keywords.split(" ")));
     }
 
     @Override
