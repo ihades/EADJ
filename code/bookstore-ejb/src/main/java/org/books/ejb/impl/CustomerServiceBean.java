@@ -74,6 +74,7 @@ public class CustomerServiceBean implements CustomerServiceLocal, CustomerServic
         }
         loginDao.create(new Login(customerDto.getEmail(), password));
         Customer customer = modelMapper.map(customerDto, Customer.class);
+        customer.setNumber("TEMPORARY");
         customerDao.create(customer);
         customer.setNumber("C-" + customer.getId());
         customerDao.update(customer);

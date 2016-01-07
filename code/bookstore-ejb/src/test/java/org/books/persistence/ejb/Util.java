@@ -16,4 +16,13 @@ public class Util {
         result.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
         return result;
     }
+
+    public static String numbGen() {
+        while (true) {
+            long numb = (long) (Math.random() * 100000000 * 1000000); // had to use this as int's are to small for a 13 digit number.
+            if (String.valueOf(numb).length() == 13) {
+                return String.valueOf(numb);
+            }
+        }
+    }
 }

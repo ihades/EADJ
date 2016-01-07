@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import javax.naming.InitialContext;
 import org.books.ejb.CatalogService;
 import org.books.ejb.dto.BookDTO;
+import static org.books.persistence.ejb.Util.numbGen;
 import static org.junit.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -68,14 +69,4 @@ public class CatalogServiceRemoteIT {
         bookDTO = catalogService.findBook(book.getIsbn());
         assertEquals(newPrice, bookDTO.getPrice());
     }
-
-    private static String numbGen() {
-        while (true) {
-            long numb = (long) (Math.random() * 100000000 * 1000000); // had to use this as int's are to small for a 13 digit number.
-            if (String.valueOf(numb).length() == 13) {
-                return String.valueOf(numb);
-            }
-        }
-    }
-
 }
