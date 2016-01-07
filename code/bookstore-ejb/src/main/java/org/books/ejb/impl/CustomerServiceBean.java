@@ -94,6 +94,8 @@ public class CustomerServiceBean implements CustomerServiceLocal, CustomerServic
         }
         Customer customer = getCustomerByNumber(customerDto.getNumber());
         updateLogin(customer.getEmail(), customerDto.getEmail());
+        modelMapper.map(customerDto, customer);
+        customerDao.update(customer);
     }
 
     private void updateLogin(String oldEmail, String newEmail) {
