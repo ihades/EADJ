@@ -89,6 +89,9 @@ public class CustomerServiceBean implements CustomerServiceLocal, CustomerServic
     @Override
     public void updateCustomer(CustomerDTO customerDto) throws CustomerNotFoundException, CustomerAlreadyExistsException {
         ensureUniqueness(customerDto.getEmail());
+        if (customerDto.getNumber() == null) {
+            throw new CustomerNotFoundException();
+        }
         Customer customer = getCustomerByNumber(customerDto.getNumber());
         updateLogin(customer.getEmail(), customerDto.getEmail());
     }

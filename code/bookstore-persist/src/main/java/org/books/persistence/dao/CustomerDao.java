@@ -68,7 +68,7 @@ public class CustomerDao extends GenericDao<Customer> {
      */
     public Customer findByNumber(String number) {
         try {
-            return getEM().createNamedQuery("Customer.findByMail", Customer.class)
+            return getEM().createNamedQuery("Customer.findByNumber", Customer.class)
                     .setParameter(Customer.CUSTOMER_FIND_BY_Number_PARAM, number)
                     .getSingleResult();
         } catch (NoResultException e) {

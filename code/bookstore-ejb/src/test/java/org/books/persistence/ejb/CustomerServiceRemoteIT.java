@@ -5,6 +5,8 @@ import org.books.ejb.CustomerService;
 import org.books.ejb.dto.AddressDTO;
 import org.books.ejb.dto.CreditCardDTO;
 import org.books.ejb.dto.CustomerDTO;
+import org.books.ejb.exception.CustomerNotFoundException;
+import org.books.ejb.exception.InvalidPasswordException;
 import org.junit.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -25,7 +27,7 @@ public class CustomerServiceRemoteIT {
             2,
             2017);
 
-    private final CustomerDTO customer = new CustomerDTO(Util.numbGen() + "@gmail.com",
+    private CustomerDTO customer = new CustomerDTO(Util.numbGen() + "@gmail.com",
             "Christoph",
             "Bühlmann",
             null,
@@ -44,48 +46,40 @@ public class CustomerServiceRemoteIT {
         Assert.assertNotNull(registred.getNumber());
         Assert.assertNotSame("TEMPORARY", registred.getNumber());
         System.out.println("Kunde mit Nummer " + registred.getNumber() + " registriert.");
+        customer = registred;
     }
 
-//    @Test(dependsOnMethods = "registerCustomer")
-//    public void getCustomerByEmail() throws Exception {
-//        BookDTO bookDTO = customerService.findCustomerByEmail(customer.getIsbn());
-//
-//        assertEquals(bookDTO.getIsbn(), customer.getIsbn());
-//        assertEquals(bookDTO.getTitle(), customer.getTitle());
-//        assertEquals(bookDTO.getAuthors(), customer.getAuthors());
-//        assertEquals(bookDTO.getPublisher(), customer.getPublisher());
-//        assertEquals(bookDTO.getPublicationYear(), customer.getPublicationYear());
-//        assertEquals(bookDTO.getNumberOfPages(), customer.getNumberOfPages());
-//        assertEquals(bookDTO.getPrice(), customer.getPrice());
-//    }
-//
-//    @Test(dependsOnMethods = {"addBook", "getBookByIsbn"})
-//    public void changeBook() throws Exception {
-//        BookDTO bookDTO = customerService.findBook(customer.getIsbn());
-//
-//        assertEquals(bookDTO.getIsbn(), customer.getIsbn());
-//        assertEquals(bookDTO.getTitle(), customer.getTitle());
-//        assertEquals(bookDTO.getAuthors(), customer.getAuthors());
-//        assertEquals(bookDTO.getPublisher(), customer.getPublisher());
-//        assertEquals(bookDTO.getPublicationYear(), customer.getPublicationYear());
-//        assertEquals(bookDTO.getNumberOfPages(), customer.getNumberOfPages());
-//        assertEquals(bookDTO.getPrice(), customer.getPrice());
-//
-//        BigDecimal newPrice = new BigDecimal(32.5);
-//        bookDTO.setPrice(newPrice);
-//        newPrice = bookDTO.getPrice();
-//        customerService.updateBook(bookDTO);
-//
-//        bookDTO = customerService.findBook(customer.getIsbn());
-//        assertEquals(newPrice, bookDTO.getPrice());
-//    }
-//
-//    private static String numbGen() {
-//        while (true) {
-//            long numb = (long) (Math.random() * 100000000 * 1000000); // had to use this as int's are to small for a 13 digit number.
-//            if (String.valueOf(numb).length() == 13) {
-//                return String.valueOf(numb);
-//            }
-//        }
-//    }
+    @Test(dependsOnMethods = "registerCustomer")
+    public void getCustomerByEmail() throws Exception {
+        CustomerDTO customerDTO = customerService.findCustomerByEmail(customer.getEmail());
+
+        Assert.assertEquals(customer.getEmail(), customerDTO.getEmail());
+    }
+
+    @Test(dependsOnMethods = "registerCustomer")
+    public void changeLogin() throws Exception {
+        String curentEmail = customer.getEmail();
+        try {
+            customerService.authenticateCustomer(customer.getEmail(), "123456789");
+            try {
+                customerService.authenticateCustomer(customer.getEmail(), "12345678");
+                Assert.fail("InvalidPasswordException expected");
+            } catch (InvalidPasswordException e) {
+                //OK
+            }
+            try {
+                customerService.authenticateCustomer(customer.getEmail() + "bladibla", "123456789");
+                Assert.fail("CustomerNotFoundException expected");
+            } catch (CustomerNotFoundException e) {
+                //OK
+            }
+            customer.setEmail("chrigu.b1234567@gmail.com");
+            customerService.updateCustomer(customer);
+            customerService.authenticateCustomer(customer.getEmail(), "123456789");
+        } finally {
+            customer.setEmail(curentEmail);
+            customerService.updateCustomer(customer);
+        }
+    }
+
 }
