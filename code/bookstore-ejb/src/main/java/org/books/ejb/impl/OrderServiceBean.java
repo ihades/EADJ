@@ -1,8 +1,16 @@
 package org.books.ejb.impl;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jms.ConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Queue;
 import org.books.ejb.OrderServiceLocal;
 import org.books.ejb.OrderServiceRemote;
 import org.books.ejb.dto.OrderDTO;
@@ -23,11 +31,26 @@ import org.books.persistence.dto.OrderInfo;
 public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
 
     @EJB
-    BookDao bookDao;
+    private BookDao bookDao;
+
+    @Resource(mappedName = "jms/connectionFactory")
+    private static ConnectionFactory connectionFactory;
+
+    @Resource(mappedName = "jms/orderQueue")
+    private static Queue orderQueue;
 
     @Override
     public void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Enshure Order Existency and State
+            JMSContext context = connectionFactory.createContext();
+            MapMessage message = context.createMapMessage();
+            message.setJMSType("cancelOrder");
+            message.setString("orderNumber", orderNr);
+            context.createProducer().send(orderQueue, message);
+        } catch (JMSException ex) {
+            Logger.getLogger(OrderServiceBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
