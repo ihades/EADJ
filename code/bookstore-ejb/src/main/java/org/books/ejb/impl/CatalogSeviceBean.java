@@ -22,13 +22,12 @@ import org.modelmapper.ModelMapper;
 public class CatalogSeviceBean implements CatalogServiceRemote, CatalogServiceLocal {
 
     @EJB
-    BookDao bookDao;
+    private BookDao bookDao;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public BookDTO addBook(BookDTO bookDTO) throws BookAlreadyExistsException {
-
         if (bookDao.getByIsbn(bookDTO.getIsbn()) != null) {
             throw new BookAlreadyExistsException();
         }
@@ -52,8 +51,13 @@ public class CatalogSeviceBean implements CatalogServiceRemote, CatalogServiceLo
     }
 
     @Override
-    public void updateBook(BookDTO book) throws BookNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateBook(BookDTO bookDTO) throws BookNotFoundException {
+        Book book = bookDao.getByIsbn(bookDTO.getIsbn());
+        if (book == null) {
+            throw new BookNotFoundException();
+        }
+        modelMapper.map(bookDTO, book);
+        bookDao.update(book);
     }
 
 }

@@ -30,7 +30,7 @@ public class OrderDaoTest extends AbstractTestBase {
     public void testSearchByCustomerAndYear() {
         OrderDao orderDao = new OrderDao(getEm());
         CustomerDao customerDao = new CustomerDao(getEm());
-        Customer customer1 = customerDao.getByEmail("egestas.ligula.Nullam@duiSuspendisseac.co.uk");
+        Customer customer1 = customerDao.findByEmail("egestas.ligula.Nullam@duiSuspendisseac.co.uk");
 
         List<OrderInfo> result1 = orderDao.searchByCustomerAndYear(customer1, 2014);
         List<OrderInfo> result2 = orderDao.searchByCustomerAndYear(customer1, 1999);

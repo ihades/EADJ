@@ -21,14 +21,14 @@ public class CustomerDao extends GenericDao<Customer> {
     }
 
     /**
-     * API Compatibility, like {@link #getByEmail(java.lang.String) }.
+     * API Compatibility, like {@link #findByEmail(java.lang.String) }.
      *
      * @param email
      * @return
      */
     @Deprecated
     public Customer find(String email) {
-        return getByEmail(email);
+        return findByEmail(email);
     }
 
     /**
@@ -37,7 +37,7 @@ public class CustomerDao extends GenericDao<Customer> {
      * @param email the email address to look for
      * @return the data of the found customer or null if no Customer is found.
      */
-    public Customer getByEmail(String email) {
+    public Customer findByEmail(String email) {
         try {
             return getEM().createNamedQuery("Customer.findByMail", Customer.class)
                     .setParameter(Customer.CUSTOMER_FIND_BY_MAIL_PARAM, email)
@@ -58,5 +58,21 @@ public class CustomerDao extends GenericDao<Customer> {
         return getEM().createNamedQuery(CustomerInfo.CUSTOMER_FIND_BY_NAME_PART_QUERY, CustomerInfo.class)
                 .setParameter(CustomerInfo.CUSTOMER_FIND_BY_NAME_PART_PARAM, name)
                 .getResultList();
+    }
+
+    /**
+     * Searches for customers by Customer Number.
+     *
+     * @param number the Customers-Number to look for
+     * @return the data of the found customer or null if no Customer is found.
+     */
+    public Customer findByNumber(String number) {
+        try {
+            return getEM().createNamedQuery("Customer.findByMail", Customer.class)
+                    .setParameter(Customer.CUSTOMER_FIND_BY_Number_PARAM, number)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

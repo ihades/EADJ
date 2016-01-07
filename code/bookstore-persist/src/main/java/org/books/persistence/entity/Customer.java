@@ -9,12 +9,16 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
     @NamedQuery(name = "Customer.findByMail", query = "SELECT c "
             + "FROM Customer c "
-            + "WHERE UPPER(c.email) = UPPER(:email)")
+            + "WHERE UPPER(c.email) = UPPER(:email)"),
+    @NamedQuery(name = "Customer.findByNumber", query = "SELECT c "
+            + "FROM Customer c "
+            + "WHERE UPPER(c.number) = UPPER(:number)")
 })
 @Entity
 public class Customer extends IDObject {
 
     public transient static final String CUSTOMER_FIND_BY_MAIL_PARAM = "email";
+    public transient static final String CUSTOMER_FIND_BY_Number_PARAM = "number";
 
     @Column(nullable = false)
     private String firstName;

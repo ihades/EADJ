@@ -14,7 +14,7 @@
 
     <named-query name="org.books.persistence.dto.CustomerInfo.findByNamePart">
         <query>
-            SELECT new org.books.persistence.dto.CustomerInfo(c.id, c.firstName, c.lastName, c.email)
+            SELECT new org.books.persistence.dto.CustomerInfo(c.number, c.firstName, c.lastName, c.email)
             FROM Customer c
             WHERE UPPER(c.firstName) LIKE CONCAT("%", UPPER(:name), "%")
             OR  UPPER(c.lastName) LIKE CONCAT("%", UPPER(:name), "%")

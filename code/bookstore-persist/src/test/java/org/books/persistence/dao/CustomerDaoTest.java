@@ -22,7 +22,7 @@ public class CustomerDaoTest extends AbstractTestBase {
 
     @Test
     public void testGetByEmail() {
-        Customer result = new CustomerDao(getEm()).getByEmail("egestas.ligula.Nullam@duiSuspendisseac.co.uk");
+        Customer result = new CustomerDao(getEm()).findByEmail("egestas.ligula.Nullam@duiSuspendisseac.co.uk");
         assertNotNull(result);
         assertEquals("Kellie", result.getFirstName());
         assertEquals("Cochran", result.getLastName());

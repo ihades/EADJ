@@ -15,7 +15,7 @@ public class CatalogServiceRemoteIT {
     private CatalogService catalogService;
 
     private final BookDTO book = new BookDTO(
-            "123456789",
+            numbGen(),
             "Oracle for Dummies",
             "irgendwer",
             "orelly",
@@ -35,7 +35,7 @@ public class CatalogServiceRemoteIT {
         catalogService.addBook(book);
     }
 
-    @Test()
+    @Test(dependsOnMethods = "addBook")
     public void getBookByIsbn() throws Exception {
         BookDTO bookDTO = catalogService.findBook(book.getIsbn());
 
@@ -46,6 +46,36 @@ public class CatalogServiceRemoteIT {
         assertEquals(bookDTO.getPublicationYear(), book.getPublicationYear());
         assertEquals(bookDTO.getNumberOfPages(), book.getNumberOfPages());
         assertEquals(bookDTO.getPrice(), book.getPrice());
+    }
+
+    @Test(dependsOnMethods = {"addBook", "getBookByIsbn"})
+    public void changeBook() throws Exception {
+        BookDTO bookDTO = catalogService.findBook(book.getIsbn());
+
+        assertEquals(bookDTO.getIsbn(), book.getIsbn());
+        assertEquals(bookDTO.getTitle(), book.getTitle());
+        assertEquals(bookDTO.getAuthors(), book.getAuthors());
+        assertEquals(bookDTO.getPublisher(), book.getPublisher());
+        assertEquals(bookDTO.getPublicationYear(), book.getPublicationYear());
+        assertEquals(bookDTO.getNumberOfPages(), book.getNumberOfPages());
+        assertEquals(bookDTO.getPrice(), book.getPrice());
+
+        BigDecimal newPrice = new BigDecimal(32.5);
+        bookDTO.setPrice(newPrice);
+        newPrice = bookDTO.getPrice();
+        catalogService.updateBook(bookDTO);
+
+        bookDTO = catalogService.findBook(book.getIsbn());
+        assertEquals(newPrice, bookDTO.getPrice());
+    }
+
+    private static String numbGen() {
+        while (true) {
+            long numb = (long) (Math.random() * 100000000 * 1000000); // had to use this as int's are to small for a 13 digit number.
+            if (String.valueOf(numb).length() == 13) {
+                return String.valueOf(numb);
+            }
+        }
     }
 
 }

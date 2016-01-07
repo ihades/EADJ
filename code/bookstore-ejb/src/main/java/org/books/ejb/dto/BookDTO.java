@@ -2,6 +2,7 @@ package org.books.ejb.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class BookDTO implements Serializable {
 
@@ -31,7 +32,7 @@ public class BookDTO implements Serializable {
         this.publicationYear = publicationYear;
         this.binding = binding;
         this.numberOfPages = numberOfPages;
-        this.price = price;
+        this.setPrice(price);
     }
 
     public String getIsbn() {
@@ -94,7 +95,7 @@ public class BookDTO implements Serializable {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public final void setPrice(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
     }
 }
