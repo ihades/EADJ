@@ -4,6 +4,11 @@ import java.util.Properties;
 
 public class Util {
 
+    //<services>
+    public static final String CATALOG_SERVICE_NAME = "java:global/bookstore-app-1.0.0/bookstore-ejb/CatalogService!org.books.ejb.CatalogServiceRemote";
+    //</services>
+    
+    
     public static Properties getInitProperties() {
         Properties result = new Properties();
         result.setProperty("java.naming.factory.initial",
@@ -24,5 +29,9 @@ public class Util {
                 return String.valueOf(numb);
             }
         }
+    }
+    
+    public static String invalidISBNGenerator(){
+        return numbGen().substring(1);
     }
 }
