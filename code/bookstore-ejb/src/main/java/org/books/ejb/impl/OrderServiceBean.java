@@ -5,9 +5,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Init;
@@ -35,8 +32,6 @@ import org.books.persistence.entity.Customer;
 import org.books.persistence.entity.Order;
 import org.books.persistence.entity.OrderItem;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
-import java.lang.reflect.Type;
 
 /**
  *
