@@ -71,7 +71,6 @@ public class Order extends IDObject {
     @OneToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-
     @JoinColumn(name = "ORDER_ID")
     private List<OrderItem> items;
 
