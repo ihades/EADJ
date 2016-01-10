@@ -4,7 +4,10 @@ import org.books.ejb.exception.JmsRuntimeException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Init;
@@ -48,16 +51,23 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
     private BookDao bookDao;
 
     @Resource(mappedName = "jms/connectionFactory")
-    private static ConnectionFactory connectionFactory;
+    private ConnectionFactory connectionFactory;
 
     @Resource(mappedName = "jms/orderQueue")
-    private static Queue orderQueue;
+    private Queue orderQueue;
 
     private JMSContext context;
     private final ModelMapper modelMapper = new ModelMapper();
 
+    //did not work whilst testing (context == null). moved to @PostContruct.
+    //just as a reference.
     @Init
     public void init() throws Exception {
+        
+    }
+    
+    @PostConstruct
+    public void postctor() {
         context = connectionFactory.createContext();
     }
 
@@ -136,12 +146,29 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
 
     private BigDecimal calculateAmount(List<OrderItem> orderItems) {
         final BigDecimal result = new BigDecimal(0);
-        orderItems.forEach(item -> result.add(item.getPrice()));
+        //pre-java-8 for there is an incompatibility on OSX with a class. i firgot which one.
+        for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
+                OrderItem next = iterator.next();
+                result.add(next.getPrice());
+                
+            }
+        //orderItems.forEach(item -> result.add(item.getPrice()));
         return result;
     }
 
+    //naîve implementation. change at will.
     private void verifyPayment(Order order) throws PaymentFailedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        if (month <= order.getCreditCard().getExpirationMonth() && year <= order.getCreditCard().getExpirationYear()) {
+            return;
+        } else {
+            throw new PaymentFailedException(PaymentFailedException.Code.CREDIT_CARD_EXPIRED);
+        }
+        
+        
     }
 
     private void processOrder(Order order) {

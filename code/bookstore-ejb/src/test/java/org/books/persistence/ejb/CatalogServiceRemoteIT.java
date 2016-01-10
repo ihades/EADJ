@@ -12,6 +12,8 @@ import static org.junit.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+
+//start server, start db, run tests
 public class CatalogServiceRemoteIT {
 
     private static final String CATALOG_SERVICE_NAME = Util.CATALOG_SERVICE_NAME;

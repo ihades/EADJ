@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 public class CustomerServiceRemoteIT {
 
-    private static final String CUSTOMER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CustomerService!org.books.ejb.CustomerServiceRemote";
+    private static final String CUSTOMER_SERVICE_NAME = Util.CUSTOMER_SERVICE_NAME;//"java:global/bookstore-app/bookstore-ejb/CustomerService!org.books.ejb.CustomerServiceRemote";
 
     private CustomerService customerService;
 

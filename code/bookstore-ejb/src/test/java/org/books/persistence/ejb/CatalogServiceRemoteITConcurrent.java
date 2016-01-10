@@ -40,7 +40,7 @@ public class CatalogServiceRemoteITConcurrent {
     }
     
     @Test(threadPoolSize = THREADS, invocationCount = THREADS)
-	public void changeBook() throws Exception {
-            BookDTO bookDTO = catalogService.addBook(book);
-	}
+    public void changeBook() throws Exception {
+        BookDTO bookDTO = catalogService.addBook(book);
+    }
 }
