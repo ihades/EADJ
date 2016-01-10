@@ -70,7 +70,6 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
     public void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException {
         try {
             //Enshure Order Existency and State
-            JMSContext context = connectionFactory.createContext();
             MapMessage message = context.createMapMessage();
             message.setJMSType("cancelOrder");
             message.setString("orderNumber", orderNr);
