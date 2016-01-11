@@ -1,15 +1,13 @@
 package org.books.ejb.impl;
 
-import org.books.ejb.exception.JmsRuntimeException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSContext;
@@ -22,6 +20,7 @@ import org.books.ejb.dto.OrderDTO;
 import org.books.ejb.dto.OrderItemDTO;
 import org.books.ejb.exception.BookNotFoundException;
 import org.books.ejb.exception.CustomerNotFoundException;
+import org.books.ejb.exception.JmsRuntimeException;
 import org.books.ejb.exception.OrderAlreadyShippedException;
 import org.books.ejb.exception.OrderNotFoundException;
 import org.books.ejb.exception.PaymentFailedException;
@@ -54,10 +53,14 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
 
     @Resource(mappedName = "jms/orderQueue")
     private Queue orderQueue;
+    
+    @Resource
+    private SessionContext sessionContext;
 
     private JMSContext context;
     private final ModelMapper modelMapper = new ModelMapper();
-    
+    private final static BigDecimal PAYMENT_LIMIT = new BigDecimal(1000);
+
     @PostConstruct
     public void postctor() {
         context = connectionFactory.createContext();
@@ -66,7 +69,7 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
     @Override
     public void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException {
         try {
-            //Enshure Order Existency and State
+            enshureExistencyAndCancelOrder(orderNr);
             MapMessage message = context.createMapMessage();
             message.setJMSType("cancelOrder");
             message.setString("orderNumber", orderNr);
@@ -78,7 +81,7 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
 
     @Override
     public OrderDTO findOrder(String orderNr) throws OrderNotFoundException {
-        Order order = orderDao.getByNumber(orderNr);
+        Order order = orderDao.findByNumber(orderNr);
         if (order == null) {
             throw new OrderNotFoundException();
         }
@@ -97,7 +100,7 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
                 customer.getAddress(),
                 customer.getCreditCard(),
                 orderItems);
-        verifyPayment(order);
+        new CreditCardNumberValidator(PAYMENT_LIMIT).validateCreditCard(order.getCreditCard(), order.getAmount());
         orderDao.create(order);
         order.setNumber("O-" + order.getId());
         orderDao.update(order);
@@ -139,28 +142,11 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
     private BigDecimal calculateAmount(List<OrderItem> orderItems) {
         final BigDecimal result = new BigDecimal(0);
         //pre-java-8 for there is an incompatibility on OSX with a class. i firgot which one.
-        for (Iterator<OrderItem> iterator = orderItems.iterator(); iterator.hasNext();) {
-                OrderItem next = iterator.next();
-                result.add(next.getPrice());
-                
-            }
+        for (OrderItem next : orderItems) {
+            result.add(next.getPrice());
+        }
         //orderItems.forEach(item -> result.add(item.getPrice()));
         return result;
-    }
-
-    //naîve implementation. change at will.
-    private void verifyPayment(Order order) throws PaymentFailedException {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        int month = cal.get(Calendar.MONTH);
-        int year = cal.get(Calendar.YEAR);
-        if (month <= order.getCreditCard().getExpirationMonth() && year <= order.getCreditCard().getExpirationYear()) {
-            return;
-        } else {
-            throw new PaymentFailedException(PaymentFailedException.Code.CREDIT_CARD_EXPIRED);
-        }
-        
-        
     }
 
     private void processOrder(Order order) {
@@ -172,6 +158,18 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
         } catch (JMSException ex) {
             //force Transaction Rollback
             throw new JmsRuntimeException("Processing of Order " + order.getNumber() + " was not possible!", ex);
+        }
+    }
+
+    private void enshureExistencyAndCancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException {
+        Order order = orderDao.findByNumberPessimisticLock(orderNr);
+        if (order == null) {
+            throw new OrderNotFoundException();
+        }
+        if (order.getStatus() != Order.Status.shipped) {
+            order.setStatus(Order.Status.canceled);
+        } else {
+            throw new OrderAlreadyShippedException();
         }
     }
 

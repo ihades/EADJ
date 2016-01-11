@@ -6,12 +6,12 @@ import org.books.ejb.CatalogService;
 import org.books.ejb.dto.BookDTO;
 import org.books.ejb.exception.BookAlreadyExistsException;
 import org.books.ejb.exception.BookNotFoundException;
-import static org.books.persistence.ejb.Util.numbGen;
 import static org.books.persistence.ejb.Util.invalidISBNGenerator;
+import static org.books.persistence.ejb.Util.numbGen;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 
 //start server, start db, run tests
 public class CatalogServiceRemoteIT {
@@ -40,7 +40,7 @@ public class CatalogServiceRemoteIT {
     public void addBook() throws Exception {
         catalogService.addBook(book);
     }
-    
+
     @Test(expectedExceptions = {BookAlreadyExistsException.class}, dependsOnMethods = "addBook")
     public void addBookExpectException() throws BookAlreadyExistsException {
         catalogService.addBook(book);
@@ -58,7 +58,7 @@ public class CatalogServiceRemoteIT {
         assertEquals(bookDTO.getNumberOfPages(), book.getNumberOfPages());
         assertEquals(bookDTO.getPrice(), book.getPrice());
     }
-    
+
     @Test(expectedExceptions = {BookNotFoundException.class})
     public void getNonExistingBookByIsbnExpectException() throws BookNotFoundException {
         BookDTO bookDTO = catalogService.findBook(invalidISBNGenerator());
@@ -84,21 +84,21 @@ public class CatalogServiceRemoteIT {
         bookDTO = catalogService.findBook(book.getIsbn());
         assertEquals(newPrice, bookDTO.getPrice());
     }
-    
+
     @Test(expectedExceptions = {BookNotFoundException.class}, dependsOnMethods = "addBook")
     public void changeBookExpectException() throws BookNotFoundException {
         BookDTO bookDTO = catalogService.findBook(book.getIsbn());
         bookDTO.setIsbn(invalidISBNGenerator());
         catalogService.updateBook(bookDTO);
     }
-    
+
     //maybe not even needed. if yes, needs a test data set to verify correct search function.
     //must consult with jesus christian.
     @Test()
     public void searchBooks() {
-        catalogService.searchBooks("Oracle").forEach(b -> {System.out.println(b.getTitle());});
-        assertEquals(true, true);
+//        catalogService.searchBooks("Oracle").forEach(b -> {System.out.println(b.getTitle());});
+//        assertEquals(true, true);
+        fail("Removed Test-Case temporary");
     }
-    
-    
+
 }

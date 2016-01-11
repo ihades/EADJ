@@ -13,13 +13,13 @@ public class OrderDaoTest extends AbstractTestBase {
 
     @Test
     public void testGetByNumber() {
-        Order result = new OrderDao(getEm()).getByNumber(OrderData.ORDER_6.number());
+        Order result = new OrderDao(getEm()).findByNumber(OrderData.ORDER_6.number());
         assertNotNull(result);
         assertEquals(OrderData.ORDER_6.number(), result.getNumber());
         assertEquals(new Long(42), result.getCustomer().getId());
         assertEquals(2, result.getItems().size());
 
-        result = new OrderDao(getEm()).getByNumber(OrderData.ORDER_8.number());
+        result = new OrderDao(getEm()).findByNumber(OrderData.ORDER_8.number());
         assertNotNull(result);
         assertEquals(OrderData.ORDER_8.number(), result.getNumber());
         assertEquals(new Long(84), result.getCustomer().getId());

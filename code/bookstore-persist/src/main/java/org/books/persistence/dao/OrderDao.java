@@ -7,9 +7,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import org.books.persistence.dto.OrderInfo;
 import org.books.persistence.entity.Customer;
 import org.books.persistence.entity.Order;
-import org.books.persistence.dto.OrderInfo;
 
 @Stateless
 @LocalBean
@@ -24,14 +24,14 @@ public class OrderDao extends GenericDao<Order> {
     }
 
     /**
-     * API Compatibility, like {@link #getByNumber(java.lang.String) }.
+     * API Compatibility, like {@link #findByNumber(java.lang.String) }.
      *
      * @param number
      * @return
      */
     @Deprecated
     public Order find(String number) {
-        return getByNumber(number);
+        return findByNumber(number);
     }
 
     /**
@@ -40,9 +40,25 @@ public class OrderDao extends GenericDao<Order> {
      * @param number the Order number to look for
      * @return the data of the found book or null is no Order is found.
      */
-    public Order getByNumber(String number) {
+    public Order findByNumber(String number) {
         try {
             return this.getEM().createNamedQuery("Order.findbyNumber", Order.class)
+                    .setParameter(Order.ORDER_FIND_BY_NUMBER_PARAM, number)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Finds a Order by it's Order-Number.
+     *
+     * @param number the Order number to look for
+     * @return the data of the found book or null is no Order is found.
+     */
+    public Order findByNumberPessimisticLock(String number) {
+        try {
+            return this.getEM().createNamedQuery("Order.findbyNumberPessimisticLock", Order.class)
                     .setParameter(Order.ORDER_FIND_BY_NUMBER_PARAM, number)
                     .getSingleResult();
         } catch (NoResultException e) {
