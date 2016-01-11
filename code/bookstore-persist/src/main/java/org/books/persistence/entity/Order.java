@@ -13,6 +13,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.LockModeType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,7 +26,10 @@ import org.books.persistence.dto.CustomerInfo;
 @NamedQueries({
     @NamedQuery(name = "Order.findbyNumber", query = "SELECT o "
             + "FROM Order o "
-            + "WHERE UPPER(o.number) = UPPER(:number)")
+            + "WHERE UPPER(o.number) = UPPER(:number)"),
+    @NamedQuery(name = "Order.findbyNumberPessimisticLock", query = "SELECT o "
+            + "FROM Order o "
+            + "WHERE UPPER(o.number) = UPPER(:number)", lockMode = LockModeType.PESSIMISTIC_WRITE)
 })
 @Entity
 @Table(name = "BOOKORDER")
