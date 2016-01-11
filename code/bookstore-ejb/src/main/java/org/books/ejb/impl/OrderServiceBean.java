@@ -58,13 +58,6 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
 
     private JMSContext context;
     private final ModelMapper modelMapper = new ModelMapper();
-
-    //did not work whilst testing (context == null). moved to @PostContruct.
-    //just as a reference.
-    @Init
-    public void init() throws Exception {
-        
-    }
     
     @PostConstruct
     public void postctor() {
