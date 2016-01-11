@@ -19,20 +19,26 @@ import org.books.persistence.entity.CreditCard;
 public class CreditCardNumberValidator {
 
     private final static Map<CreditCard.Type, SpecificCreditCardValidater> CREDITCARD_CARD_VALIDATORS = new ImmutableMap.Builder<CreditCard.Type, SpecificCreditCardValidater>()
-            .put(CreditCard.Type.MasterCard, (String number) -> {
-                if (number.length() != 16) {
-                    throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
-                }
-                if (!number.matches("^5[1-5][0-9]{14}$")) {
-                    throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
+            .put(CreditCard.Type.MasterCard, new SpecificCreditCardValidater() {
+                @Override
+                public void validate(String number) throws PaymentFailedException {
+                    if (number.length() != 16) {
+                        throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
+                    }
+                    if (!number.matches("^5[1-5][0-9]{14}$")) {
+                        throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
+                    }
                 }
             })
-            .put(CreditCard.Type.Visa, (String number) -> {
-                if (!((number.length() == 16) || (number.length() == 16))) {
-                    throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
-                }
-                if (!number.matches("^4[0-9]{12}(?:[0-9]{3})?$")) {
-                    throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
+            .put(CreditCard.Type.Visa, new SpecificCreditCardValidater() {
+                @Override
+                public void validate(String number) throws PaymentFailedException {
+                    if (!((number.length() == 16) || (number.length() == 16))) {
+                        throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
+                    }
+                    if (!number.matches("^4[0-9]{12}(?:[0-9]{3})?$")) {
+                        throw new PaymentFailedException(PaymentFailedException.Code.INVALID_CREDIT_CARD);
+                    }
                 }
             }).build();
 
