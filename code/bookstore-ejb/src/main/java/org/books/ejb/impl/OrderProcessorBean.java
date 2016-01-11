@@ -57,7 +57,9 @@ public class OrderProcessorBean implements MessageListener {
                             if (orderNumber.equals((String) next.getInfo())) {
                                 next.cancel();
                                 //geht nicht.
+                                
                                 orderDao.delete(order);
+                                
                             }
                             
                         }
