@@ -53,9 +53,6 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
 
     @Resource(mappedName = "jms/orderQueue")
     private Queue orderQueue;
-    
-    @Resource
-    private SessionContext sessionContext;
 
     private JMSContext context;
     private final ModelMapper modelMapper = new ModelMapper();
