@@ -27,14 +27,14 @@ public class BookDao extends GenericDao<Book> {
     }
 
     /**
-     * API Compatibility, like {@link #getByIsbn(java.lang.String) }.
+     * API Compatibility, like {@link #findByIsbn(java.lang.String) }.
      *
      * @param isbn
      * @return
      */
     @Deprecated
     public Book find(String isbn) {
-        return getByIsbn(isbn);
+        return findByIsbn(isbn);
     }
 
     /**
@@ -43,7 +43,7 @@ public class BookDao extends GenericDao<Book> {
      * @param isbn the ISBN number to look for
      * @return the data of the found book or null is no Book is found.
      */
-    public Book getByIsbn(String isbn) {
+    public Book findByIsbn(String isbn) {
         try {
             return this.getEM().createNamedQuery("Book.findByIsbn", Book.class)
                     .setParameter(Book.BOOK_FIND_BY_ISBN_PARAM, isbn)

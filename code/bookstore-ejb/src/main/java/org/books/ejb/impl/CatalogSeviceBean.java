@@ -28,7 +28,7 @@ public class CatalogSeviceBean implements CatalogServiceRemote, CatalogServiceLo
 
     @Override
     public BookDTO addBook(BookDTO bookDTO) throws BookAlreadyExistsException {
-        if (bookDao.getByIsbn(bookDTO.getIsbn()) != null) {
+        if (bookDao.findByIsbn(bookDTO.getIsbn()) != null) {
             throw new BookAlreadyExistsException();
         }
         Book book = modelMapper.map(bookDTO, Book.class);
@@ -38,7 +38,7 @@ public class CatalogSeviceBean implements CatalogServiceRemote, CatalogServiceLo
 
     @Override
     public BookDTO findBook(String isbn) throws BookNotFoundException {
-        Book book = bookDao.getByIsbn(isbn);
+        Book book = bookDao.findByIsbn(isbn);
         if (book == null) {
             throw new BookNotFoundException();
         }
@@ -52,7 +52,7 @@ public class CatalogSeviceBean implements CatalogServiceRemote, CatalogServiceLo
 
     @Override
     public void updateBook(BookDTO bookDTO) throws BookNotFoundException {
-        Book book = bookDao.getByIsbn(bookDTO.getIsbn());
+        Book book = bookDao.findByIsbn(bookDTO.getIsbn());
         if (book == null) {
             throw new BookNotFoundException();
         }

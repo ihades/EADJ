@@ -1,11 +1,11 @@
 package org.books.ejb;
 
 import java.io.Serializable;
-import org.books.ejb.exception.CustomerAlreadyExistsException;
-import org.books.ejb.exception.InvalidPasswordException;
-import org.books.ejb.exception.CustomerNotFoundException;
 import java.util.List;
 import org.books.ejb.dto.CustomerDTO;
+import org.books.ejb.exception.CustomerAlreadyExistsException;
+import org.books.ejb.exception.CustomerNotFoundException;
+import org.books.ejb.exception.InvalidPasswordException;
 import org.books.persistence.dto.CustomerInfo;
 
 /**
@@ -19,10 +19,10 @@ public interface CustomerService extends Serializable {
      *
      * @param email - the email address of the customer
      * @param password - the password of the customer
-     * @throws org.books.ejb.CustomerNotFoundException - if no customer with the
-     * specified email address exists
-     * @throws org.books.ejb.InvalidPasswordException - if the password is
-     * invalid
+     * @throws org.books.ejb.exception.CustomerNotFoundException - if no
+     * customer with the specified email address exists
+     * @throws org.books.ejb.exception.InvalidPasswordException - if the
+     * password is invalid
      */
     void authenticateCustomer(String email, String password) throws CustomerNotFoundException,
             InvalidPasswordException;
@@ -32,8 +32,8 @@ public interface CustomerService extends Serializable {
      *
      * @param email - the email address of the customer
      * @param password - the new password of the customer
-     * @throws org.books.ejb.CustomerNotFoundException - if no customer with the
-     * specified email address exists
+     * @throws org.books.ejb.exception.CustomerNotFoundException - if no
+     * customer with the specified email address exists
      *
      */
     void changePassword(String email, String password) throws CustomerNotFoundException;
@@ -43,8 +43,8 @@ public interface CustomerService extends Serializable {
      *
      * @param customerNr - the number of the customer
      * @return the data of the found customer
-     * @throws org.books.ejb.CustomerNotFoundException - if no customer with the
-     * specified number exists
+     * @throws org.books.ejb.exception.CustomerNotFoundException - if no
+     * customer with the specified number exists
      */
     CustomerDTO findCustomer(String customerNr) throws CustomerNotFoundException;
 
@@ -53,8 +53,8 @@ public interface CustomerService extends Serializable {
      *
      * @param email - the email address of the customer
      * @return the data of the found customer
-     * @throws org.books.ejb.CustomerNotFoundException - if no customer with the
-     * specified email address exists
+     * @throws org.books.ejb.exception.CustomerNotFoundException - if no
+     * customer with the specified email address exists
      */
     CustomerDTO findCustomerByEmail(String email) throws CustomerNotFoundException;
 
@@ -65,8 +65,8 @@ public interface CustomerService extends Serializable {
      * @param customer - the data of the customer to be registered (the number
      * must be null)
      * @param password - the password of the customer
-     * @throws org.books.ejb.CustomerAlreadyExistsException - if another
-     * customer with the same email address already exists
+     * @throws org.books.ejb.exception.CustomerAlreadyExistsException - if
+     * another customer with the same email address already exists
      * @return the data of the registered customer (including the number)
      */
     CustomerDTO registerCustomer(CustomerDTO customer, String password) throws CustomerAlreadyExistsException;
@@ -86,10 +86,10 @@ public interface CustomerService extends Serializable {
      *
      * @param customer - the data of the customer to be updated (the number must
      * not be null)
-     * @throws org.books.ejb.CustomerNotFoundException - if no customer with the
-     * specified number exists
-     * @throws org.books.ejb.CustomerAlreadyExistsException - if another
-     * customer with the same email address already exists
+     * @throws org.books.ejb.exception.CustomerNotFoundException - if no
+     * customer with the specified number exists
+     * @throws org.books.ejb.exception.CustomerAlreadyExistsException - if
+     * another customer with the same email address already exists
      */
     void updateCustomer(CustomerDTO customer) throws CustomerNotFoundException, CustomerAlreadyExistsException;
 }

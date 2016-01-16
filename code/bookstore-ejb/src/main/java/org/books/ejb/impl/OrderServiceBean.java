@@ -129,7 +129,7 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
     }
 
     private Book findBookByIsbn(String isbn) throws BookNotFoundException {
-        Book book = bookDao.getByIsbn(isbn);
+        Book book = bookDao.findByIsbn(isbn);
         if (book == null) {
             throw new BookNotFoundException();
         }

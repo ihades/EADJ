@@ -18,7 +18,7 @@ public class BookDaoTest extends AbstractTestBase {
     @Test
     public void testGetByIsbn() {
         BookDao bookDao = new BookDao(getEm());
-        Book book = bookDao.getByIsbn("0321246780");
+        Book book = bookDao.findByIsbn("0321246780");
         assertNotNull(book);
         assertEquals("The Java Language Specification (3rd Edition)", book.getTitle());
     }
@@ -26,13 +26,13 @@ public class BookDaoTest extends AbstractTestBase {
     @Test
     public void testGetByUnknownIsbn() {
         BookDao bookDao = new BookDao(getEm());
-        assertNull(bookDao.getByIsbn("1234257890"));
+        assertNull(bookDao.findByIsbn("1234257890"));
     }
 
     @Test
     public void testGetByInvalidIsbn() {
         BookDao bookDao = new BookDao(getEm());
-        assertNull(bookDao.getByIsbn("asdds1234875üé"));
+        assertNull(bookDao.findByIsbn("asdds1234875üé"));
     }
 
     @Test

@@ -1,14 +1,15 @@
 package org.books.ejb;
 
 import java.io.Serializable;
-import org.books.ejb.exception.OrderAlreadyShippedException;
-import org.books.ejb.exception.OrderNotFoundException;
-import org.books.ejb.exception.PaymentFailedException;
 import java.util.List;
+import javax.validation.constraints.Size;
 import org.books.ejb.dto.OrderDTO;
 import org.books.ejb.dto.OrderItemDTO;
 import org.books.ejb.exception.BookNotFoundException;
 import org.books.ejb.exception.CustomerNotFoundException;
+import org.books.ejb.exception.OrderAlreadyShippedException;
+import org.books.ejb.exception.OrderNotFoundException;
+import org.books.ejb.exception.PaymentFailedException;
 import org.books.persistence.dto.OrderInfo;
 
 /**
@@ -50,7 +51,7 @@ public interface OrderService extends Serializable {
      * does not exist
      * @throws PaymentFailedException - if a payment error occurs
      */
-    OrderDTO placeOrder(String customerNr, List<OrderItemDTO> items) throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException;
+    OrderDTO placeOrder(String customerNr, @Size(min = 1) List<OrderItemDTO> items) throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException;
 
     /**
      * Searches for orders by customer and year.
