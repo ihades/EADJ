@@ -3,6 +3,12 @@
          version = "3.1"
          xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation = "http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+    <interceptors>
+        <interceptor>
+            <interceptor-class>org.books.ejb.interceptor.ValidationInterceptor</interceptor-class>
+        </interceptor>
+    </interceptors>
+
     <assembly-descriptor>
         <!-- Default interceptor that will apply to all methods for all beans in deployment -->
         <interceptor-binding>
