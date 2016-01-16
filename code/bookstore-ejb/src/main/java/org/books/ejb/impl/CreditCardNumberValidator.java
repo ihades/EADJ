@@ -49,8 +49,8 @@ public class CreditCardNumberValidator {
     }
 
     public final void validateCreditCard(CreditCard card, BigDecimal limit) throws PaymentFailedException {
-        if (this.limit.compareTo(limit) != -1) {
-            throw new PaymentFailedException(PaymentFailedException.Code.CREDIT_CARD_EXPIRED);
+        if (this.limit.compareTo(limit) == -1) {
+            throw new PaymentFailedException(PaymentFailedException.Code.PAYMENT_LIMIT_EXCEEDED);
         }
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);

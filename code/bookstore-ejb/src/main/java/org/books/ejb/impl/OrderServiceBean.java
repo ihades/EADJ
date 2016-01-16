@@ -97,6 +97,7 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
                 customer.getAddress(),
                 customer.getCreditCard(),
                 orderItems);
+        System.out.println("PRICE: "+order.getAmount());
         new CreditCardNumberValidator(PAYMENT_LIMIT).validateCreditCard(order.getCreditCard(), order.getAmount());
         orderDao.create(order);
         order.setNumber("O-" + order.getId());
@@ -137,12 +138,11 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
     }
 
     private BigDecimal calculateAmount(List<OrderItem> orderItems) {
-        final BigDecimal result = new BigDecimal(0);
+        BigDecimal result = new BigDecimal(0);
         //pre-java-8 for there is an incompatibility on OSX with a class. i firgot which one.
         for (OrderItem next : orderItems) {
-            result.add(next.getPrice());
+            result = result.add(next.getBook().getPrice().multiply(new BigDecimal(next.getQuantity())));
         }
-        //orderItems.forEach(item -> result.add(item.getPrice()));
         return result;
     }
 

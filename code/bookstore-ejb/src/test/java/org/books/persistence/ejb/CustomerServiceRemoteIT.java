@@ -5,6 +5,7 @@ import org.books.ejb.CustomerService;
 import org.books.ejb.dto.AddressDTO;
 import org.books.ejb.dto.CreditCardDTO;
 import org.books.ejb.dto.CustomerDTO;
+import org.books.ejb.exception.CustomerAlreadyExistsException;
 import org.books.ejb.exception.CustomerNotFoundException;
 import org.books.ejb.exception.InvalidPasswordException;
 import org.junit.Assert;
@@ -48,6 +49,15 @@ public class CustomerServiceRemoteIT {
         System.out.println("Kunde mit Nummer " + registred.getNumber() + " registriert.");
         customer = registred;
     }
+    
+    @Test(dependsOnMethods = {"registerCustomer"}, expectedExceptions = {CustomerAlreadyExistsException.class})
+    public void registerSameCustomer() throws Exception {
+        CustomerDTO registred = customerService.registerCustomer(customer, "123456789");
+        Assert.assertNotNull(registred.getNumber());
+        Assert.assertNotSame("TEMPORARY", registred.getNumber());
+        System.out.println("Kunde mit Nummer " + registred.getNumber() + " registriert.");
+        customer = registred;
+    }
 
     @Test(dependsOnMethods = "registerCustomer")
     public void getCustomerByEmail() throws Exception {
@@ -81,5 +91,7 @@ public class CustomerServiceRemoteIT {
             customerService.updateCustomer(customer);
         }
     }
+    
+    
 
 }

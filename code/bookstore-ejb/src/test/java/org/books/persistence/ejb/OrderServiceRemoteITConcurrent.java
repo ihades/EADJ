@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,9 +41,8 @@ import org.junit.Assert;
 import org.testng.annotations.BeforeTest;
 
 
-public class OrderServiceRemoteIT {
-    
-    private int timerTimeoutForShipment = 31000;
+public class OrderServiceRemoteITConcurrent {
+    private static final int THREADS = 2;
     
     private OrderService orderService;
     
@@ -54,9 +54,6 @@ public class OrderServiceRemoteIT {
             "Bern",
             "3011",
             "Switzerland");
-
-     	
-
     
     
     private final CreditCardDTO validCreditCardDTO = new CreditCardDTO(CreditCardDTO.Type.MasterCard,
@@ -64,9 +61,16 @@ public class OrderServiceRemoteIT {
             2,
             2017);
 
-    private CustomerDTO customerDTO = new CustomerDTO(Util.numbGen() + "@gmail.com",
+    private CustomerDTO customerDTO1 = new CustomerDTO(Util.numbGen() + "@gmail.com",
             "Erwin",
             "Bazong",
+            null,
+            addressDTO,
+            validCreditCardDTO);
+    
+    private CustomerDTO customerDTO2 = new CustomerDTO(Util.numbGen() + "@gmail.com",
+            "Gimmgamm",
+            "Zarwipfel",
             null,
             addressDTO,
             validCreditCardDTO);
@@ -78,6 +82,8 @@ public class OrderServiceRemoteIT {
     private List<OrderItemDTO> orderList = new ArrayList<OrderItemDTO>();
     private OrderDTO testOrderDTO;
     
+    private List<OrderDTO> orders = new ArrayList<>();
+    
     
     
     @BeforeClass
@@ -86,43 +92,59 @@ public class OrderServiceRemoteIT {
         orderService = (OrderService) context.lookup(Util.ORDER_SERVICE_NAME);
         customerService = (CustomerService) context.lookup(Util.CUSTOMER_SERVICE_NAME);
         catalogService = (CatalogService) context.lookup(Util.CATALOG_SERVICE_NAME);
+        
     }
     @BeforeTest
-    public void init() throws CustomerAlreadyExistsException, CustomerNotFoundException {        
+    public void init() throws CustomerAlreadyExistsException, CustomerNotFoundException, BookAlreadyExistsException {        
         orderList.add(orderItemDTO);
     }
 
-    @Test(expectedExceptions = {BookNotFoundException.class})
-    public void placeOrderWithWrongBook() throws BookNotFoundException, CustomerAlreadyExistsException, CustomerNotFoundException, PaymentFailedException {
-        customerDTO = customerService.registerCustomer(customerDTO, "PW");
-        orderService.placeOrder(customerDTO.getNumber(), orderList);
-        
+    @Test
+    public void init2()  throws CustomerAlreadyExistsException, BookAlreadyExistsException{
+        customerDTO1 = customerService.registerCustomer(customerDTO1, "PW");
+        customerDTO2 = customerService.registerCustomer(customerDTO2, "PW");
+        catalogService.addBook(bookDTO);
+    }
+    @Test(dependsOnMethods = {"init2"}, threadPoolSize = THREADS, invocationCount = THREADS)
+    public void placeMultipleOrders() throws BookNotFoundException, CustomerAlreadyExistsException, CustomerNotFoundException, PaymentFailedException {   
+        orders.add(orderService.placeOrder(customerDTO1.getNumber(), orderList));
+        orders.add(orderService.placeOrder(customerDTO1.getNumber(), orderList));
+        orders.add(orderService.placeOrder(customerDTO2.getNumber(), orderList));
     }
     
-    @Test(dependsOnMethods = {"placeOrderWithWrongBook"}, expectedExceptions = {ValidationException.class})
+    @Test(dependsOnMethods = {"placeMultipleOrders"})
+    public void countOrders() {  
+        Assert.assertEquals(6, orders.size());
+    }
+    
+    @Test(dependsOnMethods = {"placeMultipleOrders"})
+    public void checkUniqueOrderNumbersAndSize() {  
+        Assert.assertEquals(6, orders.size());
+        ArrayList<String> numbers = new ArrayList<>();
+        for (OrderDTO o : orders) {
+            numbers.add(o.getNumber());
+        }
+        HashSet<String> uniqueOrders = new HashSet<>(numbers);
+        Assert.assertEquals(orders.size(), uniqueOrders.size());
+    }
+    
+    
+    @Test(dependsOnMethods = {"countOrders"}, expectedExceptions = {ValidationException.class})
     public void placeEmptyOrder() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
         orderList.clear();
         catalogService.addBook(bookDTO);
-        OrderDTO orderDTO = orderService.placeOrder(customerDTO.getNumber(), orderList);
+        OrderDTO orderDTO = orderService.placeOrder(customerDTO1.getNumber(), orderList);
+        //schauen, ob richtig persistiert wird.
+        Assert.assertEquals(orderDTO.getStatus(), Status.accepted);
+        Assert.assertEquals(orderDTO.getItems().size(), 0);
     }
     
     
     @Test(dependsOnMethods = {"placeEmptyOrder"})
     public void placeOrderWithGoodBook() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
         orderList.add(orderItemDTO);
-        testOrderDTO = orderService.placeOrder(customerDTO.getNumber(), orderList);
+        testOrderDTO = orderService.placeOrder(customerDTO1.getNumber(), orderList);
         Assert.assertEquals(testOrderDTO.getStatus(), Status.accepted);
-    }
-    
-    @Test(dependsOnMethods = {"placeOrderWithGoodBook"}, expectedExceptions = PaymentFailedException.class)
-    public void placeOrderWithTooExpensiveBook() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
-        
-        List<OrderItemDTO> ld = new ArrayList<>();
-        BookDTO bd = new BookDTO(numbGen(), "Java10", "Rübezahl", "Alphabet-Press", new Integer(2015), BookDTO.Binding.Hardcover, 1000, new BigDecimal("500.0"));
-        catalogService.addBook(bd);
-        OrderItemDTO oid = new OrderItemDTO(bd, new BigDecimal("500.0"), 3);
-        ld.add(oid);
-        orderService.placeOrder(customerDTO.getNumber(), ld);
     }
     
     @Test(dependsOnMethods = {"placeOrderWithGoodBook"})
@@ -130,7 +152,7 @@ public class OrderServiceRemoteIT {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         int year = cal.get(Calendar.YEAR);
-        List<OrderInfo> orderInfos = orderService.searchOrders(customerDTO.getNumber(), year);
+        List<OrderInfo> orderInfos = orderService.searchOrders(customerDTO1.getNumber(), year);
         Assert.assertEquals(1, orderInfos.size());
         
     }
@@ -141,13 +163,13 @@ public class OrderServiceRemoteIT {
         Assert.assertEquals(testOrderDTO.getNumber(), orderDTO.getNumber());
     }
     
-    @Test(dependsOnMethods = {"findOrder"}, expectedExceptions = OrderAlreadyShippedException.class)
-    public void cancelOrderExpectException() throws OrderNotFoundException, OrderAlreadyShippedException {
+    @Test(dependsOnMethods = {"findOrder"})
+    public void cancelOrder() throws OrderNotFoundException, OrderAlreadyShippedException {
         orderService.cancelOrder(testOrderDTO.getNumber());
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
-            Logger.getLogger(OrderServiceRemoteIT.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderServiceRemoteITConcurrent.class.getName()).log(Level.SEVERE, null, ex);
         }
         Assert.assertEquals(Status.canceled, orderService.findOrder(testOrderDTO.getNumber()).getStatus());;
     }
@@ -166,19 +188,6 @@ public class OrderServiceRemoteIT {
         OrderDTO wrongOrderDTO = new OrderDTO();
         orderService.cancelOrder(wrongOrderDTO.getNumber());
     }
-    
-    @Test(dependsOnMethods = "placeOrderWithGoodBook")
-    public void checkTimer() throws OrderNotFoundException {
-        try {
-            Thread.sleep(timerTimeoutForShipment);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(OrderServiceRemoteIT.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        Assert.assertEquals(Status.shipped, orderService.findOrder(testOrderDTO.getNumber()).getStatus());
-        
-    }
-    
     
     
     //    @Override

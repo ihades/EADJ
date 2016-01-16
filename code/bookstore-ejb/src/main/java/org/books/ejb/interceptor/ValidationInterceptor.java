@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 import javax.interceptor.AroundInvoke;
+import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import javax.validation.executable.ExecutableValidator;
 import org.books.ejb.exception.ValidationException;
-
+@Interceptor
 public class ValidationInterceptor {
 
     private static final Logger logger = Logger.getLogger(ValidationInterceptor.class.getName());
