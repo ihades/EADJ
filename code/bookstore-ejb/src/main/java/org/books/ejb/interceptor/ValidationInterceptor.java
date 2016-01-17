@@ -12,6 +12,7 @@ import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import javax.validation.executable.ExecutableValidator;
 import org.books.ejb.exception.ValidationException;
+
 @Interceptor
 public class ValidationInterceptor {
 

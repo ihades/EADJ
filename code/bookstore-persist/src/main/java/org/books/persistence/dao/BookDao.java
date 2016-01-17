@@ -54,6 +54,22 @@ public class BookDao extends GenericDao<Book> {
     }
 
     /**
+     * Finds a Book by it's ISBN-Number and Locks that Book.
+     *
+     * @param isbn the ISBN number to look for
+     * @return the data of the found book or null is no Book is found.
+     */
+    public Book findByIsbnPessimisticLock(String isbn) {
+        try {
+            return this.getEM().createNamedQuery("Book.findByIsbnPessimisticLock", Book.class)
+                    .setParameter(Book.BOOK_FIND_BY_ISBN_PARAM, isbn)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
      * API Compatibility, like {@link #searchByKeywords(List<String> keywords)
      * }.
      *

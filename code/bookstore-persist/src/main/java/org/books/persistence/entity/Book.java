@@ -7,13 +7,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.LockModeType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @NamedQueries({
     @NamedQuery(name = "Book.findByIsbn", query = "SELECT b "
             + "FROM Book b "
-            + "WHERE UPPER(b.isbn) = UPPER(:isbn)")
+            + "WHERE UPPER(b.isbn) = UPPER(:isbn)"),
+    @NamedQuery(name = "Book.findByIsbnPessimisticLock", query = "SELECT b "
+            + "FROM Book b "
+            + "WHERE UPPER(b.isbn) = UPPER(:isbn)", lockMode = LockModeType.PESSIMISTIC_WRITE)
 })
 @Entity
 public class Book extends IDObject {

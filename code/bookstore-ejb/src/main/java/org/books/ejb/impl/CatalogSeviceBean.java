@@ -2,12 +2,7 @@ package org.books.ejb.impl;
 
 import java.util.Arrays;
 import java.util.List;
-import javax.ejb.ConcurrencyManagement;
-import static javax.ejb.ConcurrencyManagementType.CONTAINER;
 import javax.ejb.EJB;
-import javax.ejb.Lock;
-import static javax.ejb.LockType.READ;
-import static javax.ejb.LockType.WRITE;
 import javax.ejb.Stateless;
 import org.books.ejb.CatalogServiceLocal;
 import org.books.ejb.CatalogServiceRemote;
@@ -57,7 +52,7 @@ public class CatalogSeviceBean implements CatalogServiceRemote, CatalogServiceLo
 
     @Override
     public void updateBook(BookDTO bookDTO) throws BookNotFoundException {
-        Book book = bookDao.findByIsbn(bookDTO.getIsbn());
+        Book book = bookDao.findByIsbnPessimisticLock(bookDTO.getIsbn());
         if (book == null) {
             throw new BookNotFoundException();
         }

@@ -7,7 +7,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSContext;
@@ -97,7 +96,7 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
                 customer.getAddress(),
                 customer.getCreditCard(),
                 orderItems);
-        System.out.println("PRICE: "+order.getAmount());
+        System.out.println("PRICE: " + order.getAmount());
         new CreditCardNumberValidator(PAYMENT_LIMIT).validateCreditCard(order.getCreditCard(), order.getAmount());
         orderDao.create(order);
         order.setNumber("O-" + order.getId());

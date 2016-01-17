@@ -2,6 +2,7 @@ package org.books.ejb;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.books.ejb.dto.OrderDTO;
 import org.books.ejb.dto.OrderItemDTO;
@@ -27,7 +28,7 @@ public interface OrderService extends Serializable {
      * @throws OrderAlreadyShippedException - if the order has already been
      * shipped
      */
-    void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException;
+    void cancelOrder(@NotNull String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException;
 
     /**
      * Finds an order by number.
