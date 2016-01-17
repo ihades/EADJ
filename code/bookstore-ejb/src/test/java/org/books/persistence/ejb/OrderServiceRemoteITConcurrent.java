@@ -129,76 +129,21 @@ public class OrderServiceRemoteITConcurrent {
     }
     
     
-    @Test(dependsOnMethods = {"countOrders"}, expectedExceptions = {ValidationException.class})
-    public void placeEmptyOrder() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
-        orderList.clear();
-        catalogService.addBook(bookDTO);
-        OrderDTO orderDTO = orderService.placeOrder(customerDTO1.getNumber(), orderList);
-        //schauen, ob richtig persistiert wird.
-        Assert.assertEquals(orderDTO.getStatus(), Status.accepted);
-        Assert.assertEquals(orderDTO.getItems().size(), 0);
-    }
-    
-    
-    @Test(dependsOnMethods = {"placeEmptyOrder"})
-    public void placeOrderWithGoodBook() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
-        orderList.add(orderItemDTO);
-        testOrderDTO = orderService.placeOrder(customerDTO1.getNumber(), orderList);
-        Assert.assertEquals(testOrderDTO.getStatus(), Status.accepted);
-    }
-    
-    @Test(dependsOnMethods = {"placeOrderWithGoodBook"})
-    public void searchOrder() throws CustomerNotFoundException {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        int year = cal.get(Calendar.YEAR);
-        List<OrderInfo> orderInfos = orderService.searchOrders(customerDTO1.getNumber(), year);
-        Assert.assertEquals(1, orderInfos.size());
-        
-    }
-    
-    @Test(dependsOnMethods = {"searchOrder"})
-    public void findOrder() throws OrderNotFoundException {
-        OrderDTO orderDTO = orderService.findOrder(testOrderDTO.getNumber());
-        Assert.assertEquals(testOrderDTO.getNumber(), orderDTO.getNumber());
-    }
-    
-    @Test(dependsOnMethods = {"findOrder"})
-    public void cancelOrder() throws OrderNotFoundException, OrderAlreadyShippedException {
-        orderService.cancelOrder(testOrderDTO.getNumber());
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(OrderServiceRemoteITConcurrent.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Assert.assertEquals(Status.canceled, orderService.findOrder(testOrderDTO.getNumber()).getStatus());;
-    }
-    
-    @Test(dependsOnMethods = {"findOrder"}, expectedExceptions = {OrderNotFoundException.class})
-    public void cancelWrongOrder() throws OrderNotFoundException, OrderAlreadyShippedException {
-        OrderDTO wrongOrderDTO = new OrderDTO();
-        wrongOrderDTO.setNumber("0");
-        orderService.cancelOrder(wrongOrderDTO.getNumber());
-    }
-    
-    //null references need to be caught in cancelOrder.
-    @Test(dependsOnMethods = {"cancelWrongOrder"}, expectedExceptions = {OrderNotFoundException.class})
-    public void cancelOrderWithWrongOrderDTO() throws OrderNotFoundException, OrderAlreadyShippedException {
-        //protect cancelOrder of null pointers. maybe master fischli could have suggested a Builder for DTOs.
-        OrderDTO wrongOrderDTO = new OrderDTO();
-        orderService.cancelOrder(wrongOrderDTO.getNumber());
-    }
-    
-    
-    //    @Override
-//    public void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
 
-//    @Override
-//    public List<OrderInfo> searchOrders(String customerNr, Integer year) throws CustomerNotFoundException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
+    
+    
+
+    
+
+
+    
+
+    
+
+    
+
+    
+    
     
     
     
