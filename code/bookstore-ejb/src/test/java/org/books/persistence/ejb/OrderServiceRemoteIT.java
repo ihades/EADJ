@@ -129,8 +129,9 @@ public class OrderServiceRemoteIT {
     }
 
     @Test(dependsOnMethods = {"placeOrderWithTooExpensiveBook"})
-    public void placeOrderWithWrongCreditCard() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
+    public void placeOrderWithWrongCreditCard() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, CustomerAlreadyExistsException {
         customerDTO.setCreditCard(invalidCreditCardDTO);
+        customerService.updateCustomer(customerDTO);
         List<OrderItemDTO> ld = new ArrayList<>();
         BookDTO bd = new BookDTO(numbGen(), "Java10", "Rübezahl", "Alphabet-Press", new Integer(2015), BookDTO.Binding.Hardcover, 1000, new BigDecimal("500.0"));
         catalogService.addBook(bd);
@@ -143,14 +144,16 @@ public class OrderServiceRemoteIT {
             Assert.assertEquals(PaymentFailedException.Code.INVALID_CREDIT_CARD, pex.getCode());
         }
         customerDTO.setCreditCard(validCreditCardDTO);
+        customerService.updateCustomer(customerDTO);
 
     }
 
     @Test(dependsOnMethods = {"placeOrderWithTooExpensiveBook"})
-    public void placeOrderWithExpiredCreditCard() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
+    public void placeOrderWithExpiredCreditCard() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, CustomerAlreadyExistsException {
         invalidCreditCardDTO.setExpirationYear(2014);
         invalidCreditCardDTO.setNumber(validCreditCardDTO.getNumber());
         customerDTO.setCreditCard(invalidCreditCardDTO);
+        customerService.updateCustomer(customerDTO);
         List<OrderItemDTO> ld = new ArrayList<>();
         BookDTO bd = new BookDTO(numbGen(), "Java10", "Rübezahl", "Alphabet-Press", new Integer(2015), BookDTO.Binding.Hardcover, 1000, new BigDecimal("500.0"));
         catalogService.addBook(bd);
@@ -163,7 +166,7 @@ public class OrderServiceRemoteIT {
             Assert.assertEquals(PaymentFailedException.Code.CREDIT_CARD_EXPIRED, pex.getCode());
         }
         customerDTO.setCreditCard(validCreditCardDTO);
-
+        customerService.updateCustomer(customerDTO);
     }
 
     @Test(dependsOnMethods = {"placeOrderWithExpiredCreditCard"})
