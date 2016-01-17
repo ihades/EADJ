@@ -1,0 +1,25 @@
+Release Notes Bookstore
+Diese Loslassnotizen beziehen sich auf die dritte Iteration des Bootstore-Projektes im CAS-Kursus „EADJ“ an der  Berner Fachhochschule.
+Neue Funktionen
+-Umbau der Datenzugriffe auf Remote-Interfaces.
+-Asynchrone Mailfunktionalität (nach Bestellung, bei Stornierung und beim Warenversand wird ein eMail ausgelöst).
+-Einfach editierbare eMail-Templates als Textfiles (Apache velocity)
+-Integrationstests (Single- und Multithreaded).
+-Interceptor für alle Methodencalls im Projekt mit globalem Validator.
+-Globale Validation-Exception.
+-OrderProcessorBean als MessageDrivenBean.
+-TimerService wird verwendet, um Bestellstati zu ändern.
+
+Verbesserungen
+Via ValidationException und Interceptor ungültige API-Calls (NPE, leere Listen) abgefangen.
+Geschwindigkeitsverbesserungen
+<Keine>
+Sonstige Verbesserungen
+<Keine>
+Entfernte Funktionen
+<Keine>
+Bug Fixes
+<Keine>
+
+Bekannte Probleme
+Beim Versenden von Emails von Windows sendet Gmail Compliance-Probleme. Von OSX aus geht alles gut.
