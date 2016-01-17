@@ -210,7 +210,7 @@ public class OrderServiceRemoteIT {
         orderService.cancelOrder(wrongOrderDTO.getNumber());
     }
 
-    @Test(dependsOnMethods = "placeOrderWithGoodBook")
+    @Test(dependsOnMethods = {"placeOrderWithGoodBook", "searchOrder"})
     public void checkTimer() throws OrderNotFoundException {
         try {
             Thread.sleep(timerTimeoutForShipment);
@@ -232,13 +232,4 @@ public class OrderServiceRemoteIT {
         Assert.assertEquals(Status.canceled, orderService.findOrder(od.getNumber()).getStatus());
 
     }
-
-    //    @Override
-//    public void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//    @Override
-//    public List<OrderInfo> searchOrders(String customerNr, Integer year) throws CustomerNotFoundException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
 }
