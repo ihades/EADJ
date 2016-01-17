@@ -3,12 +3,12 @@ package org.books.ejb.impl;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import org.books.ejb.exception.CustomerAlreadyExistsException;
-import org.books.ejb.exception.CustomerNotFoundException;
 import org.books.ejb.CustomerServiceLocal;
 import org.books.ejb.CustomerServiceRemote;
-import org.books.ejb.exception.InvalidPasswordException;
 import org.books.ejb.dto.CustomerDTO;
+import org.books.ejb.exception.CustomerAlreadyExistsException;
+import org.books.ejb.exception.CustomerNotFoundException;
+import org.books.ejb.exception.InvalidPasswordException;
 import org.books.persistence.dao.CustomerDao;
 import org.books.persistence.dao.LoginDao;
 import org.books.persistence.dto.CustomerInfo;
@@ -88,11 +88,13 @@ public class CustomerServiceBean implements CustomerServiceLocal, CustomerServic
 
     @Override
     public void updateCustomer(CustomerDTO customerDto) throws CustomerNotFoundException, CustomerAlreadyExistsException {
-        ensureUniqueness(customerDto.getEmail());
         if (customerDto.getNumber() == null) {
             throw new CustomerNotFoundException();
         }
         Customer customer = getCustomerByNumber(customerDto.getNumber());
+        if (!customer.getEmail().equals(customerDto.getEmail())) {
+            ensureUniqueness(customerDto.getEmail());
+        }
         updateLogin(customer.getEmail(), customerDto.getEmail());
         modelMapper.map(customerDto, customer);
         customerDao.update(customer);
