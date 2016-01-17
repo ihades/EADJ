@@ -36,6 +36,7 @@ public class MailService {
     private final static Logger LOGGER = Logger.getLogger(OrderProcessorBean.class.getName());
     private final static String PLACED_ORDER_MAIL_HEADER = "Thank you for your order";
     private final static String SHIPPED_ORDER_MAIL_HEADER = "Your order has been shipped";
+    private final static String CANCELED_ORDER_MAIL_HEADER = "Successful cancellation of your order";
 
     @Asynchronous
     public void sendMail(Order order) {
@@ -79,6 +80,10 @@ public class MailService {
             case shipped:
                 t = ve.getTemplate("orderShippedTemplate");
                 header = SHIPPED_ORDER_MAIL_HEADER;
+                break;
+            case canceled:
+                t = ve.getTemplate("orderCanceledTemplate");
+                header = CANCELED_ORDER_MAIL_HEADER;
                 break;
             default:
                 throw new UnknownOrderStateException();
