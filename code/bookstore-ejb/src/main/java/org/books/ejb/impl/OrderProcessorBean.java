@@ -33,7 +33,7 @@ public class OrderProcessorBean implements MessageListener {
     @EJB
     private OrderDao orderDao;
     @EJB
-    private MailService mailService;
+    private MailServiceBean mailService;
     @Resource
     private TimerService timerService;
 

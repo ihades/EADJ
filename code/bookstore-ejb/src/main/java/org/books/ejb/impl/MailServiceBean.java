@@ -28,12 +28,12 @@ import org.books.persistence.entity.Order;
  */
 @Stateless
 @LocalBean
-public class MailService {
+public class MailServiceBean {
 
     @Resource(name = "mail/bookstore")
     private Session mailSession;
 
-    private final static Logger LOGGER = Logger.getLogger(OrderProcessorBean.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(MailServiceBean.class.getName());
     private final static String PLACED_ORDER_MAIL_HEADER = "Thank you for your order";
     private final static String SHIPPED_ORDER_MAIL_HEADER = "Your order has been shipped";
     private final static String CANCELED_ORDER_MAIL_HEADER = "Successful cancellation of your order";
