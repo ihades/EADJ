@@ -2,7 +2,8 @@ Release Notes Bookstore
 Diese Loslassnotizen beziehen sich auf die dritte Iteration des Bootstore-Projektes im CAS-Kursus „EADJ“ an der  Berner Fachhochschule.
 Neue Funktionen
 -Umbau der Datenzugriffe auf Remote-Interfaces.
--Asynchrone Mailfunktionalität (nach Bestellung und nach Absendung wird eMail ausgelöst).
+-Asynchrone Mailfunktionalität (nach Bestellung, bei Stornierung und beim Warenversand wird ein eMail ausgelöst).
+-Einfach editierbare eMail-Templates als Textfiles (Apache velocity)
 -Integrationstests (Single- und Multithreaded).
 -Interceptor für alle Methodencalls im Projekt mit globalem Validator.
 -Globale Validation-Exception.
