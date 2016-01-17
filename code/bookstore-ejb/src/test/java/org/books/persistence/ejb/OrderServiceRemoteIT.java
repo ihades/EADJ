@@ -159,10 +159,8 @@ public class OrderServiceRemoteIT {
         orderService.cancelOrder(wrongOrderDTO.getNumber());
     }
     
-    //null references need to be caught in cancelOrder.
-    @Test(dependsOnMethods = {"cancelWrongOrder"}, expectedExceptions = {OrderNotFoundException.class})
+    @Test(dependsOnMethods = {"cancelWrongOrder"}, expectedExceptions = {ValidationException.class})
     public void cancelOrderWithWrongOrderDTO() throws OrderNotFoundException, OrderAlreadyShippedException {
-        //protect cancelOrder of null pointers. maybe master fischli could have suggested a Builder for DTOs.
         OrderDTO wrongOrderDTO = new OrderDTO();
         orderService.cancelOrder(wrongOrderDTO.getNumber());
     }
