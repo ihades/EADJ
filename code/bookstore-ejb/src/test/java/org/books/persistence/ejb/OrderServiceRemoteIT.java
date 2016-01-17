@@ -42,7 +42,7 @@ import org.testng.annotations.BeforeTest;
 
 public class OrderServiceRemoteIT {
     
-    private int timerTimeoutForShipment = 31000;
+    private int timerTimeoutForShipment = 35000;
     
     private OrderService orderService;
     
@@ -63,8 +63,12 @@ public class OrderServiceRemoteIT {
             "5555555555554444",
             2,
             2017);
+    private final CreditCardDTO invalidCreditCardDTO = new CreditCardDTO(CreditCardDTO.Type.MasterCard,
+            "5555555555554445",
+            2,
+            2017);
 
-    private CustomerDTO customerDTO = new CustomerDTO("edm@dmace.com",
+    private CustomerDTO customerDTO = new CustomerDTO(numbGen()+"chrigu.b@gmail.com",
             "Erwin",
             "Bazong",
             null,
@@ -114,7 +118,7 @@ public class OrderServiceRemoteIT {
         Assert.assertEquals(testOrderDTO.getStatus(), Status.accepted);
     }
     
-    @Test(dependsOnMethods = {"placeOrderWithGoodBook"}, expectedExceptions = PaymentFailedException.class)
+    @Test(dependsOnMethods = {"placeOrderWithGoodBook"})
     public void placeOrderWithTooExpensiveBook() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
         
         List<OrderItemDTO> ld = new ArrayList<>();
@@ -122,10 +126,52 @@ public class OrderServiceRemoteIT {
         catalogService.addBook(bd);
         OrderItemDTO oid = new OrderItemDTO(bd, new BigDecimal("500.0"), 3);
         ld.add(oid);
-        orderService.placeOrder(customerDTO.getNumber(), ld);
+        try {
+            orderService.placeOrder(customerDTO.getNumber(), ld);
+        } catch (PaymentFailedException pex) {
+            Assert.assertEquals(PaymentFailedException.Code.PAYMENT_LIMIT_EXCEEDED, pex.getCode());
+        }
+        
     }
     
-    @Test(dependsOnMethods = {"placeOrderWithGoodBook"})
+    @Test(dependsOnMethods = {"placeOrderWithTooExpensiveBook"})
+    public void placeOrderWithWrongCreditCard() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
+        customerDTO.setCreditCard(invalidCreditCardDTO);
+        List<OrderItemDTO> ld = new ArrayList<>();
+        BookDTO bd = new BookDTO(numbGen(), "Java10", "Rübezahl", "Alphabet-Press", new Integer(2015), BookDTO.Binding.Hardcover, 1000, new BigDecimal("500.0"));
+        catalogService.addBook(bd);
+        OrderItemDTO oid = new OrderItemDTO(bd, new BigDecimal("500.0"), 1);
+        ld.add(oid);
+        try {
+            orderService.placeOrder(customerDTO.getNumber(), ld);
+        } catch (PaymentFailedException pex) {
+            Assert.assertEquals(PaymentFailedException.Code.INVALID_CREDIT_CARD, pex.getCode());
+        }
+        customerDTO.setCreditCard(validCreditCardDTO);
+        
+    }
+    
+    @Test(dependsOnMethods = {"placeOrderWithTooExpensiveBook"})
+    public void placeOrderWithExpiredCreditCard() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
+        invalidCreditCardDTO.setExpirationYear(2014);
+        invalidCreditCardDTO.setNumber(validCreditCardDTO.getNumber());
+        customerDTO.setCreditCard(invalidCreditCardDTO);
+        List<OrderItemDTO> ld = new ArrayList<>();
+        BookDTO bd = new BookDTO(numbGen(), "Java10", "Rübezahl", "Alphabet-Press", new Integer(2015), BookDTO.Binding.Hardcover, 1000, new BigDecimal("500.0"));
+        catalogService.addBook(bd);
+        OrderItemDTO oid = new OrderItemDTO(bd, new BigDecimal("500.0"), 1);
+        ld.add(oid);
+        try {
+            orderService.placeOrder(customerDTO.getNumber(), ld);
+        } catch (PaymentFailedException pex) {
+            Assert.assertEquals(PaymentFailedException.Code.CREDIT_CARD_EXPIRED, pex.getCode());
+        }
+        customerDTO.setCreditCard(validCreditCardDTO);
+        
+    }
+    
+    
+    @Test(dependsOnMethods = {"placeOrderWithExpiredCreditCard"})
     public void searchOrder() throws CustomerNotFoundException {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());

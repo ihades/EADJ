@@ -96,7 +96,6 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
                 customer.getAddress(),
                 customer.getCreditCard(),
                 orderItems);
-        System.out.println("PRICE: " + order.getAmount());
         new CreditCardNumberValidator(PAYMENT_LIMIT).validateCreditCard(order.getCreditCard(), order.getAmount());
         orderDao.create(order);
         order.setNumber("O-" + order.getId());
