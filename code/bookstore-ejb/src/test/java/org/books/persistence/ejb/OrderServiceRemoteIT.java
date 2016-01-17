@@ -42,7 +42,7 @@ import org.testng.annotations.BeforeTest;
 
 public class OrderServiceRemoteIT {
     
-    private int timerTimeoutForShipment = 31000;
+    private int timerTimeoutForShipment = 90000;
     
     private OrderService orderService;
     
@@ -174,6 +174,18 @@ public class OrderServiceRemoteIT {
         }
         
         Assert.assertEquals(Status.shipped, orderService.findOrder(testOrderDTO.getNumber()).getStatus());
+    }
+    
+    @Test(dependsOnMethods = "checkTimer")
+    public void cancelValidOrder() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, OrderAlreadyShippedException {
+        OrderItemDTO oid = new OrderItemDTO(bookDTO, bookDTO.getPrice(), 1);
+        List<OrderItemDTO> ol = new ArrayList<OrderItemDTO>();
+        ol.add(oid);
+        OrderDTO od = orderService.placeOrder(customerDTO.getNumber(), ol);
+        Assert.assertEquals(Status.accepted, od.getStatus());
+        orderService.cancelOrder(od.getNumber());
+        Assert.assertEquals(Status.canceled, orderService.findOrder(od.getNumber()).getStatus());
+        
         
     }
     
