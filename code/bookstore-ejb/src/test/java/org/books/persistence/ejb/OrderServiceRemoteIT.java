@@ -32,33 +32,28 @@ import org.books.ejb.exception.OrderNotFoundException;
 import org.books.ejb.exception.PaymentFailedException;
 import org.books.ejb.exception.ValidationException;
 import org.books.persistence.dto.OrderInfo;
-import static org.junit.Assert.assertEquals;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 import static org.books.persistence.ejb.Util.numbGen;
 import org.junit.Assert;
+import static org.junit.Assert.fail;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
-
+import org.testng.annotations.Test;
 
 public class OrderServiceRemoteIT {
-    
+
     private int timerTimeoutForShipment = 35000;
-    
+
     private OrderService orderService;
-    
+
     private CustomerService customerService;
-    
+
     private CatalogService catalogService;
-    
+
     private final AddressDTO addressDTO = new AddressDTO("Wasserschloss 42",
             "Bern",
             "3011",
             "Switzerland");
 
-     	
-
-    
-    
     private final CreditCardDTO validCreditCardDTO = new CreditCardDTO(CreditCardDTO.Type.MasterCard,
             "5555555555554444",
             2,
@@ -68,22 +63,20 @@ public class OrderServiceRemoteIT {
             2,
             2017);
 
-    private CustomerDTO customerDTO = new CustomerDTO(numbGen()+"chrigu.b@gmail.com",
+    private CustomerDTO customerDTO = new CustomerDTO(numbGen() + "chrigu.b@gmail.com",
             "Erwin",
             "Bazong",
             null,
             addressDTO,
             validCreditCardDTO);
-    
+
     //should be different from already existing books in db.
     private BookDTO bookDTO = new BookDTO(numbGen(), "Java9", "Bill Gates", "M$-Press", new Integer(2015), BookDTO.Binding.Hardcover, 1000, new BigDecimal("33.3"));
     private OrderItemDTO orderItemDTO = new OrderItemDTO(bookDTO, bookDTO.getPrice(), 1);
-    
+
     private List<OrderItemDTO> orderList = new ArrayList<OrderItemDTO>();
     private OrderDTO testOrderDTO;
-    
-    
-    
+
     @BeforeClass
     public void setup() throws Exception {
         InitialContext context = new InitialContext(Util.getInitProperties());
@@ -91,8 +84,9 @@ public class OrderServiceRemoteIT {
         customerService = (CustomerService) context.lookup(Util.CUSTOMER_SERVICE_NAME);
         catalogService = (CatalogService) context.lookup(Util.CATALOG_SERVICE_NAME);
     }
+
     @BeforeTest
-    public void init() throws CustomerAlreadyExistsException, CustomerNotFoundException {        
+    public void init() throws CustomerAlreadyExistsException, CustomerNotFoundException {
         orderList.add(orderItemDTO);
     }
 
@@ -100,27 +94,26 @@ public class OrderServiceRemoteIT {
     public void placeOrderWithWrongBook() throws BookNotFoundException, CustomerAlreadyExistsException, CustomerNotFoundException, PaymentFailedException {
         customerDTO = customerService.registerCustomer(customerDTO, "PW");
         orderService.placeOrder(customerDTO.getNumber(), orderList);
-        
+
     }
-    
+
     @Test(dependsOnMethods = {"placeOrderWithWrongBook"}, expectedExceptions = {ValidationException.class})
     public void placeEmptyOrder() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
         orderList.clear();
         catalogService.addBook(bookDTO);
         OrderDTO orderDTO = orderService.placeOrder(customerDTO.getNumber(), orderList);
     }
-    
-    
+
     @Test(dependsOnMethods = {"placeEmptyOrder"})
     public void placeOrderWithGoodBook() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
         orderList.add(orderItemDTO);
         testOrderDTO = orderService.placeOrder(customerDTO.getNumber(), orderList);
         Assert.assertEquals(testOrderDTO.getStatus(), Status.accepted);
     }
-    
+
     @Test(dependsOnMethods = {"placeOrderWithGoodBook"})
     public void placeOrderWithTooExpensiveBook() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
-        
+
         List<OrderItemDTO> ld = new ArrayList<>();
         BookDTO bd = new BookDTO(numbGen(), "Java10", "Rübezahl", "Alphabet-Press", new Integer(2015), BookDTO.Binding.Hardcover, 1000, new BigDecimal("500.0"));
         catalogService.addBook(bd);
@@ -128,12 +121,13 @@ public class OrderServiceRemoteIT {
         ld.add(oid);
         try {
             orderService.placeOrder(customerDTO.getNumber(), ld);
+            fail("PaymentFailedException.Code.PAYMENT_LIMIT_EXCEEDED expected");
         } catch (PaymentFailedException pex) {
             Assert.assertEquals(PaymentFailedException.Code.PAYMENT_LIMIT_EXCEEDED, pex.getCode());
         }
-        
+
     }
-    
+
     @Test(dependsOnMethods = {"placeOrderWithTooExpensiveBook"})
     public void placeOrderWithWrongCreditCard() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
         customerDTO.setCreditCard(invalidCreditCardDTO);
@@ -144,13 +138,14 @@ public class OrderServiceRemoteIT {
         ld.add(oid);
         try {
             orderService.placeOrder(customerDTO.getNumber(), ld);
+            fail("PaymentFailedException.Code.INVALID_CREDIT_CARD expected");
         } catch (PaymentFailedException pex) {
             Assert.assertEquals(PaymentFailedException.Code.INVALID_CREDIT_CARD, pex.getCode());
         }
         customerDTO.setCreditCard(validCreditCardDTO);
-        
+
     }
-    
+
     @Test(dependsOnMethods = {"placeOrderWithTooExpensiveBook"})
     public void placeOrderWithExpiredCreditCard() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException {
         invalidCreditCardDTO.setExpirationYear(2014);
@@ -163,14 +158,14 @@ public class OrderServiceRemoteIT {
         ld.add(oid);
         try {
             orderService.placeOrder(customerDTO.getNumber(), ld);
+            fail("PaymentFailedException.Code.CREDIT_CARD_EXPIRED expected");
         } catch (PaymentFailedException pex) {
             Assert.assertEquals(PaymentFailedException.Code.CREDIT_CARD_EXPIRED, pex.getCode());
         }
         customerDTO.setCreditCard(validCreditCardDTO);
-        
+
     }
-    
-    
+
     @Test(dependsOnMethods = {"placeOrderWithExpiredCreditCard"})
     public void searchOrder() throws CustomerNotFoundException {
         Calendar cal = Calendar.getInstance();
@@ -178,15 +173,15 @@ public class OrderServiceRemoteIT {
         int year = cal.get(Calendar.YEAR);
         List<OrderInfo> orderInfos = orderService.searchOrders(customerDTO.getNumber(), year);
         Assert.assertEquals(1, orderInfos.size());
-        
+
     }
-    
+
     @Test(dependsOnMethods = {"searchOrder"})
     public void findOrder() throws OrderNotFoundException {
         OrderDTO orderDTO = orderService.findOrder(testOrderDTO.getNumber());
         Assert.assertEquals(testOrderDTO.getNumber(), orderDTO.getNumber());
     }
-    
+
     @Test(dependsOnMethods = {"findOrder"}, expectedExceptions = OrderAlreadyShippedException.class)
     public void cancelOrderExpectException() throws OrderNotFoundException, OrderAlreadyShippedException {
         orderService.cancelOrder(testOrderDTO.getNumber());
@@ -197,20 +192,20 @@ public class OrderServiceRemoteIT {
         }
         Assert.assertEquals(Status.canceled, orderService.findOrder(testOrderDTO.getNumber()).getStatus());;
     }
-    
+
     @Test(dependsOnMethods = {"findOrder"}, expectedExceptions = {OrderNotFoundException.class})
     public void cancelWrongOrder() throws OrderNotFoundException, OrderAlreadyShippedException {
         OrderDTO wrongOrderDTO = new OrderDTO();
         wrongOrderDTO.setNumber("0");
         orderService.cancelOrder(wrongOrderDTO.getNumber());
     }
-    
+
     @Test(dependsOnMethods = {"cancelWrongOrder"}, expectedExceptions = {ValidationException.class})
     public void cancelOrderWithWrongOrderDTO() throws OrderNotFoundException, OrderAlreadyShippedException {
         OrderDTO wrongOrderDTO = new OrderDTO();
         orderService.cancelOrder(wrongOrderDTO.getNumber());
     }
-    
+
     @Test(dependsOnMethods = "placeOrderWithGoodBook")
     public void checkTimer() throws OrderNotFoundException {
         try {
@@ -218,10 +213,10 @@ public class OrderServiceRemoteIT {
         } catch (InterruptedException ex) {
             Logger.getLogger(OrderServiceRemoteIT.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Assert.assertEquals(Status.shipped, orderService.findOrder(testOrderDTO.getNumber()).getStatus());
     }
-    
+
     @Test(dependsOnMethods = "checkTimer")
     public void cancelValidOrder() throws CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, OrderAlreadyShippedException {
         OrderItemDTO oid = new OrderItemDTO(bookDTO, bookDTO.getPrice(), 1);
@@ -231,22 +226,15 @@ public class OrderServiceRemoteIT {
         Assert.assertEquals(Status.accepted, od.getStatus());
         orderService.cancelOrder(od.getNumber());
         Assert.assertEquals(Status.canceled, orderService.findOrder(od.getNumber()).getStatus());
-        
-        
+
     }
-    
-    
-    
+
     //    @Override
 //    public void cancelOrder(String orderNr) throws OrderNotFoundException, OrderAlreadyShippedException {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-
 //    @Override
 //    public List<OrderInfo> searchOrders(String customerNr, Integer year) throws CustomerNotFoundException {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-    
-    
-    
 }
