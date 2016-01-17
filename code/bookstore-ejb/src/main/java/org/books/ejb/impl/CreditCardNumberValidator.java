@@ -74,7 +74,7 @@ public class CreditCardNumberValidator {
      * @param data (Credit Card Number)
      * @return
      */
-    private final int getLuhn(String data) {
+    private int getLuhn(String data) {
         int sum = 0;
         Boolean odd = false;
         for (int i = data.length() - 2; i >= 0; i--) {
