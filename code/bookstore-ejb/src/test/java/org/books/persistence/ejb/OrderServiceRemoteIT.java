@@ -42,7 +42,7 @@ import org.testng.annotations.BeforeTest;
 
 public class OrderServiceRemoteIT {
     
-    private int timerTimeoutForShipment = 90000;
+    private int timerTimeoutForShipment = 31000;
     
     private OrderService orderService;
     
@@ -64,7 +64,7 @@ public class OrderServiceRemoteIT {
             2,
             2017);
 
-    private CustomerDTO customerDTO = new CustomerDTO(Util.numbGen() + "@gmail.com",
+    private CustomerDTO customerDTO = new CustomerDTO("edm@dmace.com",
             "Erwin",
             "Bazong",
             null,
