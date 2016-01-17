@@ -1,0 +1,31 @@
+Your order has been successfully placed. We'll process it as soon as possible and keep you updated on its progress via email. Thank you for shopping at Bookstore!
+
+------------------------------------------------------
+Order Number: $order.number
+Date Ordered: $order.date
+
+Products
+------------------------------------------------------
+#foreach( $orderItem in $order.items )
+$orderItem.quantity x $orderItem.book.title ($orderItem.book.isbn) = CHF $orderItem.price
+#end
+------------------------------------------------------
+Sub-Total: CHF $order.amount
+Shipping (Priority) with signature: CHF 0.00
+Total: CHF $order.amount
+
+Delivery Address
+------------------------------------------------------
+$order.customer.firstName $order.customer.lastName
+$order.address.street
+$order.address.postalCode $order.address.city
+
+Billing Address
+------------------------------------------------------
+$order.customer.firstName $order.customer.lastName
+$order.address.street
+$order.address.postalCode $order.address.city
+
+Payment Method
+------------------------------------------------------
+$order.creditCard.type
