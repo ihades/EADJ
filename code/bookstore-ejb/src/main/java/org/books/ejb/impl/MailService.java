@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 import javax.ejb.Asynchronous;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.mail.Address;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -38,16 +40,20 @@ public class MailService {
     @Asynchronous
     public void sendMail(Order order) {
         try {
-            LOGGER.log(Level.INFO, "Trying to Send E-Mail for Order {0}", order.getNumber());
+            LOGGER.log(Level.INFO, "Trying to Send E-Mail for Order {0}:", order.getNumber());
             Mail mail = generateMail(order);
             javax.mail.Message message = new MimeMessage(mailSession);
             message.setRecipients(javax.mail.Message.RecipientType.TO,
                     InternetAddress.parse(order.getCustomer().getEmail(), false));
             message.setSubject(mail.getSubject());
             message.setText(mail.getText());
-            LOGGER.log(Level.INFO, "Sending Mail to {0}. Content of Mail: \n {1}", new String[]{order.getCustomer().getEmail(), mail.getText()});
             message.setHeader("X-Mailer", "Bookstore Mailer");
             message.setSentDate(new Date());
+            String recipientsString = "";
+            for (Address address : message.getRecipients(Message.RecipientType.TO)) {
+                recipientsString = recipientsString + address.toString() + " ";
+            }
+            LOGGER.log(Level.INFO, "Sending Mail to {0}. Content of Mail: \n{1}\n", new String[]{recipientsString, mail.getText()});
             Transport.send(message);
         } catch (MessagingException | UnknownOrderStateException ex) {
             LOGGER.log(Level.SEVERE, ex.toString());
