@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -39,6 +41,8 @@ import org.modelmapper.ModelMapper;
  */
 @Stateless(name = "OrderService")
 public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
+
+    private final static Logger LOGGER = Logger.getLogger(OrderServiceBean.class.getName());
 
     @EJB
     private OrderDao orderDao;
@@ -101,6 +105,7 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
         order.setNumber("O-" + order.getId());
         orderDao.update(order);
         processOrder(order);
+        LOGGER.log(Level.INFO, "Customer {} placed Order {} for {}", new Object[]{order.getCustomer().getNumber(), order.getNumber(), order.getAmount()});
         return modelMapper.map(order, OrderDTO.class);
     }
 

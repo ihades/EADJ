@@ -33,7 +33,7 @@ public class OrderProcessorBean implements MessageListener {
     @EJB
     private OrderDao orderDao;
     @EJB
-    private MailService mailService;
+    private MailServiceBean mailService;
     @Resource
     private TimerService timerService;
 
@@ -48,6 +48,7 @@ public class OrderProcessorBean implements MessageListener {
                 final Order order = orderDao.findByNumber(orderNumber);
                 switch (message.getJMSType()) {
                     case "placeOrder":
+                        LOGGER.log(Level.INFO, "Order Nr. {0} placed.", orderNumber);
                         order.setStatus(Order.Status.processing);
                         orderDao.update(order);
                         timerService.createSingleActionTimer(ORDER_PROCESSING_TIME, new TimerConfig(order.getNumber(), true));
@@ -56,9 +57,11 @@ public class OrderProcessorBean implements MessageListener {
                     case "cancelOrder":
                         for (Timer timer : timerService.getAllTimers()) {
                             if (orderNumber.equals((String) timer.getInfo())) {
+                                LOGGER.log(Level.INFO, "Timer for order Nr. {0} canceled.", orderNumber);
                                 timer.cancel();
                             }
                         }
+                        mailService.sendMail(order);
                         break;
                     default:
                         LOGGER.log(Level.SEVERE, "no Implementation for Message Type {0}", message.getJMSType());
@@ -76,12 +79,12 @@ public class OrderProcessorBean implements MessageListener {
     public void shipOrder(Timer timer) {
         final Order order = orderDao.findByNumber((String) timer.getInfo());
         if (order.getStatus() == Order.Status.processing) {
-            System.out.println("Shipping Order: " + timer.getInfo());
+            LOGGER.log(Level.INFO, "Shipping Order: {0}", timer.getInfo());
             order.setStatus(Order.Status.shipped);
             orderDao.update(order);
             mailService.sendMail(order);
         } else {
-            System.out.println("Order: " + timer.getInfo() + " has a wrong State to ship: " + order.getStatus());
+            LOGGER.log(Level.SEVERE, "Order: {0} has a wrong State to ship: {1}", new Object[]{timer.getInfo(), order.getStatus()});
         }
     }
 }
