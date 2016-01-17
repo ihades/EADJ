@@ -59,9 +59,13 @@ public class OrderServiceRemoteIT {
             2,
             2017);
     private final CreditCardDTO invalidCreditCardDTO = new CreditCardDTO(CreditCardDTO.Type.MasterCard,
-            "5555555555554445",
+            "5220754670550780",
             2,
             2017);
+    private final CreditCardDTO expiredCreditCardDTO = new CreditCardDTO(CreditCardDTO.Type.MasterCard,
+            "5220754670550780",
+            2,
+            2014);
 
     private CustomerDTO customerDTO = new CustomerDTO(numbGen() + "chrigu.b@gmail.com",
             "Erwin",
@@ -145,14 +149,11 @@ public class OrderServiceRemoteIT {
         }
         customerDTO.setCreditCard(validCreditCardDTO);
         customerService.updateCustomer(customerDTO);
-
     }
 
     @Test(dependsOnMethods = {"placeOrderWithTooExpensiveBook"})
     public void placeOrderWithExpiredCreditCard() throws BookAlreadyExistsException, CustomerNotFoundException, BookNotFoundException, PaymentFailedException, OrderNotFoundException, CustomerAlreadyExistsException {
-        invalidCreditCardDTO.setExpirationYear(2014);
-        invalidCreditCardDTO.setNumber(validCreditCardDTO.getNumber());
-        customerDTO.setCreditCard(invalidCreditCardDTO);
+        customerDTO.setCreditCard(expiredCreditCardDTO);
         customerService.updateCustomer(customerDTO);
         List<OrderItemDTO> ld = new ArrayList<>();
         BookDTO bd = new BookDTO(numbGen(), "Java10", "Rübezahl", "Alphabet-Press", new Integer(2015), BookDTO.Binding.Hardcover, 1000, new BigDecimal("500.0"));
