@@ -1,0 +1,18 @@
+Bookstore
+
+------------------------------------------------------
+Order Number: $order.number
+Date Ordered: $order.date
+
+Delivery Address
+------------------------------------------------------
+$order.customer.firstName $order.customer.lastName
+$order.address.street
+$order.address.postalCode $order.address.city
+
+Your order has been carefully packed and it will be picked up by Swiss Post shortly.
+Thank you for your order! We wish you lots of fun with your purchase.
+
+Best regards,
+
+The Bookstore Customer Care
