@@ -1,4 +1,6 @@
-Hello $order.customer.firstName $order.customer.lastName, We're writing to let you know that your order has been successfully canceled. In most cases, you pay for items when we ship them to you, so you won't be charged for items that are canceled.*
+Hello $order.customer.firstName $order.customer.lastName
+We're writing to let you know that your order has been successfully canceled. In most cases, you pay for items when we ship them to you, so you won't be charged for items that are canceled.*
+
 ------------------------------------------------------
 Order Number: $order.number
 Date Ordered: $order.date
