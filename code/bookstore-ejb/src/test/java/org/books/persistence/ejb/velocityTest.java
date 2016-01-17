@@ -62,7 +62,7 @@ public class velocityTest {
     }
 
     @Test
-    public void test() {
+    public void test() throws Exception {
         VelocityEngine ve = new VelocityEngine();
         Properties p = new Properties();
         p.put("resource.loader", "class");

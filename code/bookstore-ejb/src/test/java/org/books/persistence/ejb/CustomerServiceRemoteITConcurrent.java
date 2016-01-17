@@ -92,7 +92,6 @@ public class CustomerServiceRemoteITConcurrent {
     @Test(threadPoolSize = THREADS+20, invocationCount = THREADS+20)
     public void testConcurrentChangeCustomer2() {
         customerDTO.setEmail("bla"+Math.random());
-        
     }
     
     @Test(threadPoolSize = THREADS+20, invocationCount = THREADS+20)

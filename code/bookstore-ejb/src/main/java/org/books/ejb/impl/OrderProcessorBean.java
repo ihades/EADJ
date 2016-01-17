@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.MessageDriven;
@@ -24,6 +25,7 @@ import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.mail.MessagingException;
+import javax.mail.SendFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -98,8 +100,8 @@ public class OrderProcessorBean implements MessageListener {
             System.out.println("Order: " + timer.getInfo() + " has a wrong State to ship: " + order.getStatus());
         }
     }
-
-    private void sendMail(Order order) {
+    @Asynchronous
+    private void sendMail(Order order){
         try {
             LOGGER.log(Level.INFO, "Trying to Send E-Mail for Order {0}", order.getNumber());
             Mail mail = generateMail(order);

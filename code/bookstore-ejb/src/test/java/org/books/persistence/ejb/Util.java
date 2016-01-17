@@ -5,9 +5,9 @@ import java.util.Properties;
 public class Util {
 
     //<services>
-    public static final String CATALOG_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CatalogService!org.books.ejb.CatalogServiceRemote";
-    public static final String ORDER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/OrderService!org.books.ejb.OrderServiceRemote";
-    public static final String CUSTOMER_SERVICE_NAME = "java:global/bookstore-app/bookstore-ejb/CustomerService!org.books.ejb.CustomerServiceRemote";
+    public static final String CATALOG_SERVICE_NAME = "java:global/bookstore-app-1.0.0/bookstore-ejb/CatalogService!org.books.ejb.CatalogServiceRemote";
+    public static final String ORDER_SERVICE_NAME = "java:global/bookstore-app-1.0.0/bookstore-ejb/OrderService!org.books.ejb.OrderServiceRemote";
+    public static final String CUSTOMER_SERVICE_NAME = "java:global/bookstore-app-1.0.0/bookstore-ejb/CustomerService!org.books.ejb.CustomerServiceRemote";
 
 //    public static final String CATALOG_SERVICE_NAME = "java:global/bookstore-app-1.0.0/bookstore-ejb/CatalogService!org.books.ejb.CatalogServiceRemote";
 //    public static final String ORDER_SERVICE_NAME = "java:global/bookstore-app-1.0.0/bookstore-ejb/OrderService!org.books.ejb.OrderServiceRemote";
