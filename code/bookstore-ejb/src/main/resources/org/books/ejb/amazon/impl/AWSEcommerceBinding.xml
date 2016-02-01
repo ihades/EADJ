@@ -4,4 +4,12 @@
     xmlns="http://java.sun.com/xml/ns/jaxws">
     <!-- Disable default wrapper style -->
     <enableWrapperStyle>false</enableWrapperStyle>
+    <handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+        <handler-chain>
+            <handler>
+                <handler-name>SecurityHandler</handler-name>
+                <handler-class>org.books.ejb.amazon.impl.SecurityHandler</handler-class>
+            </handler>
+        </handler-chain>
+    </handler-chains>
 </bindings>
