@@ -14,7 +14,7 @@ public class AmazonThroughputBreakeBean {
 
     private long lastRequestExecution;
 
-    private final static long AMAZON_REQUEST_TIMEOUT = 1000;
+    private final static long AMAZON_REQUEST_TIMEOUT = 1100;
     private Logger LOGGER = Logger.getLogger(AmazonThroughputBreakeBean.class.getName());
 
     @PostConstruct
@@ -29,7 +29,10 @@ public class AmazonThroughputBreakeBean {
         } else {
             try {
                 LOGGER.info("Waiting for Amazon Request-Breake");
-                Thread.sleep(AMAZON_REQUEST_TIMEOUT - (System.currentTimeMillis() - lastRequestExecution));
+                long lastExecutionDuration = System.currentTimeMillis() - lastRequestExecution;
+                if (lastExecutionDuration < AMAZON_REQUEST_TIMEOUT) {
+                    Thread.sleep(AMAZON_REQUEST_TIMEOUT - lastExecutionDuration);
+                }
             } catch (InterruptedException ex) {
                 LOGGER.log(Level.SEVERE, ex.toString());
             }

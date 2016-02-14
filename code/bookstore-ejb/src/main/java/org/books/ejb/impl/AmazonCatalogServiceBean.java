@@ -64,7 +64,7 @@ public class AmazonCatalogServiceBean implements AmazonCatalogServiceLocal, Amaz
 
     @Override
     public List<Book> searchBooks(final String searchString) {
-        BigInteger actualPage = BigInteger.ZERO;
+        BigInteger actualPage = BigInteger.ONE;
         ItemSearchResponse awsResponse = itemSearch(searchString, actualPage);
 
         if (awsResponse != null) {
@@ -77,7 +77,7 @@ public class AmazonCatalogServiceBean implements AmazonCatalogServiceLocal, Amaz
             }
 
             while (!actualPage.equals(totalPages)) {
-                actualPage.add(BigInteger.ONE);
+                actualPage = actualPage.add(BigInteger.ONE);
                 awsResponse = itemSearch(searchString, actualPage);
                 if (awsResponse != null) {
                     searchResult.addAll(extractBooks(awsResponse));
@@ -101,33 +101,37 @@ public class AmazonCatalogServiceBean implements AmazonCatalogServiceLocal, Amaz
     }
 
     private Book createBookFromAwsResponseItem(final Item item) {
-        final ItemAttributes itemAttributes = item.getItemAttributes();
-        final Book book = new Book();
-        book.setIsbn(itemAttributes.getISBN());
-        book.setTitle(itemAttributes.getTitle());
-        book.setAuthors(String.join(", ", itemAttributes.getAuthor()));
-        book.setPublisher(itemAttributes.getPublisher());
+        if (ensureCompleteness(item)) {
+            final ItemAttributes itemAttributes = item.getItemAttributes();
+            final Book book = new Book();
+            book.setIsbn(itemAttributes.getISBN());
+            book.setTitle(itemAttributes.getTitle());
+            book.setAuthors(String.join(", ", itemAttributes.getAuthor()));
+            book.setPublisher(itemAttributes.getPublisher());
 
-        BigInteger numberOfPages = itemAttributes.getNumberOfPages();
-        if (numberOfPages != null) {
-            book.setNumberOfPages(itemAttributes.getNumberOfPages().intValue());
+            BigInteger numberOfPages = itemAttributes.getNumberOfPages();
+            if (numberOfPages != null) {
+                book.setNumberOfPages(itemAttributes.getNumberOfPages().intValue());
+            }
+
+            Price listPrice = itemAttributes.getListPrice();
+            if (listPrice != null) {
+                book.setPrice(new BigDecimal(listPrice.getAmount()).divide(BigDecimal.valueOf(100)));
+            }
+
+            book.setBinding(mapAwsToBookstoreBinding(itemAttributes.getBinding()));
+            try {
+                LocalDate dateTime = LocalDate.parse(itemAttributes.getPublicationDate());
+                book.setPublicationYear(dateTime.getYear());
+            } catch (DateTimeParseException | NullPointerException e) {
+                LOGGER.log(Level.WARNING, "Cannot parse publication year for ISBN " + book.getIsbn()
+                        + " Received value: " + itemAttributes.getPublicationDate(), e);
+            }
+
+            return book;
+        } else {
+            return null;
         }
-
-        Price listPrice = itemAttributes.getListPrice();
-        if (listPrice != null) {
-            book.setPrice(new BigDecimal(listPrice.getAmount()).divide(BigDecimal.valueOf(100)));
-        }
-
-        book.setBinding(mapAwsToBookstoreBinding(itemAttributes.getBinding()));
-        try {
-            LocalDate dateTime = LocalDate.parse(itemAttributes.getPublicationDate());
-            book.setPublicationYear(dateTime.getYear());
-        } catch (DateTimeParseException | NullPointerException e) {
-            LOGGER.log(Level.WARNING, "Cannot parse publication year for ISBN " + book.getIsbn()
-                    + " Received value: " + itemAttributes.getPublicationDate(), e);
-        }
-
-        return book;
     }
 
     private Binding mapAwsToBookstoreBinding(final String binding) {
@@ -178,7 +182,7 @@ public class AmazonCatalogServiceBean implements AmazonCatalogServiceLocal, Amaz
         if (awsResponse != null
                 && checkAwsResponseForErrorsAndLog(awsResponse.getOperationRequest())
                 && awsResponse.getItems().size() == 1
-                && awsResponse.getItems().get(0).getTotalResults().compareTo(BigInteger.ZERO) > 0) {
+                && !awsResponse.getItems().get(0).getItem().isEmpty()) {
             return awsResponse;
         } else {
             return null;
@@ -215,5 +219,14 @@ public class AmazonCatalogServiceBean implements AmazonCatalogServiceLocal, Amaz
         } else {
             return null;
         }
+    }
+
+    private boolean ensureCompleteness(Item item) {
+        final ItemAttributes itemAttributes = item.getItemAttributes();
+        return !(itemAttributes.getISBN().isEmpty()
+                || itemAttributes.getTitle().isEmpty()
+                || itemAttributes.getAuthor().isEmpty()
+                || itemAttributes.getPublisher().isEmpty()
+                || itemAttributes.getListPrice() != null);
     }
 }

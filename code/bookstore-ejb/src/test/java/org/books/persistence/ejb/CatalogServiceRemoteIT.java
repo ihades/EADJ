@@ -1,15 +1,16 @@
 package org.books.persistence.ejb;
 
 import java.math.BigDecimal;
+import java.util.List;
 import javax.naming.InitialContext;
 import org.books.ejb.CatalogService;
 import org.books.ejb.dto.BookDTO;
 import org.books.ejb.exception.BookAlreadyExistsException;
 import org.books.ejb.exception.BookNotFoundException;
+import org.books.persistence.dto.BookInfo;
 import static org.books.persistence.ejb.Util.invalidISBNGenerator;
 import static org.books.persistence.ejb.Util.numbGen;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -46,9 +47,11 @@ public class CatalogServiceRemoteIT {
         catalogService.addBook(book);
     }
 
-    @Test(dependsOnMethods = "addBook")
+//    @Test(dependsOnMethods = "addBook")
+    @Test
     public void getBookByIsbn() throws Exception {
-        BookDTO bookDTO = catalogService.findBook(book.getIsbn());
+//        BookDTO bookDTO = catalogService.findBook(book.getIsbn());
+        BookDTO bookDTO = catalogService.findBook("3658105119");
 
         assertEquals(bookDTO.getIsbn(), book.getIsbn());
         assertEquals(bookDTO.getTitle(), book.getTitle());

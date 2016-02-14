@@ -12,6 +12,12 @@ public class BookInfo implements Serializable {
     private String isbn;
     private BigDecimal price;
 
+    /**
+     * For Modelmapper Only!
+     */
+    protected BookInfo() {
+    }
+
     public BookInfo(Long id, String title, String isbn, BigDecimal price) {
         this.id = id;
         this.title = title;
