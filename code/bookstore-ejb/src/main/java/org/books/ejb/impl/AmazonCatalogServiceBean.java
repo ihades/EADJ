@@ -210,7 +210,7 @@ public class AmazonCatalogServiceBean implements AmazonCatalogServiceLocal, Amaz
         if (awsResponse != null
                 && checkAwsResponseForErrorsAndLog(awsResponse.getOperationRequest())
                 && awsResponse.getItems().size() == 1
-                && awsResponse.getItems().get(0).getTotalResults().compareTo(BigInteger.ZERO) > 0) {
+                && !awsResponse.getItems().get(0).getItem().isEmpty()) {
             return awsResponse;
         } else {
             return null;
