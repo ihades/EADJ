@@ -49,7 +49,7 @@ public class AmazonCatalogServiceBean implements AmazonCatalogServiceLocal, Amaz
     private AmazonThroughputBreakeBean amazonRequestBreake;
 
     @Override
-    public Book findBook(final String isbn) throws BookNotFoundException {
+    public Book findByIsbn(final String isbn) throws BookNotFoundException {
 
         final ItemLookupResponse awsRsponse = itemLookup(isbn);
         if (awsRsponse == null) {
@@ -172,7 +172,7 @@ public class AmazonCatalogServiceBean implements AmazonCatalogServiceLocal, Amaz
 
         searchBody.getRequest().add(req);
         amazonRequestBreake.beFriendlyWithAmazon();
-        LOGGER.info("Sending search request for page number: " + page.intValue());
+        LOGGER.log(Level.INFO, "Sending search request for page number: {0}", page.intValue());
         ItemSearchResponse awsResponse = webServicePort.itemSearch(searchBody);
 
         if (awsResponse != null
