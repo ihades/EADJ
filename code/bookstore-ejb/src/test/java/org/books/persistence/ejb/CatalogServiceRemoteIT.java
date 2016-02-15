@@ -10,6 +10,7 @@ import org.books.ejb.exception.BookNotFoundException;
 import org.books.persistence.dto.BookInfo;
 import static org.books.persistence.ejb.Util.invalidISBNGenerator;
 import static org.books.persistence.ejb.Util.numbGen;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -95,13 +96,14 @@ public class CatalogServiceRemoteIT {
         catalogService.updateBook(bookDTO);
     }
 
-    //maybe not even needed. if yes, needs a test data set to verify correct search function.
-    //must consult with jesus christian.
-    @Test()
+    @Test(invocationCount = 10, threadPoolSize = 5)
     public void searchBooks() {
-//        catalogService.searchBooks("Oracle").forEach(b -> {System.out.println(b.getTitle());});
-//        assertEquals(true, true);
-        fail("Removed Test-Case temporary");
+        List<BookInfo> books = catalogService.searchBooks("Oracle");
+        for (BookInfo book : books) {
+            Assert.assertNotNull(book.getIsbn());
+            Assert.assertNotNull(book.getTitle());
+            System.out.println(book.getTitle() + ", isbn: " + book.getIsbn());
+        }
     }
 
 }

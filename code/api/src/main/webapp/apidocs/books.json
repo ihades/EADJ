@@ -1,0 +1,65 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "/bookstore/rest",
+  "resourcePath" : "/books",
+  "apis" : [ {
+    "path" : "/books/{isbn}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "findBook",
+      "type" : "BookDTO",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "the ISBN number of the book",
+        "paramType" : "path",
+        "name" : "isbn",
+        "required" : true
+      } ],
+      "summary" : "Finds a book by ISBN number.",
+      "responseMessages" : [ {
+        "code" : 404,
+        "message" : "not found (book not found)"
+      }, {
+        "code" : 500,
+        "message" : "internal server error (unexpected system error)"
+      } ],
+      "produces" : [ "application/xml", "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "BookDTO" : {
+      "id" : "BookDTO",
+      "properties" : {
+        "isbn" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "authors" : {
+          "type" : "string"
+        },
+        "publisher" : {
+          "type" : "string"
+        },
+        "publicationYear" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "binding" : {
+          "type" : "string",
+          "enum" : [ "Hardcover", "Paperback", "Ebook", "Unknown" ]
+        },
+        "numberOfPages" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    }
+  }
+}

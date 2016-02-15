@@ -14,7 +14,7 @@ public class AmazonThroughputBreakeBean {
 
     private long lastRequestExecution;
 
-    private final static long AMAZON_REQUEST_TIMEOUT = 1100;
+    private final static long AMAZON_REQUEST_TIMEOUT = 1010;
     private Logger LOGGER = Logger.getLogger(AmazonThroughputBreakeBean.class.getName());
 
     @PostConstruct

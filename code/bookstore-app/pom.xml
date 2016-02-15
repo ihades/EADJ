@@ -29,6 +29,12 @@
             <type>war</type>
         </dependency>-->
         <dependency>
+            <groupId>org.books.api</groupId>
+            <artifactId>bookstore-api</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
             <groupId>org.books</groupId>
             <artifactId>bookstore-ejb</artifactId>
             <version>${project.version}</version>
@@ -59,6 +65,12 @@
                             <bundleFileName>bookstore-web.war</bundleFileName>
                             <contextRoot>/bookstore</contextRoot>
                         </webModule>-->
+                        <webModule>
+                            <groupId>org.books.api</groupId>
+                            <artifactId>bookstore-api</artifactId>
+                            <bundleFileName>bookstore-api.war</bundleFileName>
+                            <contextRoot>/bookstore</contextRoot>
+                        </webModule>
                         <ejbModule>
                             <groupId>org.books</groupId>
                             <artifactId>bookstore-ejb</artifactId>

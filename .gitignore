@@ -22,3 +22,4 @@ code/bookstore-persist/target/
 /code/bookstore-web/target/
 *.log
 /code/bookstore-app/target/
+/code/api/target/
