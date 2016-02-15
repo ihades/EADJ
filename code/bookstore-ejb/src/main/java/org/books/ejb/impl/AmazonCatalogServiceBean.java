@@ -223,10 +223,14 @@ public class AmazonCatalogServiceBean implements AmazonCatalogServiceLocal, Amaz
 
     private boolean ensureCompleteness(Item item) {
         final ItemAttributes itemAttributes = item.getItemAttributes();
-        return !(itemAttributes.getISBN().isEmpty()
+        return !(itemAttributes.getISBN() == null
+                || itemAttributes.getISBN().isEmpty()
+                || itemAttributes.getTitle() == null
                 || itemAttributes.getTitle().isEmpty()
+                || itemAttributes.getAuthor() == null
                 || itemAttributes.getAuthor().isEmpty()
+                || itemAttributes.getPublisher() == null
                 || itemAttributes.getPublisher().isEmpty()
-                || itemAttributes.getListPrice() != null);
+                || itemAttributes.getListPrice() == null);
     }
 }
