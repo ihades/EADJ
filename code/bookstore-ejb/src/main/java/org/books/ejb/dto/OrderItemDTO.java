@@ -2,27 +2,30 @@ package org.books.ejb.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.xml.bind.annotation.XmlRootElement;
+import org.books.persistence.dto.BookInfo;
 
+@XmlRootElement
 public class OrderItemDTO implements Serializable {
 
-    private BookDTO book;
+    private BookInfo book;
     private BigDecimal price;
     private Integer quantity;
 
     public OrderItemDTO() {
     }
 
-    public OrderItemDTO(BookDTO book, BigDecimal price, Integer quantity) {
+    public OrderItemDTO(BookInfo book, BigDecimal price, Integer quantity) {
         this.book = book;
         this.price = price;
         this.quantity = quantity;
     }
 
-    public BookDTO getBook() {
+    public BookInfo getBook() {
         return book;
     }
 
-    public void setBook(BookDTO book) {
+    public void setBook(BookInfo book) {
         this.book = book;
     }
 

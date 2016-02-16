@@ -75,6 +75,7 @@ public class CustomerResource {
             registration.getCustomer().setNumber(null);
             String number = cs.registerCustomer(registration.getCustomer(), registration.getPassword())
                     .getNumber();
+            response.setStatus(HttpServletResponse.SC_CREATED);
             try {
                 response.flushBuffer();
             } catch (Exception e) {
