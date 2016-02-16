@@ -14,7 +14,7 @@ public interface AmazonCatalogService {
      * @throws BookNotFoundException if no book with the specified ISBN number
      * exists
      */
-    Book findBook(String isbn) throws BookNotFoundException;
+    Book findByIsbn(String isbn) throws BookNotFoundException;
 
     /**
      * Searches for books by keywords. A book is included in the results list if

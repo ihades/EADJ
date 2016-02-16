@@ -2,7 +2,9 @@ package org.books.persistence.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class BookInfo implements Serializable {
 
     public static final String QUERY_BOOKS_BY_YEAR = "org.books.persistence.dto.BookInfo.findByPublicationYear";
@@ -11,6 +13,12 @@ public class BookInfo implements Serializable {
     private String title;
     private String isbn;
     private BigDecimal price;
+
+    /**
+     * For Modelmapper Only!
+     */
+    protected BookInfo() {
+    }
 
     public BookInfo(Long id, String title, String isbn, BigDecimal price) {
         this.id = id;

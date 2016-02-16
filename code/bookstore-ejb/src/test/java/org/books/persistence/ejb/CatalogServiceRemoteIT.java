@@ -1,15 +1,17 @@
 package org.books.persistence.ejb;
 
 import java.math.BigDecimal;
+import java.util.List;
 import javax.naming.InitialContext;
 import org.books.ejb.CatalogService;
 import org.books.ejb.dto.BookDTO;
 import org.books.ejb.exception.BookAlreadyExistsException;
 import org.books.ejb.exception.BookNotFoundException;
+import org.books.persistence.dto.BookInfo;
 import static org.books.persistence.ejb.Util.invalidISBNGenerator;
 import static org.books.persistence.ejb.Util.numbGen;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -46,9 +48,11 @@ public class CatalogServiceRemoteIT {
         catalogService.addBook(book);
     }
 
-    @Test(dependsOnMethods = "addBook")
+//    @Test(dependsOnMethods = "addBook")
+    @Test
     public void getBookByIsbn() throws Exception {
-        BookDTO bookDTO = catalogService.findBook(book.getIsbn());
+//        BookDTO bookDTO = catalogService.findBook(book.getIsbn());
+        BookDTO bookDTO = catalogService.findBook("3658105119");
 
         assertEquals(bookDTO.getIsbn(), book.getIsbn());
         assertEquals(bookDTO.getTitle(), book.getTitle());
@@ -92,13 +96,14 @@ public class CatalogServiceRemoteIT {
         catalogService.updateBook(bookDTO);
     }
 
-    //maybe not even needed. if yes, needs a test data set to verify correct search function.
-    //must consult with jesus christian.
-    @Test()
+    @Test(invocationCount = 10, threadPoolSize = 5)
     public void searchBooks() {
-//        catalogService.searchBooks("Oracle").forEach(b -> {System.out.println(b.getTitle());});
-//        assertEquals(true, true);
-        fail("Removed Test-Case temporary");
+        List<BookInfo> books = catalogService.searchBooks("Oracle");
+        for (BookInfo book : books) {
+            Assert.assertNotNull(book.getIsbn());
+            Assert.assertNotNull(book.getTitle());
+            System.out.println(book.getTitle() + ", isbn: " + book.getIsbn());
+        }
     }
 
 }

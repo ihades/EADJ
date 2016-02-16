@@ -1,0 +1,109 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "/bookstore/rest",
+  "resourcePath" : "/books",
+  "apis" : [ {
+    "path" : "/books",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "searchBook",
+      "type" : "array",
+      "items" : {
+        "$ref" : "BookInfo"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "keywords"
+      } ],
+      "summary" : "Searches for books by keywords.",
+      "notes" : "A book is included in the result list if\n every keyword is contained in its title, authors or publisher field.",
+      "responseMessages" : [ {
+        "code" : 400,
+        "message" : "bad request (keywords missing)"
+      }, {
+        "code" : 500,
+        "message" : "internal server error (unexpected system error)"
+      } ],
+      "produces" : [ "application/xml", "application/json" ]
+    } ]
+  }, {
+    "path" : "/books/{isbn}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "findBook",
+      "type" : "BookDTO",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "the ISBN number of the book",
+        "paramType" : "path",
+        "name" : "isbn",
+        "required" : true
+      } ],
+      "summary" : "Finds a book by ISBN number.",
+      "responseMessages" : [ {
+        "code" : 404,
+        "message" : "not found (book not found)"
+      }, {
+        "code" : 500,
+        "message" : "internal server error (unexpected system error)"
+      } ],
+      "produces" : [ "application/xml", "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "BookDTO" : {
+      "id" : "BookDTO",
+      "properties" : {
+        "isbn" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "authors" : {
+          "type" : "string"
+        },
+        "publisher" : {
+          "type" : "string"
+        },
+        "publicationYear" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "binding" : {
+          "type" : "string",
+          "enum" : [ "Hardcover", "Paperback", "Ebook", "Unknown" ]
+        },
+        "numberOfPages" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "BookInfo" : {
+      "id" : "BookInfo",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "isbn" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    }
+  }
+}

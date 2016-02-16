@@ -1,9 +1,11 @@
 package org.books.ejb.impl;
 
-import java.util.Arrays;
+import java.lang.reflect.Type;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import org.books.ejb.AmazonCatalogService;
+import org.books.ejb.AmazonCatalogServiceLocal;
 import org.books.ejb.CatalogServiceLocal;
 import org.books.ejb.CatalogServiceRemote;
 import org.books.ejb.dto.BookDTO;
@@ -13,6 +15,7 @@ import org.books.persistence.dao.BookDao;
 import org.books.persistence.dto.BookInfo;
 import org.books.persistence.entity.Book;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 
 /**
  *
@@ -23,6 +26,9 @@ public class CatalogSeviceBean implements CatalogServiceRemote, CatalogServiceLo
 
     @EJB
     private BookDao bookDao;
+
+    @EJB(beanInterface = AmazonCatalogServiceLocal.class)
+    private AmazonCatalogService amazon;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -38,7 +44,7 @@ public class CatalogSeviceBean implements CatalogServiceRemote, CatalogServiceLo
 
     @Override
     public BookDTO findBook(String isbn) throws BookNotFoundException {
-        Book book = bookDao.findByIsbn(isbn);
+        Book book = amazon.findByIsbn(isbn);
         if (book == null) {
             throw new BookNotFoundException();
         }
@@ -47,7 +53,11 @@ public class CatalogSeviceBean implements CatalogServiceRemote, CatalogServiceLo
 
     @Override
     public List<BookInfo> searchBooks(String keywords) {
-        return bookDao.searchByKeywords(Arrays.asList(keywords.split(" ")));
+//        return bookDao.searchByKeywords(Arrays.asList(keywords.split(" ")));
+        List<Book> books = amazon.searchBooks(keywords);
+        Type listType = new TypeToken<List<BookInfo>>() {
+        }.getType();
+        return modelMapper.map(books, listType);
     }
 
     @Override

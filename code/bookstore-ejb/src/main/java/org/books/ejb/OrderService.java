@@ -57,7 +57,7 @@ public interface OrderService extends Serializable {
     /**
      * Searches for orders by customer and year.
      *
-     * @param customerNr - the email address of the customer
+     * @param customerNr - the Customernumber of the customer
      * @param year - the year of the orders
      * @return a list of matching orders (may be empty)
      * @throws CustomerNotFoundException - if no customer with the specified

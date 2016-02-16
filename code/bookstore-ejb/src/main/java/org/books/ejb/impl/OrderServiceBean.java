@@ -15,6 +15,8 @@ import javax.jms.JMSContext;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Queue;
+import org.books.ejb.AmazonCatalogService;
+import org.books.ejb.AmazonCatalogServiceLocal;
 import org.books.ejb.OrderServiceLocal;
 import org.books.ejb.OrderServiceRemote;
 import org.books.ejb.dto.OrderDTO;
@@ -50,6 +52,9 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
     private CustomerDao customerDao;
     @EJB
     private BookDao bookDao;
+
+    @EJB(beanInterface = AmazonCatalogServiceLocal.class)
+    private AmazonCatalogService amazon;
 
     @Resource(mappedName = "jms/connectionFactory")
     private ConnectionFactory connectionFactory;
@@ -126,16 +131,17 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
         final List<OrderItem> result = new ArrayList<>(orderItemDTOs.size());
         for (OrderItemDTO orderItemDTO : orderItemDTOs) {
             result.add(new OrderItem(
-                    findBookByIsbn(orderItemDTO.getBook().getIsbn()),
+                    findBookByIsbnOrCreateNew(orderItemDTO.getBook().getIsbn()),
                     orderItemDTO.getQuantity()));
         }
         return result;
     }
 
-    private Book findBookByIsbn(String isbn) throws BookNotFoundException {
+    private Book findBookByIsbnOrCreateNew(String isbn) throws BookNotFoundException {
         Book book = bookDao.findByIsbn(isbn);
         if (book == null) {
-            throw new BookNotFoundException();
+            book = amazon.findByIsbn(isbn);
+            bookDao.create(book);
         }
         return book;
     }

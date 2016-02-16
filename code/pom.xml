@@ -22,5 +22,6 @@
         <module>bookstore-web</module>
         <module>bookstore-ejb</module>
         <module>bookstore-app</module>
-    </modules>
+    <module>api</module>
+  </modules>
 </project>

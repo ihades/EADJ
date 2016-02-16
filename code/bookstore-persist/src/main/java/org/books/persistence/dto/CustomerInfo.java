@@ -1,17 +1,28 @@
 package org.books.persistence.dto;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class CustomerInfo implements Serializable {
 
     public static final String CUSTOMER_FIND_BY_NAME_PART_QUERY = "org.books.persistence.dto.CustomerInfo.findByNamePart";
     public transient static final String CUSTOMER_FIND_BY_NAME_PART_PARAM = "name";
 
-    private final String number;
+    @XmlElement
+    private String number;
 
     private String firstName;
     private String lastName;
     private String email;
+
+    /**
+     * for JAX-RS only
+     */
+    protected CustomerInfo() {
+
+    }
 
     public CustomerInfo(String number, String firstName, String lastName, String email) {
         this.number = number;

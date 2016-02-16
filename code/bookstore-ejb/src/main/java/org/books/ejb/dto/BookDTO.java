@@ -3,7 +3,9 @@ package org.books.ejb.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class BookDTO implements Serializable {
 
     public enum Binding {
