@@ -1,7 +1,9 @@
 package org.books.ejb.dto;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class CustomerDTO implements Serializable {
 
     private String email;

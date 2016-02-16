@@ -24,6 +24,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(org.books.api.api.BookRessource.class);
+        resources.add(org.books.api.api.CustomerResource.class);
     }
 
 }

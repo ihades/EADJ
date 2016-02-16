@@ -4,5 +4,7 @@
   "basePath" : "/bookstore/apidocs",
   "apis" : [ {
     "path" : "/books.{format}"
+  }, {
+    "path" : "/customers.{format}"
   } ]
 }
