@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import javax.ws.rs.core.Response;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.CONFLICT;
@@ -52,7 +53,7 @@ public class CustomerResource {
      * @responseMessage 500 internal server error (unexpected system error)
      */
     @POST
-    @Produces({APPLICATION_XML, APPLICATION_JSON})
+    @Produces({TEXT_PLAIN})
     public String registerCustomer(Registration registration) {
 
         if (registration.getCustomer() == null
