@@ -4,6 +4,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -12,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
@@ -19,6 +21,7 @@ import javax.ws.rs.core.Response;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.CONFLICT;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import org.books.api.api.entities.Registration;
 import org.books.ejb.CustomerService;
 import org.books.ejb.dto.CustomerDTO;
 import org.books.ejb.exception.CustomerAlreadyExistsException;
@@ -36,7 +39,7 @@ public class CustomerResource {
             InitialContext ctx = new InitialContext();
             cs = (CustomerService) ctx.lookup("java:global/bookstore-app/bookstore-ejb/CustomerService!org.books.ejb.CustomerServiceLocal");
         } catch (NamingException ne) {
-            System.out.println("\n[BookRessource] NamingException: " + ne);
+            System.out.println("\n[CustomerResource] NamingException: " + ne);
             ne.printStackTrace();
         }
     }
@@ -47,14 +50,16 @@ public class CustomerResource {
      *
      * @param registration the data of the customer to be registered (the number
      * must be null)
+     * @param response
      * @return the Number of the new Customer
+     * @responseMessage 201 created
      * @responseMessage 400 bad request (incomplete customer data)
      * @responseMessage 409 conflict (email already used)
      * @responseMessage 500 internal server error (unexpected system error)
      */
     @POST
     @Produces({TEXT_PLAIN})
-    public String registerCustomer(Registration registration) {
+    public String registerCustomer(Registration registration, @Context final HttpServletResponse response) {
 
         if (registration.getCustomer() == null
                 || registration.getPassword() == null
@@ -66,8 +71,13 @@ public class CustomerResource {
         ensureCompletenessWithoutId(registration.getCustomer());
         try {
             registration.getCustomer().setNumber(null);
-            return cs.registerCustomer(registration.getCustomer(), registration.getPassword())
+            String number = cs.registerCustomer(registration.getCustomer(), registration.getPassword())
                     .getNumber();
+            try {
+                response.flushBuffer();
+            } catch (Exception e) {
+            }
+            return number;
         } catch (CustomerAlreadyExistsException ex) {
             throw new WebApplicationException(ex.getMessage(),
                     Response.status(CONFLICT).entity(ex.getMessage()).build());

@@ -1,4 +1,4 @@
-package org.books.api.api;
+package org.books.api.api.entities;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import org.books.ejb.dto.CustomerDTO;

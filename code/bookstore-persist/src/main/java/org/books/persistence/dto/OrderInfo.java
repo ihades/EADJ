@@ -3,8 +3,10 @@ package org.books.persistence.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.books.persistence.entity.Order;
 
+@XmlRootElement
 public class OrderInfo implements Serializable {
 
     public static final String QUERY_ORDER_BY_CUSTOMER_AND_DATE = "org.books.persistence.dto.OrderInfo.findByCustomerAndDate";
