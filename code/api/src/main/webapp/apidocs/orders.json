@@ -1,0 +1,299 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "/bookstore/rest",
+  "resourcePath" : "/orders",
+  "apis" : [ {
+    "path" : "/orders",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "placeOrder",
+      "type" : "OrderDTO",
+      "parameters" : [ {
+        "type" : "OrderRequest",
+        "description" : "customerNr - the number of the customer / items - the\n order items",
+        "paramType" : "body",
+        "name" : "orderRequest",
+        "required" : true
+      } ],
+      "summary" : "Places an order on the bookstore.",
+      "responseMessages" : [ {
+        "code" : 201,
+        "message" : "created"
+      }, {
+        "code" : 400,
+        "message" : "bad request (incomplete order data)"
+      }, {
+        "code" : 402,
+        "message" : "payment required (payment error)"
+      }, {
+        "code" : 404,
+        "message" : "not found (customer or book not found)"
+      }, {
+        "code" : 500,
+        "message" : "internal server error (unexpected system error)"
+      } ],
+      "produces" : [ "application/xml", "application/json" ]
+    }, {
+      "method" : "GET",
+      "nickname" : "searchOrdersOfCustomer",
+      "type" : "array",
+      "items" : {
+        "$ref" : "OrderInfo"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "the Customernumber address of the customer",
+        "paramType" : "query",
+        "name" : "customerNr"
+      }, {
+        "type" : "string",
+        "description" : "the year of the orders",
+        "paramType" : "query",
+        "name" : "year"
+      } ],
+      "summary" : "Searches for orders by customer and year.",
+      "responseMessages" : [ {
+        "code" : 400,
+        "message" : "bad request (name missing)"
+      }, {
+        "code" : 404,
+        "message" : "not found (customer not found)"
+      }, {
+        "code" : 500,
+        "message" : "internal server error (unexpected system error)"
+      } ],
+      "produces" : [ "application/xml", "application/json" ]
+    } ]
+  }, {
+    "path" : "/orders/{number}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "findOrder",
+      "type" : "OrderDTO",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "the number of the order",
+        "paramType" : "path",
+        "name" : "number",
+        "required" : true
+      } ],
+      "summary" : "Finds an order by number.",
+      "responseMessages" : [ {
+        "code" : 404,
+        "message" : "not found (order not found)"
+      }, {
+        "code" : 500,
+        "message" : "internal server error (unexpected system error)"
+      } ],
+      "produces" : [ "application/xml", "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "cancelOrder",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "the number of the order",
+        "paramType" : "path",
+        "name" : "number",
+        "required" : true
+      } ],
+      "summary" : "Cancels an order.",
+      "responseMessages" : [ {
+        "code" : 403,
+        "message" : "forbidden (order not cancelable)"
+      }, {
+        "code" : 404,
+        "message" : "not found (order not found)"
+      }, {
+        "code" : 500,
+        "message" : "internal server error (unexpected system error)"
+      } ],
+      "produces" : [ "application/xml", "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "CreditCardDTO" : {
+      "id" : "CreditCardDTO",
+      "properties" : {
+        "type" : {
+          "type" : "string",
+          "enum" : [ "MasterCard", "Visa" ]
+        },
+        "number" : {
+          "type" : "string"
+        },
+        "expirationMonth" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "expirationYear" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "OrderItemDTO" : {
+      "id" : "OrderItemDTO",
+      "properties" : {
+        "book" : {
+          "type" : "BookDTO"
+        },
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "quantity" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "BookDTO" : {
+      "id" : "BookDTO",
+      "properties" : {
+        "isbn" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "authors" : {
+          "type" : "string"
+        },
+        "publisher" : {
+          "type" : "string"
+        },
+        "publicationYear" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "binding" : {
+          "type" : "string",
+          "enum" : [ "Hardcover", "Paperback", "Ebook", "Unknown" ]
+        },
+        "numberOfPages" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "OrderRequest" : {
+      "id" : "OrderRequest",
+      "properties" : {
+        "customerNr" : {
+          "type" : "string"
+        },
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "OrderItemDTO"
+          }
+        }
+      }
+    },
+    "CustomerDTO" : {
+      "id" : "CustomerDTO",
+      "properties" : {
+        "email" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "number" : {
+          "type" : "string"
+        },
+        "address" : {
+          "type" : "AddressDTO"
+        },
+        "creditCard" : {
+          "type" : "CreditCardDTO"
+        }
+      }
+    },
+    "OrderDTO" : {
+      "id" : "OrderDTO",
+      "properties" : {
+        "number" : {
+          "type" : "string"
+        },
+        "date" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "amount" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "accepted", "processing", "shipped", "canceled" ]
+        },
+        "customer" : {
+          "type" : "CustomerDTO"
+        },
+        "address" : {
+          "type" : "AddressDTO"
+        },
+        "creditCard" : {
+          "type" : "CreditCardDTO"
+        },
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "OrderItemDTO"
+          }
+        }
+      }
+    },
+    "OrderInfo" : {
+      "id" : "OrderInfo",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "number" : {
+          "type" : "string"
+        },
+        "date" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "amount" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "accepted", "processing", "shipped", "canceled" ]
+        }
+      }
+    },
+    "AddressDTO" : {
+      "id" : "AddressDTO",
+      "properties" : {
+        "street" : {
+          "type" : "string"
+        },
+        "city" : {
+          "type" : "string"
+        },
+        "postalCode" : {
+          "type" : "string"
+        },
+        "country" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
