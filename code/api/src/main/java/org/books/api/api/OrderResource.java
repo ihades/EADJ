@@ -24,7 +24,9 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.PAYMENT_REQUIRED;
 import org.books.api.api.entities.OrderRequest;
 import org.books.ejb.OrderService;
+import org.books.ejb.dto.BookDTO;
 import org.books.ejb.dto.OrderDTO;
+import org.books.ejb.dto.OrderItemDTO;
 import org.books.ejb.exception.BookNotFoundException;
 import org.books.ejb.exception.CustomerNotFoundException;
 import org.books.ejb.exception.OrderAlreadyShippedException;
@@ -158,7 +160,44 @@ public class OrderResource {
     }
 
     private void ensureCompleteness(OrderRequest request) throws WebApplicationException {
+        if (request == null
+                || request.getCustomerNr() == null
+                || request.getCustomerNr().isEmpty()) {
+            throw new WebApplicationException("incomplete Order data",
+                    Response.status(BAD_REQUEST).entity("incomplete Order data").build());
+        }
+        if (request.getItems() != null) {
+            ensureCompleteness(request.getItems());
+        }
+    }
 
+    private void ensureCompleteness(List<OrderItemDTO> items) throws WebApplicationException {
+        for (OrderItemDTO item : items) {
+            if (item.getPrice() == null
+                    || item.getQuantity() == null) {
+                throw new WebApplicationException("incomplete Order data",
+                        Response.status(BAD_REQUEST).entity("incomplete Order data").build());
+            }
+            ensureCompleteness(item.getBook());
+        }
+    }
+
+    private void ensureCompleteness(BookDTO book) throws WebApplicationException {
+        if (book.getAuthors() == null
+                || book.getAuthors().isEmpty()
+                || book.getBinding() == null
+                || book.getIsbn() == null
+                || book.getIsbn().isEmpty()
+                || book.getNumberOfPages() == null
+                || book.getPrice() == null
+                || book.getPublicationYear() == null
+                || book.getPublisher() == null
+                || book.getPublisher().isEmpty()
+                || book.getTitle() == null
+                || book.getTitle().isEmpty()) {
+            throw new WebApplicationException("incomplete Order data",
+                    Response.status(BAD_REQUEST).entity("incomplete Order data").build());
+        }
     }
 
 }

@@ -31,6 +31,7 @@
         "code" : 500,
         "message" : "internal server error (unexpected system error)"
       } ],
+      "consumes" : [ "application/xml", "application/json" ],
       "produces" : [ "text/plain" ]
     }, {
       "method" : "GET",
@@ -110,6 +111,7 @@
         "code" : 500,
         "message" : "internal server error (unexpected system error)"
       } ],
+      "consumes" : [ "application/xml", "application/json" ],
       "produces" : [ "application/xml", "application/json" ]
     } ]
   } ],

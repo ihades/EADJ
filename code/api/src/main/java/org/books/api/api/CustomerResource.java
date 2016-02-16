@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -59,6 +60,7 @@ public class CustomerResource {
      */
     @POST
     @Produces({TEXT_PLAIN})
+    @Consumes({APPLICATION_XML, APPLICATION_JSON})
     public String registerCustomer(Registration registration, @Context final HttpServletResponse response) {
 
         if (registration.getCustomer() == null
@@ -138,6 +140,7 @@ public class CustomerResource {
      */
     @PUT
     @Produces({APPLICATION_XML, APPLICATION_JSON})
+    @Consumes({APPLICATION_XML, APPLICATION_JSON})
     @Path("{number}")
     public void updateCustomer(@PathParam("number") String number, CustomerDTO customer) {
         ensureCompletenessWithId(number, customer);
