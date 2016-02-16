@@ -19,6 +19,9 @@
       "summary" : "Registers a customer with the bookstore.",
       "notes" : "The email address and password\n will be used to authenticate the customer.",
       "responseMessages" : [ {
+        "code" : 201,
+        "message" : "created"
+      }, {
         "code" : 400,
         "message" : "bad request (incomplete customer data)"
       }, {

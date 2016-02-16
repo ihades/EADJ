@@ -5,9 +5,9 @@ import javax.annotation.PostConstruct;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -140,8 +140,7 @@ public class OrderResource {
      * @responseMessage 404 not found (order not found)
      * @responseMessage 500 internal server error (unexpected system error)
      */
-    @PUT
-    @Produces({APPLICATION_XML, APPLICATION_JSON})
+    @DELETE
     @Path("{number}")
     public void cancelOrder(@PathParam("number") String number) {
         try {
