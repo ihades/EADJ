@@ -25,11 +25,13 @@ import static javax.ws.rs.core.Response.Status.PAYMENT_REQUIRED;
 import org.books.api.api.entities.OrderRequest;
 import org.books.ejb.OrderService;
 import org.books.ejb.dto.OrderDTO;
+import org.books.ejb.dto.OrderItemDTO;
 import org.books.ejb.exception.BookNotFoundException;
 import org.books.ejb.exception.CustomerNotFoundException;
 import org.books.ejb.exception.OrderAlreadyShippedException;
 import org.books.ejb.exception.OrderNotFoundException;
 import org.books.ejb.exception.PaymentFailedException;
+import org.books.persistence.dto.BookInfo;
 import org.books.persistence.dto.OrderInfo;
 
 @Path("orders")
@@ -158,7 +160,37 @@ public class OrderResource {
     }
 
     private void ensureCompleteness(OrderRequest request) throws WebApplicationException {
+        if (request == null
+                || request.getCustomerNr() == null
+                || request.getCustomerNr().isEmpty()) {
+            throw new WebApplicationException("incomplete Order data",
+                    Response.status(BAD_REQUEST).entity("incomplete Order data").build());
+        }
+        if (request.getItems() != null) {
+            ensureCompleteness(request.getItems());
+        }
+    }
 
+    private void ensureCompleteness(List<OrderItemDTO> items) throws WebApplicationException {
+        for (OrderItemDTO item : items) {
+            if (item.getPrice() == null
+                    || item.getQuantity() == null) {
+                throw new WebApplicationException("incomplete Order data",
+                        Response.status(BAD_REQUEST).entity("incomplete Order data").build());
+            }
+            ensureCompleteness(item.getBook());
+        }
+    }
+
+    private void ensureCompleteness(BookInfo book) throws WebApplicationException {
+        if (book.getIsbn() == null
+                || book.getIsbn().isEmpty()
+                || book.getPrice() == null
+                || book.getTitle() == null
+                || book.getTitle().isEmpty()) {
+            throw new WebApplicationException("incomplete Order data",
+                    Response.status(BAD_REQUEST).entity("incomplete Order data").build());
+        }
     }
 
 }

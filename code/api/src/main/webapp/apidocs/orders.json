@@ -33,6 +33,7 @@
         "code" : 500,
         "message" : "internal server error (unexpected system error)"
       } ],
+      "consumes" : [ "application/xml", "application/json" ],
       "produces" : [ "application/xml", "application/json" ]
     }, {
       "method" : "GET",
@@ -88,7 +89,7 @@
       } ],
       "produces" : [ "application/xml", "application/json" ]
     }, {
-      "method" : "PUT",
+      "method" : "DELETE",
       "nickname" : "cancelOrder",
       "type" : "void",
       "parameters" : [ {
@@ -108,8 +109,7 @@
       }, {
         "code" : 500,
         "message" : "internal server error (unexpected system error)"
-      } ],
-      "produces" : [ "application/xml", "application/json" ]
+      } ]
     } ]
   } ],
   "models" : {
