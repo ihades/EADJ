@@ -3,9 +3,12 @@ package org.books.ejb.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import javax.xml.bind.annotation.XmlAccessOrder;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement
+@XmlRootElement(name = "book")
+@XmlType(propOrder = {"isbn", "title", "authors", "publisher", "publicationYear", "binding", "numberOfPages", "price"})
 public class BookDTO implements Serializable {
 
     public enum Binding {
