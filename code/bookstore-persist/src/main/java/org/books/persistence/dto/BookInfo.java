@@ -3,8 +3,11 @@ package org.books.persistence.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement
+@XmlRootElement(name = "bookInfo")
+@XmlType(propOrder = {"isbn", "title", "price"})
 public class BookInfo implements Serializable {
 
     public static final String QUERY_BOOKS_BY_YEAR = "org.books.persistence.dto.BookInfo.findByPublicationYear";
@@ -26,7 +29,7 @@ public class BookInfo implements Serializable {
         this.isbn = isbn;
         this.price = price;
     }
-
+    @XmlTransient
     public Long getId() {
         return id;
     }

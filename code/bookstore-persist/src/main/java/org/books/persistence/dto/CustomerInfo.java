@@ -3,8 +3,10 @@ package org.books.persistence.dto;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement
+@XmlRootElement(name = "customerInfo")
+@XmlType(propOrder = {"number", "email", "firstName", "lastName"})
 public class CustomerInfo implements Serializable {
 
     public static final String CUSTOMER_FIND_BY_NAME_PART_QUERY = "org.books.persistence.dto.CustomerInfo.findByNamePart";

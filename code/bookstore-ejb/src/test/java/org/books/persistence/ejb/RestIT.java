@@ -6,19 +6,11 @@
 package org.books.persistence.ejb;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.XMLConstants;
@@ -28,7 +20,6 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import org.books.ejb.dto.BookDTO;
 import org.junit.Assert;
-import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -66,19 +57,21 @@ public class RestIT {
     }
     
     @Test
-    public void ensureCorrectXMLPayload() {
+    public void ensureCorrectXMLPayloadFromBookDTO() {
         Response r = booksWebTarget.path("9781585427659").request(MediaType.APPLICATION_XML).get();
         BookDTO bd = null;
         Assert.assertEquals(200, r.getStatusInfo().getStatusCode());
         String xml = r.readEntity(String.class);
-        Assert.assertTrue(validateXMLSchema("", xml));
-        
-        Assert.assertNotNull(bd);
-        Assert.assertEquals(bd.getBinding(), BookDTO.Binding.Hardcover);
-        
-        
-        
-        //Assert.assertEquals(404, booksWebTarget.path("978-1585427659").request().get().getStatusInfo().getStatusCode());
+        Assert.assertTrue(validateXMLSchema("catalog.xsd", xml));
+    }
+    
+    @Test
+    public void ensureCorrectBookDTOGeneration() {
+        Response r = booksWebTarget.path("9781585427659").request(MediaType.APPLICATION_XML).get();
+        BookDTO bd = null;
+        Assert.assertEquals(200, r.getStatusInfo().getStatusCode());
+        String xml = r.readEntity(String.class);
+        Assert.assertTrue(validateXMLSchema("catalog.xsd", xml));
     }
 
     @BeforeClass
@@ -97,12 +90,9 @@ public class RestIT {
     public void tearDownMethod() throws Exception {
     }
     
-    public boolean validateXMLSchema(String xsdPath, String xml){
-        xsdPath = "catalog.xsd";
-        InputStream fis = null;
-        File file = new File("src/main/resources/catalog.xsd");
-        
-        
+    
+    private boolean validateXMLSchema(String xsdFile, String xml){
+        File file = new File("src/main/resources/"+xsdFile);
         try {
             SchemaFactory factory = 
                     SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

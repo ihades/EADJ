@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.xml.bind.annotation.XmlAccessOrder;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "book")
@@ -15,7 +16,7 @@ public class BookDTO implements Serializable {
 
         Hardcover, Paperback, Ebook, Unknown
     }
-
+    
     private String isbn;
     private String title;
     private String authors;
@@ -39,7 +40,7 @@ public class BookDTO implements Serializable {
         this.numberOfPages = numberOfPages;
         this.setPrice(price);
     }
-
+    
     public String getIsbn() {
         return isbn;
     }
