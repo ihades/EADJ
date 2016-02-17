@@ -1,6 +1,5 @@
 package org.books.persistence.ejb;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -13,8 +12,6 @@ import org.books.ejb.amazone.impl.ItemSearch;
 import org.books.ejb.amazone.impl.ItemSearchRequest;
 import org.books.ejb.amazone.impl.ItemSearchResponse;
 import org.books.ejb.amazone.impl.Items;
-import org.books.ejb.dto.BookDTO;
-import static org.books.persistence.ejb.Util.numbGen;
 import org.books.persistence.entity.Book;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -27,16 +24,6 @@ public class AmazonIT {
 
     private AmazonCatalogService catalogService;
 
-    private final BookDTO book = new BookDTO(
-            numbGen(),
-            "Oracle for Dummies",
-            "irgendwer",
-            "orelly",
-            2012,
-            BookDTO.Binding.Unknown,
-            120,
-            new BigDecimal(25.7));
-
     @BeforeClass
     public void setup() throws Exception {
         InitialContext context = new InitialContext(Util.getInitProperties());
@@ -45,11 +32,11 @@ public class AmazonIT {
 
     @Test
     public void search() throws Exception {
-        List<Book> books = catalogService.searchBooks("Austenland");
+        List<Book> books = catalogService.searchBooks("Oracle");
         int i = 1;
         for (Book book : books) {
             System.out.println(String.format("%2d: ", i++)
-                    + book.getTitle());
+                    + book.getTitle() + "\t\t\t" + book.getBinding());
         }
     }
 

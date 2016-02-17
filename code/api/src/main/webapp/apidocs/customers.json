@@ -38,7 +38,7 @@
       "nickname" : "searchCustomer",
       "type" : "array",
       "items" : {
-        "$ref" : "CustomerInfo"
+        "$ref" : "customerInfo"
       },
       "parameters" : [ {
         "type" : "string",
@@ -159,6 +159,23 @@
         }
       }
     },
+    "customerInfo" : {
+      "id" : "customerInfo",
+      "properties" : {
+        "number" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        }
+      }
+    },
     "AddressDTO" : {
       "id" : "AddressDTO",
       "properties" : {
@@ -172,23 +189,6 @@
           "type" : "string"
         },
         "country" : {
-          "type" : "string"
-        }
-      }
-    },
-    "CustomerInfo" : {
-      "id" : "CustomerInfo",
-      "properties" : {
-        "number" : {
-          "type" : "string"
-        },
-        "firstName" : {
-          "type" : "string"
-        },
-        "lastName" : {
-          "type" : "string"
-        },
-        "email" : {
           "type" : "string"
         }
       }

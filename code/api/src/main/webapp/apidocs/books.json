@@ -10,7 +10,7 @@
       "nickname" : "searchBook",
       "type" : "array",
       "items" : {
-        "$ref" : "BookInfo"
+        "$ref" : "bookInfo"
       },
       "parameters" : [ {
         "type" : "string",
@@ -53,13 +53,9 @@
     } ]
   } ],
   "models" : {
-    "BookInfo" : {
-      "id" : "BookInfo",
+    "bookInfo" : {
+      "id" : "bookInfo",
       "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
         "title" : {
           "type" : "string"
         },

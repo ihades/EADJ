@@ -22,6 +22,8 @@ public class ApplicationConfig extends Application {
         resources.add(org.books.api.api.BookRessource.class);
         resources.add(org.books.api.api.CustomerResource.class);
         resources.add(org.books.api.api.OrderResource.class);
+        resources.add(org.books.api.api.validators.RegistrationValidator.class);
+//        resources.add(org.books.api.api.validators.ValidatingReader.class);
     }
 
 }
