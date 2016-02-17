@@ -135,11 +135,13 @@ public class AmazonCatalogServiceBean implements AmazonCatalogServiceLocal, Amaz
     }
 
     private Binding mapAwsToBookstoreBinding(final String binding) {
-        switch (binding) {
-            case "Paperback":
+        switch (binding.toLowerCase()) {
+            case "paperback":
                 return Binding.Paperback;
-            case "Hardcover":
+            case "hardcover":
                 return Binding.Hardcover;
+            case "kindle edition":
+                return Binding.EBOOK;
             default:
                 return Binding.Unknown;
         }

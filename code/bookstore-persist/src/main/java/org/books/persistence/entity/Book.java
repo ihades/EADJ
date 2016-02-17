@@ -26,7 +26,7 @@ public class Book extends IDObject {
 
     public enum Binding {
 
-        Hardcover, Paperback, Unknown
+        Hardcover, Paperback, Unknown, EBOOK
     }
 
     @Column(unique = true,
