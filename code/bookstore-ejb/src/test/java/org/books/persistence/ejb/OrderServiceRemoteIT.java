@@ -92,6 +92,7 @@ public class OrderServiceRemoteIT {
         orderService = (OrderService) context.lookup(Util.ORDER_SERVICE_NAME);
         customerService = (CustomerService) context.lookup(Util.CUSTOMER_SERVICE_NAME);
         catalogService = (CatalogService) context.lookup(Util.CATALOG_SERVICE_NAME);
+        bookDTO = catalogService.findBook("978-1585427659");
     }
 
     @BeforeTest

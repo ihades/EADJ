@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:include schemaLocation="catalog.xsd"/>
+	<xs:include schemaLocation="customers.xsd"/>
+
+	<xs:element name="orderRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="customerNr" type="xs:string"/>
+				<xs:element name="items" type="OrderItem" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="OrderItem">
+		<xs:sequence>
+			<xs:element ref="bookInfo"/>
+			<xs:element name="quantity" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="order">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="number" type="xs:string"/>
+				<xs:element name="date" type="xs:dateTime"/>
+				<xs:element name="amount" type="xs:decimal"/>
+				<xs:element name="status" type="OrderStatus"/>
+				<xs:element ref="customerInfo"/>
+				<xs:element ref="address"/>
+				<xs:element ref="creditCard"/>
+				<xs:element name="items" type="OrderItem" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="orderInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="number" type="xs:string"/>
+				<xs:element name="date" type="xs:dateTime"/>
+				<xs:element name="amount" type="xs:decimal"/>
+				<xs:element name="status" type="OrderStatus"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="orderInfoes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="orderInfo" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="OrderStatus">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="accepted"/>
+			<xs:enumeration value="processing"/>
+			<xs:enumeration value="shipped"/>
+			<xs:enumeration value="canceled"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

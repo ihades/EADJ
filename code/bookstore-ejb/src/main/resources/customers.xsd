@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="registration">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="customer"/>
+				<xs:element name="password" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="customer">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="number" type="xs:string"/>
+				<xs:element name="email" type="xs:string"/>
+				<xs:element name="firstName" type="xs:string"/>
+				<xs:element name="lastName" type="xs:string"/>
+				<xs:element ref="address"/>
+				<xs:element ref="creditCard"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="customerInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="number" type="xs:string"/>
+				<xs:element name="email" type="xs:string"/>
+				<xs:element name="firstName" type="xs:string"/>
+				<xs:element name="lastName" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="customerInfoes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="customerInfo" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="address">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="street" type="xs:string"/>
+				<xs:element name="city" type="xs:string"/>
+				<xs:element name="postalCode" type="xs:string"/>
+				<xs:element name="country" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="creditCard">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="type" type="CreditCardType"> </xs:element>
+				<xs:element name="number" type="CreditCardNumber"/>
+				<xs:element name="expirationMonth" type="xs:int"/>
+				<xs:element name="expirationYear" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="CreditCardType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MasterCard"/>
+			<xs:enumeration value="Visa"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CreditCardNumber">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{16}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
