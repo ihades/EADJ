@@ -1,9 +1,8 @@
 package org.books.api.api;
 
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -24,6 +23,7 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.PAYMENT_REQUIRED;
 import org.books.api.api.entities.OrderRequest;
 import org.books.ejb.OrderService;
+import org.books.ejb.OrderServiceLocal;
 import org.books.ejb.dto.OrderDTO;
 import org.books.ejb.dto.OrderItemDTO;
 import org.books.ejb.exception.BookNotFoundException;
@@ -34,21 +34,12 @@ import org.books.ejb.exception.PaymentFailedException;
 import org.books.persistence.dto.BookInfo;
 import org.books.persistence.dto.OrderInfo;
 
+@RequestScoped
 @Path("orders")
 public class OrderResource {
 
+    @EJB(beanInterface = OrderServiceLocal.class)
     private OrderService os;
-
-    @PostConstruct
-    public void init() {
-        try {
-            InitialContext ctx = new InitialContext();
-            os = (OrderService) ctx.lookup("java:global/bookstore-app/bookstore-ejb/OrderService!org.books.ejb.OrderServiceLocal");
-        } catch (NamingException ne) {
-            System.out.println("\n[OrderResource] NamingException: " + ne);
-            ne.printStackTrace();
-        }
-    }
 
     /**
      * Places an order on the bookstore.

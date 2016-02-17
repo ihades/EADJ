@@ -1,9 +1,8 @@
 package org.books.api.api;
 
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -24,26 +23,18 @@ import static javax.ws.rs.core.Response.Status.CONFLICT;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import org.books.api.api.entities.Registration;
 import org.books.ejb.CustomerService;
+import org.books.ejb.CustomerServiceLocal;
 import org.books.ejb.dto.CustomerDTO;
 import org.books.ejb.exception.CustomerAlreadyExistsException;
 import org.books.ejb.exception.CustomerNotFoundException;
 import org.books.persistence.dto.CustomerInfo;
 
+@RequestScoped
 @Path("customers")
 public class CustomerResource {
 
+    @EJB(beanInterface = CustomerServiceLocal.class)
     private CustomerService cs;
-
-    @PostConstruct
-    public void init() {
-        try {
-            InitialContext ctx = new InitialContext();
-            cs = (CustomerService) ctx.lookup("java:global/bookstore-app/bookstore-ejb/CustomerService!org.books.ejb.CustomerServiceLocal");
-        } catch (NamingException ne) {
-            System.out.println("\n[CustomerResource] NamingException: " + ne);
-            ne.printStackTrace();
-        }
-    }
 
     /**
      * Registers a customer with the bookstore. The email address and password

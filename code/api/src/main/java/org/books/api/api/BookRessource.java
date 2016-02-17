@@ -1,9 +1,8 @@
 package org.books.api.api;
 
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -16,25 +15,17 @@ import javax.ws.rs.core.Response;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import org.books.ejb.CatalogService;
+import org.books.ejb.CatalogServiceLocal;
 import org.books.ejb.dto.BookDTO;
 import org.books.ejb.exception.BookNotFoundException;
 import org.books.persistence.dto.BookInfo;
 
+@RequestScoped
 @Path("books")
 public class BookRessource {
 
+    @EJB(beanInterface = CatalogServiceLocal.class)
     private CatalogService catalog;
-
-    @PostConstruct
-    public void init() {
-        try {
-            InitialContext ctx = new InitialContext();
-            catalog = (CatalogService) ctx.lookup("java:global/bookstore-app/bookstore-ejb/CatalogService!org.books.ejb.CatalogServiceLocal");
-        } catch (NamingException ne) {
-            System.out.println("\n[BookRessource] NamingException: " + ne);
-            ne.printStackTrace();
-        }
-    }
 
     /**
      * Finds a book by ISBN number.

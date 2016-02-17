@@ -3,10 +3,6 @@ package org.books.api.api;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
-/**
- *
- * @author cb
- */
 @javax.ws.rs.ApplicationPath("rest")
 public class ApplicationConfig extends Application {
 

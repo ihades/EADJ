@@ -33,7 +33,7 @@
     "operations" : [ {
       "method" : "GET",
       "nickname" : "findBook",
-      "type" : "BookDTO",
+      "type" : "book",
       "parameters" : [ {
         "type" : "string",
         "description" : "the ISBN number of the book",
@@ -53,8 +53,27 @@
     } ]
   } ],
   "models" : {
-    "BookDTO" : {
-      "id" : "BookDTO",
+    "BookInfo" : {
+      "id" : "BookInfo",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "isbn" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "book" : {
+      "id" : "book",
       "properties" : {
         "isbn" : {
           "type" : "string"
@@ -79,25 +98,6 @@
         "numberOfPages" : {
           "type" : "integer",
           "format" : "int32"
-        },
-        "price" : {
-          "type" : "number",
-          "format" : "double"
-        }
-      }
-    },
-    "BookInfo" : {
-      "id" : "BookInfo",
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "title" : {
-          "type" : "string"
-        },
-        "isbn" : {
-          "type" : "string"
         },
         "price" : {
           "type" : "number",
