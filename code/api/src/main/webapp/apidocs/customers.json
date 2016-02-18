@@ -10,7 +10,7 @@
       "nickname" : "registerCustomer",
       "type" : "string",
       "parameters" : [ {
-        "type" : "Registration",
+        "type" : "registration",
         "description" : "the data of the customer to be registered (the number\n must be null)",
         "paramType" : "body",
         "name" : "registration",
@@ -62,7 +62,7 @@
     "operations" : [ {
       "method" : "GET",
       "nickname" : "findCustomer",
-      "type" : "CustomerDTO",
+      "type" : "customer",
       "parameters" : [ {
         "type" : "string",
         "description" : "the number of the customer",
@@ -90,7 +90,7 @@
         "name" : "number",
         "required" : true
       }, {
-        "type" : "CustomerDTO",
+        "type" : "customer",
         "description" : "the data of the customer to be updated (the number must\n not be null)",
         "paramType" : "body",
         "name" : "customer",
@@ -111,34 +111,10 @@
         "code" : 500,
         "message" : "internal server error (unexpected system error)"
       } ],
-      "consumes" : [ "application/xml", "application/json" ],
-      "produces" : [ "application/xml", "application/json" ]
+      "consumes" : [ "application/xml", "application/json" ]
     } ]
   } ],
   "models" : {
-    "CustomerDTO" : {
-      "id" : "CustomerDTO",
-      "properties" : {
-        "email" : {
-          "type" : "string"
-        },
-        "firstName" : {
-          "type" : "string"
-        },
-        "lastName" : {
-          "type" : "string"
-        },
-        "number" : {
-          "type" : "string"
-        },
-        "address" : {
-          "type" : "AddressDTO"
-        },
-        "creditCard" : {
-          "type" : "CreditCardDTO"
-        }
-      }
-    },
     "CreditCardDTO" : {
       "id" : "CreditCardDTO",
       "properties" : {
@@ -176,8 +152,19 @@
         }
       }
     },
-    "AddressDTO" : {
-      "id" : "AddressDTO",
+    "registration" : {
+      "id" : "registration",
+      "properties" : {
+        "password" : {
+          "type" : "string"
+        },
+        "customer" : {
+          "type" : "customer"
+        }
+      }
+    },
+    "address" : {
+      "id" : "address",
       "properties" : {
         "street" : {
           "type" : "string"
@@ -193,14 +180,26 @@
         }
       }
     },
-    "Registration" : {
-      "id" : "Registration",
+    "customer" : {
+      "id" : "customer",
       "properties" : {
-        "password" : {
+        "email" : {
           "type" : "string"
         },
-        "customer" : {
-          "type" : "CustomerDTO"
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "number" : {
+          "type" : "string"
+        },
+        "address" : {
+          "type" : "address"
+        },
+        "creditCard" : {
+          "type" : "CreditCardDTO"
         }
       }
     }
