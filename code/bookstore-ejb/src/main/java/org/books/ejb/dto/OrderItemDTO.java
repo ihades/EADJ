@@ -3,9 +3,11 @@ package org.books.ejb.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import org.books.persistence.dto.BookInfo;
 
-@XmlRootElement
+@XmlRootElement(name="OrderItem")
+@XmlType(propOrder = {"book", "quantity"})
 public class OrderItemDTO implements Serializable {
 
     private BookInfo book;

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.xml.bind.annotation.XmlAccessOrder;
+import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -12,6 +13,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = {"isbn", "title", "authors", "publisher", "publicationYear", "binding", "numberOfPages", "price"})
 public class BookDTO implements Serializable {
 
+    @XmlType(name = "BookBinding", propOrder = {"Paperback", "Hardcover", "Ebook", "Unknown"})
+    @XmlEnum
     public enum Binding {
 
         Hardcover, Paperback, Ebook, Unknown

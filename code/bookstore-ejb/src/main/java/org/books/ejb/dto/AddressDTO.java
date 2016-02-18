@@ -1,7 +1,11 @@
 package org.books.ejb.dto;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlRootElement(name = "address")
+@XmlType(propOrder = {"street","city","postalCode","country"})
 public class AddressDTO implements Serializable {
 
     private String street;

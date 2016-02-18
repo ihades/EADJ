@@ -1,16 +1,21 @@
 package org.books.ejb.dto;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement
+@XmlRootElement(name="customer")
+@XmlType(propOrder = {"number", "email", "firstName", "lastName"})
 public class CustomerDTO implements Serializable {
 
     private String email;
     private String firstName;
     private String lastName;
     private String number;
+    @XmlIDREF
     private AddressDTO address;
+    @XmlIDREF
     private CreditCardDTO creditCard;
 
     public CustomerDTO() {

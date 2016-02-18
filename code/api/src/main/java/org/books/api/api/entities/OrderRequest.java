@@ -2,9 +2,11 @@ package org.books.api.api.entities;
 
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import org.books.ejb.dto.OrderItemDTO;
 
-@XmlRootElement
+@XmlRootElement(name="orderRequest")
+@XmlType(propOrder = {"customerNr", "items"})
 public class OrderRequest {
 
     private String customerNr;
