@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -80,8 +81,31 @@ public class RestIT {
     }
     
     @Test
-    public void ensureCorrectCustomerRegistration() {
-        
+    public void ensureCorrectCustomerRegistrationWithCorrectXml() {
+        String xml = "<registration>" +
+        "<customer>" +
+        "  <number></number>  " +
+        "  <email>chrigu.b@gmail2.com</email>" +
+        "  <firstName>chrigu</firstName>" +
+        "  <lastName>bÃ¼hlmann</lastName>" +
+        "  <address>" +
+        "    <street>sulgenbachstrasse 14</street>" +
+        "    <city>bern</city>" +
+        " <postalCode>3007</postalCode>" +
+        "    <country>switzerland</country>" +
+        "  </address>" +
+        "  <creditCard>" +
+        "    <type>MasterCard</type>" +
+        "    <number>5555555555554444</number>" +
+        "    <expirationMonth>12</expirationMonth>" +
+        "    <expirationYear>2016</expirationYear>" +
+        "  </creditCard>" +
+        "</customer>" +
+        "<password>1234</password>" +
+        "</registration>";
+        Response r = customersWebTarget.request(MediaType.APPLICATION_XML).post(Entity.xml(xml));
+        //String xml2 = r.readEntity(String.class);
+        Assert.assertEquals(201, r.getStatusInfo().getStatusCode());
     }
     
     

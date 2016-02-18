@@ -1,5 +1,8 @@
 package org.books.api.api.entities;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.books.ejb.dto.CustomerDTO;
@@ -9,6 +12,7 @@ import org.books.ejb.dto.CustomerDTO;
 public class Registration {
 
     private String password;
+    @XmlElementRef(type = CustomerDTO.class, name="customer", required = true)
     private CustomerDTO customer;
 
     public Registration() {

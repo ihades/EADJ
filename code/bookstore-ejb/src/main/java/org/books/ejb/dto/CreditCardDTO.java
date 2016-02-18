@@ -1,9 +1,15 @@
 package org.books.ejb.dto;
 
 import java.io.Serializable;
-
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+@XmlRootElement(name = "creditCard")
+@XmlType(propOrder = {"type", "number", "expirationMonth", "expirationYear"})
 public class CreditCardDTO implements Serializable {
 
+    @XmlType(name = "type")
+    @XmlEnum
     public enum Type {
 
         MasterCard, Visa
