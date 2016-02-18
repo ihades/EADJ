@@ -41,14 +41,19 @@ public class RestIT {
     WebTarget ordersWebTarget = client.target("http://localhost:8080/bookstore/rest/orders");
     WebTarget customersWebTarget = client.target("http://localhost:8080/bookstore/rest/customers");
     
+    
     @Test
-    public void ensureBadRequest() {
+    public void ensureBadRequests() {
         Assert.assertEquals(400, booksWebTarget.request().get().getStatusInfo().getStatusCode());
+        Assert.assertEquals(400, ordersWebTarget.request().get().getStatusInfo().getStatusCode());
+        Assert.assertEquals(400, customersWebTarget.request().get().getStatusInfo().getStatusCode());
     }
     
     @Test
-    public void ensure404WithWrongBook() {
+    public void ensure404WithWrongData() {
         Assert.assertEquals(404, booksWebTarget.path("1234").request().get().getStatusInfo().getStatusCode());
+        Assert.assertEquals(404, ordersWebTarget.path("1234").request().get().getStatusInfo().getStatusCode());
+        Assert.assertEquals(404, customersWebTarget.path("1234").request().get().getStatusInfo().getStatusCode());
     }
     
     @Test
@@ -57,7 +62,7 @@ public class RestIT {
     }
     
     @Test
-    public void ensureCorrectXMLPayloadFromBookDTO() {
+    public void ensureCorrectXMLPayloadFromBooksService() {
         Response r = booksWebTarget.path("9781585427659").request(MediaType.APPLICATION_XML).get();
         BookDTO bd = null;
         Assert.assertEquals(200, r.getStatusInfo().getStatusCode());
@@ -70,9 +75,16 @@ public class RestIT {
         Response r = booksWebTarget.path("9781585427659").request(MediaType.APPLICATION_XML).get();
         BookDTO bd = null;
         Assert.assertEquals(200, r.getStatusInfo().getStatusCode());
-        String xml = r.readEntity(String.class);
-        Assert.assertTrue(validateXMLSchema("catalog.xsd", xml));
+        bd = r.readEntity(BookDTO.class);
+        Assert.assertNotNull(bd);
     }
+    
+    @Test
+    public void ensureCorrectCustomerRegistration() {
+        
+    }
+    
+    
 
     @BeforeClass
     public static void setUpClass() throws Exception {
