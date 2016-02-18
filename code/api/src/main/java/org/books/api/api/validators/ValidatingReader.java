@@ -62,8 +62,15 @@ public abstract class ValidatingReader<T> implements MessageBodyReader<T> {
             type = (T) unmarshaller.unmarshal(arg5);
 
         } catch (JAXBException | SAXException e) {
-            throw new WebApplicationException(e.getCause().getMessage(),
-                    Response.status(BAD_REQUEST).entity(e.getCause().getMessage()).build());
+            if (e.getCause() != null) {
+                throw new WebApplicationException(e.getCause().getMessage(),
+                        Response.status(BAD_REQUEST).entity(e.getCause().getMessage()).build());
+            } else if (e.getMessage() != null) {
+                throw new WebApplicationException(e.getMessage(),
+                        Response.status(BAD_REQUEST).entity(e.getMessage()).build());
+            } else {
+                throw new WebApplicationException(BAD_REQUEST);
+            }
         }
 
         return type;
