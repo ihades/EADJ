@@ -115,26 +115,6 @@
     } ]
   } ],
   "models" : {
-    "CreditCardDTO" : {
-      "id" : "CreditCardDTO",
-      "properties" : {
-        "type" : {
-          "type" : "string",
-          "enum" : [ "MasterCard", "Visa" ]
-        },
-        "number" : {
-          "type" : "string"
-        },
-        "expirationMonth" : {
-          "type" : "integer",
-          "format" : "int32"
-        },
-        "expirationYear" : {
-          "type" : "integer",
-          "format" : "int32"
-        }
-      }
-    },
     "customerInfo" : {
       "id" : "customerInfo",
       "properties" : {
@@ -180,6 +160,26 @@
         }
       }
     },
+    "creditCard" : {
+      "id" : "creditCard",
+      "properties" : {
+        "type" : {
+          "type" : "string",
+          "enum" : [ "MasterCard", "Visa" ]
+        },
+        "number" : {
+          "type" : "string"
+        },
+        "expirationMonth" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "expirationYear" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
     "customer" : {
       "id" : "customer",
       "properties" : {
@@ -199,7 +199,7 @@
           "type" : "address"
         },
         "creditCard" : {
-          "type" : "CreditCardDTO"
+          "type" : "creditCard"
         }
       }
     }

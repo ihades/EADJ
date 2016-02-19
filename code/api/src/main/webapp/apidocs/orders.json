@@ -128,26 +128,6 @@
         }
       }
     },
-    "CreditCardDTO" : {
-      "id" : "CreditCardDTO",
-      "properties" : {
-        "type" : {
-          "type" : "string",
-          "enum" : [ "MasterCard", "Visa" ]
-        },
-        "number" : {
-          "type" : "string"
-        },
-        "expirationMonth" : {
-          "type" : "integer",
-          "format" : "int32"
-        },
-        "expirationYear" : {
-          "type" : "integer",
-          "format" : "int32"
-        }
-      }
-    },
     "address" : {
       "id" : "address",
       "properties" : {
@@ -168,12 +148,8 @@
     "OrderItem" : {
       "id" : "OrderItem",
       "properties" : {
-        "book" : {
+        "bookInfo" : {
           "type" : "bookInfo"
-        },
-        "price" : {
-          "type" : "number",
-          "format" : "double"
         },
         "quantity" : {
           "type" : "integer",
@@ -219,6 +195,26 @@
         }
       }
     },
+    "creditCard" : {
+      "id" : "creditCard",
+      "properties" : {
+        "type" : {
+          "type" : "string",
+          "enum" : [ "MasterCard", "Visa" ]
+        },
+        "number" : {
+          "type" : "string"
+        },
+        "expirationMonth" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "expirationYear" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
     "order" : {
       "id" : "order",
       "properties" : {
@@ -244,7 +240,7 @@
           "type" : "address"
         },
         "creditCard" : {
-          "type" : "CreditCardDTO"
+          "type" : "creditCard"
         },
         "items" : {
           "type" : "array",
@@ -273,7 +269,7 @@
           "type" : "address"
         },
         "creditCard" : {
-          "type" : "CreditCardDTO"
+          "type" : "creditCard"
         }
       }
     }

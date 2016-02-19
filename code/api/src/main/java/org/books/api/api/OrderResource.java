@@ -1,6 +1,5 @@
 package org.books.api.api;
 
-import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -165,17 +164,13 @@ public class OrderResource {
 
     private void ensureCompleteness(List<OrderItemDTO> items) throws WebApplicationException {
         for (OrderItemDTO item : items) {
-            //get price will always return null because the price field
-            //in OrderItemDTO is @XmlTransient.
-            //chrischten will take care of this.
-            item.setPrice(new BigDecimal("5"));
-            if (item.getPrice() == null
+            if (item.getBook() == null
                     || item.getQuantity() == null) {
                 throw new WebApplicationException("Incomplete OrderItemDTO data",
                         Response.status(BAD_REQUEST).entity("OrderItemDTO data").build());
             }
-            
             ensureCompleteness(item.getBook());
+            item.setPrice(item.getBook().getPrice());
         }
     }
 
