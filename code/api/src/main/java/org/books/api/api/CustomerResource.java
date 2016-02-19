@@ -131,7 +131,6 @@ public class CustomerResource {
      * @responseMessage 500 internal server error (unexpected system error)
      */
     @PUT
-    @Produces({APPLICATION_XML, APPLICATION_JSON})
     @Consumes({APPLICATION_XML, APPLICATION_JSON})
     @Path("{number}")
     public void updateCustomer(@PathParam("number") String number, CustomerDTO customer) {

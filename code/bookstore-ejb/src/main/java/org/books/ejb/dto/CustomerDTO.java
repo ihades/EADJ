@@ -4,7 +4,8 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name="customer")
+
+@XmlRootElement(name = "customer")
 @XmlType(propOrder = {"number", "email", "firstName", "lastName", "address", "creditCard"})
 public class CustomerDTO implements Serializable {
 

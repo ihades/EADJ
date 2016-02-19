@@ -8,9 +8,9 @@
     "operations" : [ {
       "method" : "POST",
       "nickname" : "placeOrder",
-      "type" : "OrderDTO",
+      "type" : "order",
       "parameters" : [ {
-        "type" : "OrderRequest",
+        "type" : "orderRequest",
         "description" : "customerNr - the number of the customer / items - the\n order items",
         "paramType" : "body",
         "name" : "orderRequest",
@@ -40,7 +40,7 @@
       "nickname" : "searchOrdersOfCustomer",
       "type" : "array",
       "items" : {
-        "$ref" : "OrderInfo"
+        "$ref" : "orderInfo"
       },
       "parameters" : [ {
         "type" : "string",
@@ -71,7 +71,7 @@
     "operations" : [ {
       "method" : "GET",
       "nickname" : "findOrder",
-      "type" : "OrderDTO",
+      "type" : "order",
       "parameters" : [ {
         "type" : "string",
         "description" : "the number of the order",
@@ -148,8 +148,25 @@
         }
       }
     },
-    "OrderItemDTO" : {
-      "id" : "OrderItemDTO",
+    "address" : {
+      "id" : "address",
+      "properties" : {
+        "street" : {
+          "type" : "string"
+        },
+        "city" : {
+          "type" : "string"
+        },
+        "postalCode" : {
+          "type" : "string"
+        },
+        "country" : {
+          "type" : "string"
+        }
+      }
+    },
+    "OrderItem" : {
+      "id" : "OrderItem",
       "properties" : {
         "book" : {
           "type" : "bookInfo"
@@ -164,80 +181,8 @@
         }
       }
     },
-    "OrderRequest" : {
-      "id" : "OrderRequest",
-      "properties" : {
-        "customerNr" : {
-          "type" : "string"
-        },
-        "items" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "OrderItemDTO"
-          }
-        }
-      }
-    },
-    "CustomerDTO" : {
-      "id" : "CustomerDTO",
-      "properties" : {
-        "email" : {
-          "type" : "string"
-        },
-        "firstName" : {
-          "type" : "string"
-        },
-        "lastName" : {
-          "type" : "string"
-        },
-        "number" : {
-          "type" : "string"
-        },
-        "address" : {
-          "type" : "AddressDTO"
-        },
-        "creditCard" : {
-          "type" : "CreditCardDTO"
-        }
-      }
-    },
-    "OrderDTO" : {
-      "id" : "OrderDTO",
-      "properties" : {
-        "number" : {
-          "type" : "string"
-        },
-        "date" : {
-          "type" : "string",
-          "format" : "date-time"
-        },
-        "amount" : {
-          "type" : "number",
-          "format" : "double"
-        },
-        "status" : {
-          "type" : "string",
-          "enum" : [ "accepted", "processing", "shipped", "canceled" ]
-        },
-        "customer" : {
-          "type" : "CustomerDTO"
-        },
-        "address" : {
-          "type" : "AddressDTO"
-        },
-        "creditCard" : {
-          "type" : "CreditCardDTO"
-        },
-        "items" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "OrderItemDTO"
-          }
-        }
-      }
-    },
-    "OrderInfo" : {
-      "id" : "OrderInfo",
+    "orderInfo" : {
+      "id" : "orderInfo",
       "properties" : {
         "id" : {
           "type" : "integer",
@@ -260,20 +205,75 @@
         }
       }
     },
-    "AddressDTO" : {
-      "id" : "AddressDTO",
+    "orderRequest" : {
+      "id" : "orderRequest",
       "properties" : {
-        "street" : {
+        "customerNr" : {
           "type" : "string"
         },
-        "city" : {
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "OrderItem"
+          }
+        }
+      }
+    },
+    "order" : {
+      "id" : "order",
+      "properties" : {
+        "number" : {
           "type" : "string"
         },
-        "postalCode" : {
+        "date" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "amount" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "accepted", "processing", "shipped", "canceled" ]
+        },
+        "customer" : {
+          "type" : "customer"
+        },
+        "address" : {
+          "type" : "address"
+        },
+        "creditCard" : {
+          "type" : "CreditCardDTO"
+        },
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "OrderItem"
+          }
+        }
+      }
+    },
+    "customer" : {
+      "id" : "customer",
+      "properties" : {
+        "email" : {
           "type" : "string"
         },
-        "country" : {
+        "firstName" : {
           "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "number" : {
+          "type" : "string"
+        },
+        "address" : {
+          "type" : "address"
+        },
+        "creditCard" : {
+          "type" : "CreditCardDTO"
         }
       }
     }
