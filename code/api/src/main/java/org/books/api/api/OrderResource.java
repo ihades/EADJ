@@ -1,5 +1,6 @@
 package org.books.api.api;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -154,8 +155,8 @@ public class OrderResource {
         if (request == null
                 || request.getCustomerNr() == null
                 || request.getCustomerNr().isEmpty()) {
-            throw new WebApplicationException("incomplete Order data",
-                    Response.status(BAD_REQUEST).entity("incomplete Order data").build());
+            throw new WebApplicationException("Incorrect CustomerNumber",
+                    Response.status(BAD_REQUEST).entity("Incorrect CustomerNumber").build());
         }
         if (request.getItems() != null) {
             ensureCompleteness(request.getItems());
@@ -164,11 +165,16 @@ public class OrderResource {
 
     private void ensureCompleteness(List<OrderItemDTO> items) throws WebApplicationException {
         for (OrderItemDTO item : items) {
+            //get price will always return null because the price field
+            //in OrderItemDTO is @XmlTransient.
+            //chrischten will take care of this.
+            item.setPrice(new BigDecimal("5"));
             if (item.getPrice() == null
                     || item.getQuantity() == null) {
-                throw new WebApplicationException("incomplete Order data",
-                        Response.status(BAD_REQUEST).entity("incomplete Order data").build());
+                throw new WebApplicationException("Incomplete OrderItemDTO data",
+                        Response.status(BAD_REQUEST).entity("OrderItemDTO data").build());
             }
+            
             ensureCompleteness(item.getBook());
         }
     }
@@ -179,8 +185,8 @@ public class OrderResource {
                 || book.getPrice() == null
                 || book.getTitle() == null
                 || book.getTitle().isEmpty()) {
-            throw new WebApplicationException("incomplete Order data",
-                    Response.status(BAD_REQUEST).entity("incomplete Order data").build());
+            throw new WebApplicationException("Incomplete BookInfo data",
+                    Response.status(BAD_REQUEST).entity("Incomplete BookInfo data").build());
         }
     }
 

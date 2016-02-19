@@ -5,12 +5,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-@XmlRootElement(name="order")
+@XmlRootElement(name = "order")
 @XmlType(propOrder = {"number", "date", "amount", "status", "customer", "address", "creditCard", "items"})
 public class OrderDTO implements Serializable {
-
+    
+    @XmlType(name="status")
+    @XmlEnum
     public enum Status {
 
         accepted, processing, shipped, canceled

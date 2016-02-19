@@ -1,6 +1,7 @@
 package org.books.api.api.entities;
 
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.books.ejb.dto.OrderItemDTO;
@@ -27,7 +28,7 @@ public class OrderRequest {
     public void setCustomerNr(String customerNr) {
         this.customerNr = customerNr;
     }
-
+    
     public List<OrderItemDTO> getItems() {
         return items;
     }
