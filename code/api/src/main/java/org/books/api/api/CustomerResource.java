@@ -1,8 +1,10 @@
 package org.books.api.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
@@ -109,13 +112,22 @@ public class CustomerResource {
      */
     @GET
     @Produces({APPLICATION_XML, APPLICATION_JSON})
-    public List<CustomerInfo> searchCustomer(@QueryParam("name") String name) {
-        if (name != null && !name.isEmpty()) {
-            return cs.searchCustomers(name);
-        } else {
+    public Response searchCustomer(@QueryParam("name") String name, @Context final HttpServletRequest request) {
+        
+        //name could be +-separated in case of REST-request.
+        List<CustomerInfo> lci = new ArrayList<>();
+        for (String _name : name.split("\\+")) {
+            if (_name != null && !_name.isEmpty()) {
+                System.out.println("NAME: "+_name);
+                lci.addAll(cs.searchCustomers(_name));
+            } else {
             throw new WebApplicationException("keyword missing",
                     Response.status(BAD_REQUEST).build());
+            }
         }
+        return Response.status(Response.Status.OK).entity(lci).type(request.getHeader(HttpHeaders.ACCEPT)).build();
+        
+        //return lci;
     }
 
     /**
