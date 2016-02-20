@@ -144,6 +144,8 @@ public class RestIT {
     @Test(dependsOnMethods = {"registerCustomer1", "registerCustomer2"}) 
     public void searchCustomersByName() {
         Response r = customersWebTarget.queryParam("name", new String[]{"bambam", "brunz"}).request(MediaType.APPLICATION_XML).get();
+        //Response r = customersWebTarget.queryParam("name", "brunz").request(MediaType.APPLICATION_XML).get();
+        
         List<CustomerInfo> lci = r.readEntity(new GenericType<List<CustomerInfo>>(){});
         Assert.assertTrue(!lci.isEmpty());
     }

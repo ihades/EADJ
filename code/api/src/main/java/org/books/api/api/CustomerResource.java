@@ -21,6 +21,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.CONFLICT;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -112,7 +113,7 @@ public class CustomerResource {
      */
     @GET
     @Produces({APPLICATION_XML, APPLICATION_JSON})
-    public Response searchCustomer(@QueryParam("name") String name, @Context final HttpServletRequest request) {
+    public List<CustomerInfo> searchCustomer(@QueryParam("name") String name, @Context final HttpServletResponse response, @Context final HttpServletRequest request) {
         
         //name could be +-separated in case of REST-request.
         List<CustomerInfo> lci = new ArrayList<>();
@@ -125,8 +126,10 @@ public class CustomerResource {
                     Response.status(BAD_REQUEST).build());
             }
         }
-        return Response.status(Response.Status.OK).entity(lci).type(request.getHeader(HttpHeaders.ACCEPT)).build();
-        
+        response.setContentType(request.getHeader(HttpHeaders.ACCEPT));
+        response.setStatus(Status.OK.getStatusCode());
+        //return Response.status(Response.Status.OK).entity(lci).type(request.getHeader(HttpHeaders.ACCEPT)).build();
+        return lci;
         //return lci;
     }
 
