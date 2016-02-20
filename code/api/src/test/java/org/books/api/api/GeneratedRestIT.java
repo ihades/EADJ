@@ -9,7 +9,11 @@ import io.swagger.client.model.BookInfo;
 import io.swagger.client.model.CreditCard;
 import io.swagger.client.model.Customer;
 import io.swagger.client.model.CustomerInfo;
+import io.swagger.client.model.Order;
+import io.swagger.client.model.OrderItem;
+import io.swagger.client.model.OrderRequest;
 import io.swagger.client.model.Registration;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Entity;
@@ -97,9 +101,35 @@ public class GeneratedRestIT {
 
     @Test(dependsOnMethods = {"registerCustomer"})
     public void getCustomer() {
-//        customertToUse = customersApi.findCustomer(customerNumber);
-        System.out.println(customersApi.findCustomer(customerNumber));
-//        Assert.assertEquals(customerToRegister, customertToUse);
+        customertToUse = customersApi.findCustomer(customerNumber);
+        Assert.assertEquals(customerToRegister, customertToUse);
+    }
+
+    @Test(dependsOnMethods = {"registerCustomer"})
+    public void placeOrder() {
+        List<OrderItem> items = new ArrayList<>();
+        OrderItem item1 = new OrderItem();
+        item1.bookInfo = booksApi.searchBook("9781585427659").get(0);
+        item1.quantity = 3;
+        items.add(item1);
+//        CustomerInfo customer = new CustomerInfo();
+//        customer.email = customerToRegister.email;
+//        customer.firstName = customerToRegister.firstName;
+//        customer.lastName = customerToRegister.lastName;
+//        customer.number = customerNumber;
+//        Order order = new Order();
+//        order.address = customerToRegister.address;
+//        order.creditCard = customerToRegister.creditCard;
+//        order.customerInfo = customer;
+//        order.date = new Date();
+//        order.amount = new Double(50);
+//        order.items = items;
+        OrderRequest request = new OrderRequest();
+        request.customerNr = customerNumber;
+        request.items = items;
+        Order order = ordersApi.placeOrder(request);
+
+        Assert.assertNotNull(order);
     }
 
     private static String randomizer() {

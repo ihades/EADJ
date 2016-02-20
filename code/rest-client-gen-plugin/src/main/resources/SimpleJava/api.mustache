@@ -35,7 +35,7 @@ public class {{classname}} extends ApiClient {
         try {
             {{#returnType}}return {{/returnType}}target
                 .request(JSON)
-                {{#produces}}.accept("{{mediaType}}"){{/produces}}
+                {{#hasProduces}}.accept({{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}){{/hasProduces}}
                 .{{httpMethod}}({{#bodyParam}}Entity.entity({{paramName}}, JSON), {{/bodyParam}}{{#returnSimpleType}}{{{returnType}}}.class{{/returnSimpleType}}{{#returnContainer}}new GenericType<{{{returnType}}}>() {}{{/returnContainer}}{{^returnType}}VOID{{/returnType}});
         } catch (RuntimeException e) {
             throw decorate(e);

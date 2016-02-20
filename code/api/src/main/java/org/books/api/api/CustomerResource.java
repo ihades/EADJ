@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -46,8 +47,8 @@ public class CustomerResource {
      *
      * @param registration the data of the customer to be registered (the number
      * must be null)
-     * @param response
      * @return the Number of the new Customer
+     * @responseType java.lang.String
      * @responseMessage 201 created
      * @responseMessage 400 bad request (incomplete customer data)
      * @responseMessage 409 conflict (email already used)
@@ -56,7 +57,7 @@ public class CustomerResource {
     @POST
     @Produces({TEXT_PLAIN})
     @Consumes({APPLICATION_XML, APPLICATION_JSON})
-    public String registerCustomer(Registration registration, @Context final HttpServletResponse response) {
+    public Response registerCustomer(Registration registration) {
 
         if (registration.getCustomer() == null
                 || registration.getPassword() == null
@@ -70,12 +71,8 @@ public class CustomerResource {
             registration.getCustomer().setNumber(null);
             String number = cs.registerCustomer(registration.getCustomer(), registration.getPassword())
                     .getNumber();
-            response.setStatus(HttpServletResponse.SC_CREATED);
-            try {
-                response.flushBuffer();
-            } catch (Exception e) {
-            }
-            return number;
+            return Response.status(SC_CREATED).entity(number).type(TEXT_PLAIN).build();
+
         } catch (CustomerAlreadyExistsException ex) {
             throw new WebApplicationException(ex.getMessage(),
                     Response.status(CONFLICT).entity(ex.getMessage()).build());
