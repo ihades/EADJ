@@ -113,19 +113,8 @@ public class OrderServiceBean implements OrderServiceLocal, OrderServiceRemote {
         processOrder(order);
         LOGGER.log(Level.INFO, "Customer {} placed Order {} for {}", new Object[]{order.getCustomer().getNumber(), order.getNumber(), order.getAmount()});
         OrderDTO od = modelMapper.map(order, OrderDTO.class);
-        //prepare for brainfukk
-        //System.out.println("STATUS");
-        //System.out.println(od.getStatus());
-        //System.out.println(od.getCustomer().getNumber());
-        //brainfukk starting due to:
-        //od.getCustomer().getNumber() works here,
-        //but returning od without setting the customer number manually results
-        //in a null value in setCustomer in OrderDTO on field CustomerDTO.number.
         od.setCustomerInfo(new CustomerInfo(customerNr, customer.getFirstName(), customer.getLastName(), customer.getEmail()));
-        //od.getCustomer().setNumber(customerNr);
-        //od.setCustomer(od.getCustomer());
         return od;
-        //return modelMapper.map(order, OrderDTO.class);
     }
 
     @Override
