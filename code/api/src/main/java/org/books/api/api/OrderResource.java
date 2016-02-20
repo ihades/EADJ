@@ -19,7 +19,6 @@ import javax.ws.rs.core.HttpHeaders;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -61,11 +60,17 @@ public class OrderResource {
     @POST
     @Produces({APPLICATION_XML, APPLICATION_JSON})
     @Consumes({APPLICATION_XML, APPLICATION_JSON})
-    public Response placeOrder(OrderRequest orderRequest, @Context final HttpServletResponse response, @Context final HttpServletRequest request) {
+    public OrderDTO placeOrder(OrderRequest orderRequest, @Context final HttpServletResponse response, @Context final HttpServletRequest request) {
         ensureCompleteness(orderRequest);
         try {
             OrderDTO order = os.placeOrder(orderRequest.getCustomerNr(), orderRequest.getItems());
-            return Response.status(Status.CREATED).entity(order).type(request.getHeader(HttpHeaders.ACCEPT)).build();
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            response.setContentType(request.getHeader(HttpHeaders.ACCEPT));
+            try {
+                response.flushBuffer();
+            } catch (Exception e) {
+            }
+            return order;
         } catch (CustomerNotFoundException | BookNotFoundException ex) {
             throw new WebApplicationException(ex.getMessage(),
                     Response.status(NOT_FOUND).entity(ex.getMessage()).build());

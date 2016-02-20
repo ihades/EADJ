@@ -22,6 +22,7 @@
         <module>bookstore-web</module>
         <module>bookstore-ejb</module>
         <module>bookstore-app</module>
-    <module>api</module>
-  </modules>
+        <module>api</module>
+        <module>rest-client-gen-plugin</module>
+    </modules>
 </project>

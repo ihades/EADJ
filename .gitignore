@@ -23,3 +23,5 @@ code/bookstore-persist/target/
 *.log
 /code/bookstore-app/target/
 /code/api/target/
+*.netbeans_automatic_build
+code/rest-client-gen-plugin/target/
