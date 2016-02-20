@@ -3,6 +3,7 @@ package org.books.api.api;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -14,9 +15,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -57,16 +61,11 @@ public class OrderResource {
     @POST
     @Produces({APPLICATION_XML, APPLICATION_JSON})
     @Consumes({APPLICATION_XML, APPLICATION_JSON})
-    public OrderDTO placeOrder(OrderRequest orderRequest, @Context final HttpServletResponse response) {
+    public Response placeOrder(OrderRequest orderRequest, @Context final HttpServletResponse response, @Context final HttpServletRequest request) {
         ensureCompleteness(orderRequest);
         try {
             OrderDTO order = os.placeOrder(orderRequest.getCustomerNr(), orderRequest.getItems());
-            response.setStatus(HttpServletResponse.SC_CREATED);
-            try {
-                response.flushBuffer();
-            } catch (Exception e) {
-            }
-            return order;
+            return Response.status(Status.CREATED).entity(order).type(request.getHeader(HttpHeaders.ACCEPT)).build();
         } catch (CustomerNotFoundException | BookNotFoundException ex) {
             throw new WebApplicationException(ex.getMessage(),
                     Response.status(NOT_FOUND).entity(ex.getMessage()).build());
