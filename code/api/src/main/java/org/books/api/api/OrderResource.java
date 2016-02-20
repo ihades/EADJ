@@ -16,7 +16,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
@@ -51,6 +50,7 @@ public class OrderResource {
      * @param orderRequest customerNr - the number of the customer / items - the
      * order items
      * @param response
+     * @param request
      * @return the data of the placed order
      * @responseMessage 201 created
      * @responseMessage 400 bad request (incomplete order data)

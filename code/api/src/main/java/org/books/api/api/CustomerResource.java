@@ -107,6 +107,8 @@ public class CustomerResource {
      * if the specified name is part of the customer's first or last name.
      *
      * @param name the name to search for
+     * @param response
+     * @param request
      * @return a list of matching customers (may be empty)
      * @responseMessage 400 bad request (name missing)
      * @responseMessage 500 internal server error (unexpected system error)
@@ -114,23 +116,18 @@ public class CustomerResource {
     @GET
     @Produces({APPLICATION_XML, APPLICATION_JSON})
     public List<CustomerInfo> searchCustomer(@QueryParam("name") String name, @Context final HttpServletResponse response, @Context final HttpServletRequest request) {
-        
-        //name could be +-separated in case of REST-request.
-        List<CustomerInfo> lci = new ArrayList<>();
-        for (String _name : name.split("\\+")) {
-            if (_name != null && !_name.isEmpty()) {
-                System.out.println("NAME: "+_name);
-                lci.addAll(cs.searchCustomers(_name));
-            } else {
+        List<CustomerInfo> resultCustomerInfo = new ArrayList<>();
+        if (name != null && !name.isEmpty()) {
+            System.out.println("NAME: " + name);
+            resultCustomerInfo.addAll(cs.searchCustomers(name));
+        } else {
             throw new WebApplicationException("keyword missing",
                     Response.status(BAD_REQUEST).build());
-            }
         }
         response.setContentType(request.getHeader(HttpHeaders.ACCEPT));
         response.setStatus(Status.OK.getStatusCode());
-        //return Response.status(Response.Status.OK).entity(lci).type(request.getHeader(HttpHeaders.ACCEPT)).build();
-        return lci;
-        //return lci;
+        return resultCustomerInfo;
+
     }
 
     /**

@@ -8,7 +8,7 @@
     "operations" : [ {
       "method" : "POST",
       "nickname" : "placeOrder",
-      "type" : "order",
+      "type" : "Response",
       "parameters" : [ {
         "type" : "orderRequest",
         "description" : "customerNr - the number of the customer / items - the\n order items",
@@ -181,6 +181,23 @@
         }
       }
     },
+    "customerInfo" : {
+      "id" : "customerInfo",
+      "properties" : {
+        "number" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        }
+      }
+    },
     "orderRequest" : {
       "id" : "orderRequest",
       "properties" : {
@@ -233,8 +250,8 @@
           "type" : "string",
           "enum" : [ "accepted", "processing", "shipped", "canceled" ]
         },
-        "customer" : {
-          "type" : "customer"
+        "customerInfo" : {
+          "type" : "customerInfo"
         },
         "address" : {
           "type" : "address"
@@ -247,29 +264,6 @@
           "items" : {
             "$ref" : "OrderItem"
           }
-        }
-      }
-    },
-    "customer" : {
-      "id" : "customer",
-      "properties" : {
-        "email" : {
-          "type" : "string"
-        },
-        "firstName" : {
-          "type" : "string"
-        },
-        "lastName" : {
-          "type" : "string"
-        },
-        "number" : {
-          "type" : "string"
-        },
-        "address" : {
-          "type" : "address"
-        },
-        "creditCard" : {
-          "type" : "creditCard"
         }
       }
     }
