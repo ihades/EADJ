@@ -35,6 +35,7 @@ import org.books.ejb.exception.OrderNotFoundException;
 import org.books.ejb.exception.PaymentFailedException;
 import org.books.persistence.dto.BookInfo;
 import org.books.persistence.dto.OrderInfo;
+import org.books.persistence.entity.Order;
 
 @RequestScoped
 @Path("orders")
@@ -91,9 +92,30 @@ public class OrderResource {
     @GET
     @Produces({APPLICATION_XML, APPLICATION_JSON})
     @Path("{number}")
-    public OrderDTO findOrder(@PathParam("number") String number) {
+    public OrderInfo findOrder(@PathParam("number") String number) {
         try {
-            return os.findOrder(number);
+            OrderDTO od = os.findOrder(number);
+            OrderInfo oi = new OrderInfo();
+            oi.setAmount(od.getAmount());
+            oi.setDate(od.getDate());
+            oi.setNumber(od.getNumber());
+            switch (od.getStatus()) {
+                case accepted:
+                    oi.setStatus(Order.Status.accepted);
+                    break;
+                case canceled:
+                    oi.setStatus(Order.Status.canceled);
+                    break;
+                case processing:
+                    oi.setStatus(Order.Status.processing);
+                    break;
+                case shipped:
+                    oi.setStatus(Order.Status.shipped);
+                    break;
+                default:
+                    break;
+            }
+            return oi;
         } catch (OrderNotFoundException ex) {
             throw new WebApplicationException(ex.getMessage(),
                     Response.status(NOT_FOUND).entity(ex.getMessage()).build());
