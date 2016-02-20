@@ -1,0 +1,48 @@
+package {{package}};
+
+import java.util.List;
+
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+
+{{#imports}}import {{import}};
+{{/imports}}
+import ch.bedag.sa.rest.ApiClient;
+
+{{#operations}}
+/**
+ * {@link ApiClient} for the {{baseName}}Resource.
+ */
+public class {{classname}} extends ApiClient {
+
+{{#operation}}
+    /**
+     * {{summary}}{{notes}}
+  {{#allParams}}
+     * @param {{paramName}} {{description}}
+  {{/allParams}}
+     */
+    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+        WebTarget target = baseTarget.path("{{path}}"){{#pathParams}} //
+                .resolveTemplate("{{paramName}}", {{paramName}}){{/pathParams}};{{#queryParams}}
+        if ({{paramName}} != null) {
+            target = target.queryParam("{{paramName}}", {{paramName}});
+        }{{/queryParams}}{{#headerParams}}
+        if ({{paramName}} != null) {
+            target = target.headerParam("{{paramName}}", {{paramName}});
+        }{{/headerParams}}
+        try {
+            {{#returnType}}return {{/returnType}}target
+                .request(JSON)
+                {{#produces}}.accept("{{mediaType}}"){{/produces}}
+                .{{httpMethod}}({{#bodyParam}}Entity.entity({{paramName}}, JSON), {{/bodyParam}}{{#returnSimpleType}}{{{returnType}}}.class{{/returnSimpleType}}{{#returnContainer}}new GenericType<{{{returnType}}}>() {}{{/returnContainer}}{{^returnType}}VOID{{/returnType}});
+        } catch (RuntimeException e) {
+            throw decorate(e);
+        }
+    }
+
+  {{/operation}}
+}
+{{/operations}}
+

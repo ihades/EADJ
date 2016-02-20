@@ -1,0 +1,36 @@
+package {{package}};
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import ch.bedag.sa.rest.ApiModel;
+{{#imports}}import {{import}};
+{{/imports}}
+{{#models}}{{#model}}
+/**
+ * {{description}}
+ **/
+public class {{classname}} extends {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ApiModel{{/parent}} {
+{{#vars}}
+    /**
+     * {{{description}}}{{#minimum}}
+     * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+     * maximum: {{maximum}}{{/maximum}}
+     **/
+    @JsonProperty("{{baseName}}")
+  {{#isEnum}}
+    public {{{datatypeWithEnum}}} {{name}};
+  {{/isEnum}}
+  {{^isEnum}}
+    public {{{datatype}}} {{name}};
+  {{/isEnum}}
+  
+{{/vars}}
+{{#vars}}
+  {{#isEnum}}
+    public enum {{datatypeWithEnum}} {
+        {{#allowableValues}}{{#values}}{{.}}, {{/values}}{{/allowableValues}}
+    }
+
+  {{/isEnum}}
+{{/vars}}
+}{{/model}}{{/models}}

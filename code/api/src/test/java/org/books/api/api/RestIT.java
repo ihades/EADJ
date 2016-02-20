@@ -34,7 +34,6 @@ import org.books.ejb.dto.OrderItemDTO;
 import org.books.persistence.dto.BookInfo;
 import org.books.persistence.dto.CustomerInfo;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -85,8 +84,7 @@ public class RestIT {
         Assert.assertEquals(200, booksWebTarget.path("9781585427659").request().get().getStatusInfo().getStatusCode());
     }
 
-    @Ignore
-    @Test
+    @Test(enabled = false)
     public void searchBooks() {
         Response response = booksWebTarget
                 .queryParam("keywords", "java")
