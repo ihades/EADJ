@@ -3,8 +3,7 @@ package org.books.api.api;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,8 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import javax.ws.rs.core.Response;
@@ -60,17 +57,11 @@ public class OrderResource {
     @POST
     @Produces({APPLICATION_XML, APPLICATION_JSON})
     @Consumes({APPLICATION_XML, APPLICATION_JSON})
-    public OrderDTO placeOrder(OrderRequest orderRequest, @Context final HttpServletResponse response, @Context final HttpServletRequest request) {
+    public Response placeOrder(OrderRequest orderRequest) {
         ensureCompleteness(orderRequest);
         try {
             OrderDTO order = os.placeOrder(orderRequest.getCustomerNr(), orderRequest.getItems());
-            response.setStatus(HttpServletResponse.SC_CREATED);
-            response.setContentType(request.getHeader(HttpHeaders.ACCEPT));
-            try {
-                response.flushBuffer();
-            } catch (Exception e) {
-            }
-            return order;
+            return Response.status(SC_CREATED).entity(order).build();
         } catch (CustomerNotFoundException | BookNotFoundException ex) {
             throw new WebApplicationException(ex.getMessage(),
                     Response.status(NOT_FOUND).entity(ex.getMessage()).build());
