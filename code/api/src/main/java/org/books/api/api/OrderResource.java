@@ -45,8 +45,6 @@ public class OrderResource {
      *
      * @param orderRequest customerNr - the number of the customer / items - the
      * order items
-     * @param response
-     * @param request
      * @return the data of the placed order
      * @responseMessage 201 created
      * @responseMessage 400 bad request (incomplete order data)
