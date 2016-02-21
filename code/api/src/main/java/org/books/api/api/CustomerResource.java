@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,13 +14,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.CONFLICT;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -104,25 +99,20 @@ public class CustomerResource {
      * if the specified name is part of the customer's first or last name.
      *
      * @param name the name to search for
-     * @param response
-     * @param request
      * @return a list of matching customers (may be empty)
      * @responseMessage 400 bad request (name missing)
      * @responseMessage 500 internal server error (unexpected system error)
      */
     @GET
     @Produces({APPLICATION_XML, APPLICATION_JSON})
-    public List<CustomerInfo> searchCustomer(@QueryParam("name") String name, @Context final HttpServletResponse response, @Context final HttpServletRequest request) {
+    public List<CustomerInfo> searchCustomer(@QueryParam("name") String name) {
         List<CustomerInfo> resultCustomerInfo = new ArrayList<>();
         if (name != null && !name.isEmpty()) {
-            System.out.println("NAME: " + name);
             resultCustomerInfo.addAll(cs.searchCustomers(name));
         } else {
             throw new WebApplicationException("keyword missing",
                     Response.status(BAD_REQUEST).build());
         }
-        response.setContentType(request.getHeader(HttpHeaders.ACCEPT));
-        response.setStatus(Status.OK.getStatusCode());
         return resultCustomerInfo;
 
     }

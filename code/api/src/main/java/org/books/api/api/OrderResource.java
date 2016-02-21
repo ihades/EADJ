@@ -47,6 +47,7 @@ public class OrderResource {
      * @param orderRequest customerNr - the number of the customer / items - the
      * order items
      * @return the data of the placed order
+     * @responseType java.lang.String
      * @responseMessage 201 created
      * @responseMessage 400 bad request (incomplete order data)
      * @responseMessage 404 not found (customer or book not found)
@@ -83,28 +84,28 @@ public class OrderResource {
     @Path("{number}")
     public OrderInfo findOrder(@PathParam("number") String number) {
         try {
-            OrderDTO od = os.findOrder(number);
-            OrderInfo oi = new OrderInfo();
-            oi.setAmount(od.getAmount());
-            oi.setDate(od.getDate());
-            oi.setNumber(od.getNumber());
-            switch (od.getStatus()) {
+            OrderDTO orderDTO = os.findOrder(number);
+            OrderInfo orderInfo = new OrderInfo();
+            orderInfo.setAmount(orderDTO.getAmount());
+            orderInfo.setDate(orderDTO.getDate());
+            orderInfo.setNumber(orderDTO.getNumber());
+            switch (orderDTO.getStatus()) {
                 case accepted:
-                    oi.setStatus(Order.Status.accepted);
+                    orderInfo.setStatus(Order.Status.accepted);
                     break;
                 case canceled:
-                    oi.setStatus(Order.Status.canceled);
+                    orderInfo.setStatus(Order.Status.canceled);
                     break;
                 case processing:
-                    oi.setStatus(Order.Status.processing);
+                    orderInfo.setStatus(Order.Status.processing);
                     break;
                 case shipped:
-                    oi.setStatus(Order.Status.shipped);
+                    orderInfo.setStatus(Order.Status.shipped);
                     break;
                 default:
                     break;
             }
-            return oi;
+            return orderInfo;
         } catch (OrderNotFoundException ex) {
             throw new WebApplicationException(ex.getMessage(),
                     Response.status(NOT_FOUND).entity(ex.getMessage()).build());
