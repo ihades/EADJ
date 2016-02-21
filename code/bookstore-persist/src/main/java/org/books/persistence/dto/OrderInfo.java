@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import org.books.persistence.entity.Order;
 
@@ -22,6 +23,8 @@ public class OrderInfo implements Serializable {
     private Date date;
     private BigDecimal amount;
     private Order.Status status;
+    
+    public OrderInfo(){}
 
     public OrderInfo(Long id, String number, Date date, BigDecimal amount, Order.Status status) {
         this.id = id;
@@ -30,7 +33,7 @@ public class OrderInfo implements Serializable {
         this.amount = amount;
         this.status = status;
     }
-
+    @XmlTransient
     public Long getId() {
         return id;
     }

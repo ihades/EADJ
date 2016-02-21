@@ -11,6 +11,8 @@ import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
@@ -33,6 +35,7 @@ import org.books.ejb.dto.OrderDTO;
 import org.books.ejb.dto.OrderItemDTO;
 import org.books.persistence.dto.BookInfo;
 import org.books.persistence.dto.CustomerInfo;
+import org.books.persistence.dto.OrderInfo;
 import org.junit.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -84,18 +87,61 @@ public class RestIT {
         Assert.assertEquals(200, booksWebTarget.path("9781585427659").request().get().getStatusInfo().getStatusCode());
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void searchBooks() {
         Response response = booksWebTarget
-                .queryParam("keywords", "java")
+                .queryParam("keywords", "rifkin")
                 .request(MediaType.APPLICATION_XML)
                 .accept(MediaType.APPLICATION_XML)
                 .get();
         List<BookInfo> result = response.readEntity(new GenericType<List<BookInfo>>() {
         });
+        boolean stringContained = false;
         for (BookInfo book : result) {
-            System.out.println(book.getIsbn());
+            if (book.getTitle().contains("Civilization")) {
+                stringContained = true;
+                break;
+            }
+            
         }
+        Assert.assertTrue(stringContained);
+    }
+    
+    @Test(enabled = true)
+    public void searchBooksEnsureValidXml() {
+        Response response = booksWebTarget
+                .queryParam("keywords", "rifkin")
+                .request(MediaType.APPLICATION_XML)
+                .accept(MediaType.APPLICATION_XML)
+                .get();
+        String result = response.readEntity(String.class);
+        Assert.assertTrue(validateXMLSchema("orders.xsd", result));
+    }
+    
+    @Test(enabled = true)
+    public void searchBooksWithSeveralNamesEnsureValidXml() {
+        Response response = booksWebTarget
+                .queryParam("keywords", new String[]{"zombie","jesus"})
+                .request(MediaType.APPLICATION_XML)
+                .accept(MediaType.APPLICATION_XML)
+                .get();
+        String xml = response.readEntity(String.class);
+        Assert.assertTrue(validateXMLSchema("catalog.xsd", xml));
+        
+        response = booksWebTarget
+                .queryParam("keywords", new String[]{"zombie","jesus"})
+                .request(MediaType.APPLICATION_XML)
+                .accept(MediaType.APPLICATION_XML)
+                .get();
+        List<BookInfo> bookInfoes = response.readEntity(new GenericType<List<BookInfo>>(){});
+        boolean bethanyContained = false;
+        for (BookInfo bi : bookInfoes) {
+            if (bi.getTitle().contains("Bethany")) {
+                bethanyContained = true;
+                break;
+            }
+        }
+        Assert.assertTrue(bethanyContained);
     }
 
     @Test
@@ -150,22 +196,66 @@ public class RestIT {
         Response r = customersWebTarget.path(customerNumber2).request().get();
         CustomerDTO cd = r.readEntity(CustomerDTO.class);
         Assert.assertTrue(cd.getFirstName().equalsIgnoreCase("ilmhild"));
+        r = customersWebTarget.path(customerNumber2).request(MediaType.APPLICATION_JSON).get();
+        CustomerDTO cd2 = r.readEntity(CustomerDTO.class);
+        Assert.assertTrue(cd2.getFirstName().equalsIgnoreCase("ilmhild"));
     }
 
     @Test(dependsOnMethods = {"registerCustomer1", "registerCustomer2"})
     public void searchCustomersByName() {
-        Response r = customersWebTarget.queryParam("name", new String[]{"bambam", "brunz"}).request(MediaType.APPLICATION_XML).get();
-        //Response r = customersWebTarget.queryParam("name", "brunz").request(MediaType.APPLICATION_XML).get();
+        Response r = customersWebTarget.queryParam("name", "brunz").request(MediaType.APPLICATION_XML).get();
 
-        List<CustomerInfo> lci = r.readEntity(new GenericType<List<CustomerInfo>>() {
-        });
+        List<CustomerInfo> lci = r.readEntity(new GenericType<List<CustomerInfo>>() {});
         Assert.assertTrue(!lci.isEmpty());
     }
 
     @Test(dependsOnMethods = {"registerCustomer1"})
-    public void updateCustomer() {
-
+    public void updateCustomerByXmlAndValidateXml() {
+        Response r = customersWebTarget.path(customerNumber1).request().get();
+        CustomerDTO cd = r.readEntity(CustomerDTO.class);
+        String randomizedFirstName = "RADIOACTIVEBOY"+randomizer();
+        String xml = "<customer><number>" + customerNumber1 + "</number><email>updateman" + customerNumber1 + "@whatever.com</email><firstName>"+randomizedFirstName+"</firstName><lastName>brunz</lastName><address><street>klabunkenstrasse 42</street><city>bern</city><postalCode>3011</postalCode><country>switzerland</country></address><creditCard><type>MasterCard</type><number>5555555555554444</number> <expirationMonth>12</expirationMonth> <expirationYear>2016</expirationYear> </creditCard> </customer>";
+        r = customersWebTarget.path(customerNumber1).request().put(Entity.xml(xml));
+        Assert.assertEquals(204, r.getStatus());
+        r = customersWebTarget.path(customerNumber1).request().get();
+        CustomerDTO cd2 = r.readEntity(CustomerDTO.class);
+        Assert.assertTrue(cd2.getFirstName().contains("RADIO"));
+        Assert.assertFalse(cd.getEmail().equalsIgnoreCase(cd2.getEmail()));
+        r = customersWebTarget.path(customerNumber1).request().get();
+        xml = r.readEntity(String.class);
+        Assert.assertTrue(validateXMLSchema("customers.xsd", xml));
     }
+    
+    @Test(dependsOnMethods = {"registerCustomer1", "updateCustomerByXmlAndValidateXml"})
+    public void updateWrongCustomerByXmlAndCheckReturnValue() {
+        Response r = customersWebTarget.path("wrong").request().get();
+        Assert.assertTrue(r.getStatus() == 404);
+        String randomizedFirstName = "RADIOACTIVEBOY"+randomizer();
+        String xml1 = "<customer><number>" + customerNumber1 + "</number><email>updateman" + customerNumber1 + "@whatever.com</email><firstName>"+randomizedFirstName+"</firstName><lastName>brunz</lastName><address><street>klabunkenstrasse 42</street><city>bern</city><postalCode>3011</postalCode><country>switzerland</country></address><creditCard><type>MasterCard</type><number>5555555555554444</number> <expirationMonth>12</expirationMonth> <expirationYear>2016</expirationYear> </creditCard> </customer>";
+        r = customersWebTarget.path(customerNumber1).request().put(Entity.xml(xml1));
+        Assert.assertEquals(204, r.getStatus());
+        String xml2 = "<customer><number>" + customerNumber2 + "</number><email>updateman" + customerNumber1 + "@whatever.com</email><firstName>"+randomizedFirstName+"</firstName><lastName>brunz</lastName><address><street>klabunkenstrasse 42</street><city>bern</city><postalCode>3011</postalCode><country>switzerland</country></address><creditCard><type>MasterCard</type><number>5555555555554444</number> <expirationMonth>12</expirationMonth> <expirationYear>2016</expirationYear> </creditCard> </customer>";
+        r = customersWebTarget.path(customerNumber2).request().put(Entity.xml(xml2));
+        Assert.assertEquals(409, r.getStatus());
+    }
+    
+    @Test(dependsOnMethods = {"registerCustomer2"})
+    public void updateCustomerByJsonAndValidateXml() {
+        Response r = customersWebTarget.path(customerNumber2).request().get();
+        CustomerDTO cd = r.readEntity(CustomerDTO.class);
+        String randomizedFirstName = "STINKMAN"+randomizer();
+        cd.setFirstName(randomizedFirstName);
+        cd.setEmail("updateman"+cd.getNumber()+"@whatever.com");
+        r = customersWebTarget.path(customerNumber2).request(MediaType.APPLICATION_JSON).put(Entity.json(cd));
+        Assert.assertEquals(204, r.getStatus());
+        r = customersWebTarget.path(customerNumber2).request().get();
+        CustomerDTO cd2 = r.readEntity(CustomerDTO.class);
+        Assert.assertTrue(cd2.getFirstName().equals(randomizedFirstName));
+        r = customersWebTarget.path(customerNumber2).request().get();
+    }
+    
+    @Test(dependsOnMethods = {"registerCustomer1", "registerCustomer2"})
+    public void customerStuff(){}
 
     @Test(dependsOnMethods = {"registerCustomer1"})
     public void createOrderForWrongCustomer() {
@@ -290,6 +380,60 @@ public class RestIT {
         Assert.assertTrue(validateXMLSchema("orders.xsd", xml));
 
     }
+    
+    @Test(dependsOnMethods = {"registerCustomer1", "registerCustomer2"})
+    public void findOrder() {
+        String orderXml = "<orderRequest><customerNr>" + customerNumber1 + "</customerNr><items><bookInfo><isbn>" + testBook1.getIsbn() + "</isbn><title>" + testBook1.getTitle() + "</title><price>" + testBook1.getPrice() + "</price></bookInfo><quantity>2</quantity></items></orderRequest>";
+        Response r = ordersWebTarget.request(MediaType.APPLICATION_XML).post(Entity.xml(orderXml));
+        OrderDTO od = r.readEntity(OrderDTO.class);
+        r = ordersWebTarget.path(od.getNumber()).request(MediaType.APPLICATION_XML).get();
+        OrderInfo oi = r.readEntity(OrderInfo.class);
+        Assert.assertEquals(oi.getAmount(),od.getAmount());
+        r = ordersWebTarget.path(od.getNumber()).request(MediaType.APPLICATION_XML).get();
+        String xml = r.readEntity(String.class);
+        Assert.assertTrue(validateXMLSchema("orders.xsd", xml));
+    }
+    
+    @Test(dependsOnMethods = {"registerCustomer1"})
+    public void searchOrdersAndValidateResponsesAndXml() {
+        String orderXml = "<orderRequest><customerNr>" + customerNumber1 + "</customerNr><items><bookInfo><isbn>" + testBook1.getIsbn() + "</isbn><title>" + testBook1.getTitle() + "</title><price>" + testBook1.getPrice() + "</price></bookInfo><quantity>2</quantity></items></orderRequest>";
+        Response r = ordersWebTarget.queryParam("customerNr", customerNumber1).queryParam("year", "2016").request(MediaType.APPLICATION_JSON).get();
+        Assert.assertEquals(200, r.getStatus());
+        List<OrderInfo> orderInfoes = r.readEntity(new GenericType<List<OrderInfo>>(){});
+        Assert.assertTrue(!orderInfoes.isEmpty());
+        r = ordersWebTarget.queryParam("customerNr", customerNumber1).request(MediaType.APPLICATION_XML).get();
+        Assert.assertEquals(400, r.getStatus());
+        r = ordersWebTarget.queryParam("customerNr", "St.Bimbam").queryParam("year", "2016").request(MediaType.APPLICATION_XML).get();
+        Assert.assertEquals(404, r.getStatus());
+        r = ordersWebTarget.queryParam("customerNr", customerNumber1).queryParam("year", "2016").request(MediaType.APPLICATION_XML).get();
+        String xml = r.readEntity(String.class);
+        validateXMLSchema("orders.xsd", xml);
+    }
+    
+    @Test(dependsOnMethods = {"searchOrdersAndValidateResponsesAndXml","createOrderByXmlAndReturnValidXml", "createOrderByXmlAndReturnJson"})
+    public void cancelOrdersAndValidateResponsesAndXml() {
+        Response r = ordersWebTarget.queryParam("customerNr", customerNumber1).queryParam("year", "2016").request(MediaType.APPLICATION_XML).get();
+        Assert.assertEquals(200, r.getStatus());
+        List<OrderInfo> orderInfoes = r.readEntity(new GenericType<List<OrderInfo>>(){});
+        Assert.assertTrue(!orderInfoes.isEmpty());
+        for (int i = 0; i<orderInfoes.size(); i++) {
+            if (i < orderInfoes.size()-1) {
+                r = ordersWebTarget.path(orderInfoes.get(i).getNumber()).request(MediaType.TEXT_PLAIN).delete();
+                Assert.assertEquals(204, r.getStatus());
+            } else {
+                try {
+                    Thread.sleep(31000);
+                    r = ordersWebTarget.path(orderInfoes.get(i).getNumber()).request().delete();
+                    Assert.assertEquals(403, r.getStatus());
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(RestIT.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        r = ordersWebTarget.queryParam("customerNr", customerNumber1).request(MediaType.APPLICATION_XML).get();
+        Assert.assertEquals(400, r.getStatus());
+    }
+    
 
     @BeforeClass
     public static void setUpClass() throws Exception {
